@@ -58,9 +58,9 @@
 	</properties>
 	
 	<scm>
-		<connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/applications/kiosque/trunk/module-stock-kiosque</connection>
-		<developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/applications/kiosque/trunk/module-stock-kiosque</developerConnection>
-		<url>scm:svn:http://dev.lutece.paris.fr/viewvc/applications/kiosque/trunk/module-stock-kiosque</url>
+		<connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/applications/module-stock-tickets</connection>
+		<developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/applications/module-stock-tickets</developerConnection>
+		<url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/applications/module-stock-tickets/</url>
 	</scm> 
 	
 	<description>Le module stock-tickets contient les objets et services abstraits communs à Kiosque, Billetterie et le futur module de réservation de salle. Il ne contient pas de logique de navigation. Ses modules étendent les services abstraits afin d’ajouter les règles de gestion,  la navigation ainsi que l’affichage.</description>
