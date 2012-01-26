@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<parent>
+		<artifactId>lutece-plugins-pom</artifactId>
+		<groupId>fr.paris.lutece.plugins</groupId>
+		<version>2.26</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.paris.lutece.plugins</groupId>
+	<artifactId>module-stock-tickets</artifactId>
+	<packaging>lutece-plugin</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>Lutece stock tickets module</name>
+	
+	<repositories>
+		<repository>
+			<id>lutece</id>
+			<name>luteceRepository</name>
+			<url>http://dev.lutece.paris.fr/maven_repository</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+	
+	<dependencies>
+		<dependency>
+			<groupId>fr.paris.lutece.plugins</groupId>
+			<artifactId>plugin-stock</artifactId>
+			<version>2.0.0-SNAPSHOT</version>
+			<type>lutece-plugin</type>
+		</dependency>
+		<dependency>
+	      	<groupId>net.sf.opencsv</groupId>
+	      	<artifactId>opencsv</artifactId>
+	      	<version>2.1</version>
+      	</dependency>
+      	<dependency>
+    		<groupId>jfree</groupId>
+    		<artifactId>jfreechart</artifactId>
+    		<version>1.0.12</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.lowagie</groupId>
+		    <artifactId>itext</artifactId>
+		    <version>2.1.7</version> 
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.xmlgraphics</groupId>
+		    <artifactId>fop</artifactId>
+		    <version>1.0</version>
+		</dependency>
+	</dependencies>
+	
+	<properties>
+		<componentName>stock-tickets</componentName>
+		<jiraProjectName>STOCKTICKETS</jiraProjectName>
+		<jiraComponentId>10633</jiraComponentId>
+	</properties>
+	
+	<scm>
+		<connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/applications/kiosque/trunk/module-stock-kiosque</connection>
+		<developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/applications/kiosque/trunk/module-stock-kiosque</developerConnection>
+		<url>scm:svn:http://dev.lutece.paris.fr/viewvc/applications/kiosque/trunk/module-stock-kiosque</url>
+	</scm> 
+	
+	<description>Le module stock-tickets contient les objets et services abstraits communs à Kiosque, Billetterie et le futur module de réservation de salle. Il ne contient pas de logique de navigation. Ses modules étendent les services abstraits afin d’ajouter les règles de gestion,  la navigation ainsi que l’affichage.</description>
+</project>

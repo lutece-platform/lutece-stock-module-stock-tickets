@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+    
+    <tx:annotation-driven/>
+ 
+    <!--  Declaration des services -->
+	<bean id="stock-tickets.seanceService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.SeanceService" />
+	<bean id="stock-tickets.purchaseService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.PurchaseService" />
+    <bean id="stock-tickets.showService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.ShowService" />
+	<bean id="stock-tickets.providerService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.ProviderService"/>
+	<bean id="stock-tickets.categoryService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.CategoryService"/>
+	<bean id="stock-tickets.notificationService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.NotificationService"/>
+	<bean id="stock-tickets.statisticService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.StatisticService"/>
+	
+	<!-- Bean contrôle des règles de gestion -->
+	<bean id="stock-tickets.purchaseRules.2" class="fr.paris.lutece.plugins.stock.modules.tickets.service.rules.PurchaseInvitationRules"/>
+	<bean id="stock-tickets.purchaseRules.3" class="fr.paris.lutece.plugins.stock.modules.tickets.service.rules.PurchaseInvitationSpectacleEnfantRules"/>
+	<bean id="stock-tickets.purchaseRules.1" class="fr.paris.lutece.plugins.stock.modules.tickets.service.rules.PurchaseTarifReduitRules"/>
+	
+	
+    <!--  Declaration des DAO -->
+    <bean id="stock-tickets.productStatisticDAO" class="fr.paris.lutece.plugins.stock.modules.tickets.business.ProductStatisticDAO" />
+    <bean id="stock-tickets.purchaseStatisticDAO" class="fr.paris.lutece.plugins.stock.modules.tickets.business.PurchaseStatisticDAO" />
+    <bean id="stock-tickets.showDAO" class="fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDAO" />
+    <bean id="stock-tickets.seanceDAO" class="fr.paris.lutece.plugins.stock.modules.tickets.business.SeanceDAO" />
+    <bean id="stock-tickets.reservationDAO" class="fr.paris.lutece.plugins.stock.modules.tickets.business.ReservationDAO" />
+	
+ 	<!-- Dozer -->
+	<bean id="mapper" class="org.dozer.DozerBeanMapper">
+		<property name="mappingFiles">
+		<list>
+			<value>fr/paris/lutece/plugins/stock/modules/tickets/resources/mapping/stock-dozer-global-mapping.xml</value>
+		</list>
+		</property>
+			<property name="customConvertersWithId">
+				<map>
+					<entry key="CustomIdDozerConverter">
+						<ref bean="customIdDozerConverter" />
+					</entry>
+					<entry key="CustomDTODozerConverter">
+						<ref bean="customDTODozerConverter" />
+					</entry>
+				</map>
+			</property>
+	</bean>
+
+	<bean id="customIdDozerConverter"
+		class="fr.paris.lutece.plugins.stock.utils.dozer.CustomIdDozerConverter" />
+	<bean id="customDTODozerConverter"
+		class="fr.paris.lutece.plugins.stock.utils.dozer.CustomDTODozerConverter" />
+	
+</beans>
+
+ 	
