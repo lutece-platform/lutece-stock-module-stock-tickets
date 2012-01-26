@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
 	<parent>
 		<artifactId>lutece-plugins-pom</artifactId>
@@ -12,6 +12,7 @@
 	<packaging>lutece-plugin</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>Lutece stock tickets module</name>
+	<description>Contains common objects for ticket ordering</description>
 	
 	<repositories>
 		<repository>
@@ -62,6 +63,4 @@
 		<developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/applications/module-stock-tickets</developerConnection>
 		<url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/applications/module-stock-tickets/</url>
 	</scm> 
-	
-	<description>Le module stock-tickets contient les objets et services abstraits communs à Kiosque, Billetterie et le futur module de réservation de salle. Il ne contient pas de logique de navigation. Ses modules étendent les services abstraits afin d’ajouter les règles de gestion,  la navigation ainsi que l’affichage.</description>
 </project>
