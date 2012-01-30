@@ -33,20 +33,6 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.plugins.stock.business.attribute.offer.OfferAttributeDate;
 import fr.paris.lutece.plugins.stock.business.attribute.purchase.PurchaseAttributeDate;
 import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
@@ -61,7 +47,22 @@ import fr.paris.lutece.plugins.stock.business.purchase.PurchaseDAO;
 import fr.paris.lutece.plugins.stock.business.purchase.PurchaseFilter;
 import fr.paris.lutece.plugins.stock.business.purchase.Purchase_;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
+import fr.paris.lutece.plugins.stock.utils.NumberUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -104,6 +105,11 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
         if ( filter.getIdProduct( ) != null && filter.getIdProduct( ) > 0 )
         {
             listPredicates.add( builder.equal( product.get( Product_.id ), filter.getIdProduct( ) ) );
+        }
+
+        if ( StringUtils.isNotBlank( filter.getId( ) ) && NumberUtils.validateInt( filter.getId( ) ) )
+        {
+            listPredicates.add( builder.equal( root.get( Purchase_.id ), Integer.parseInt( filter.getId( ) ) ) );
         }
         
         if ( filter instanceof ReservationFilter )
