@@ -33,18 +33,6 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeDate;
-import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeNum;
-import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
-import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeNumUtils;
-import fr.paris.lutece.plugins.stock.business.product.Product;
-import fr.paris.lutece.plugins.stock.business.product.ProductDAO;
-import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
-import fr.paris.lutece.plugins.stock.business.product.Product_;
-import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
-import fr.paris.lutece.plugins.stock.utils.DateUtils;
-import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -59,6 +47,18 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeDate;
+import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeNum;
+import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
+import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeNumUtils;
+import fr.paris.lutece.plugins.stock.business.product.Product;
+import fr.paris.lutece.plugins.stock.business.product.ProductDAO;
+import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
+import fr.paris.lutece.plugins.stock.business.product.Product_;
+import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
+import fr.paris.lutece.plugins.stock.utils.DateUtils;
+import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
 
 /**
@@ -97,6 +97,11 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
         if ( filter.getIdProvider( ) != null && filter.getIdProvider( ) > 0 )
         {
             listPredicates.add( builder.equal( root.get( Product_.provider ), filter.getIdProvider( ) ) );
+        }
+
+        if ( filter.getIdProduct( ) != null && filter.getIdProduct( ) > 0 )
+        {
+            listPredicates.add( builder.equal( root.get( Product_.id ), filter.getIdProduct( ) ) );
         }
 
         // Date from (= date end of show <= date from)
