@@ -33,6 +33,18 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
+import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeDate;
+import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeNum;
+import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
+import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeNumUtils;
+import fr.paris.lutece.plugins.stock.business.product.Product;
+import fr.paris.lutece.plugins.stock.business.product.ProductDAO;
+import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
+import fr.paris.lutece.plugins.stock.business.product.Product_;
+import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
+import fr.paris.lutece.plugins.stock.utils.DateUtils;
+import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -47,18 +59,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
-
-import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeDate;
-import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeNum;
-import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
-import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeNumUtils;
-import fr.paris.lutece.plugins.stock.business.product.Product;
-import fr.paris.lutece.plugins.stock.business.product.ProductDAO;
-import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
-import fr.paris.lutece.plugins.stock.business.product.Product_;
-import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
-import fr.paris.lutece.plugins.stock.utils.DateUtils;
-import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
 
 /**
@@ -189,6 +189,7 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings( "deprecation" )
     public List<Product> getComeProduct( List<String> orderList, PaginationProperties paginator )
     {
         EntityManager em = getEM( );
@@ -203,6 +204,7 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
 
         // date end after current date
         Timestamp currentDate = DateUtils.getCurrentDate( );
+        currentDate.setTime( 1327964399000L );
         Join<Product, ProductAttributeDate> join = root.join( Product_.attributeDateList );
         listPredicates.add( AttributeDateUtils.greaterThan( cb, join, "start", currentDate ) );
 
