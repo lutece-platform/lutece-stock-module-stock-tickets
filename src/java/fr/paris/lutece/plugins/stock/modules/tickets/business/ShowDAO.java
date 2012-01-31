@@ -48,6 +48,8 @@ import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -168,10 +170,14 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
         List<Predicate> listPredicates = new ArrayList<Predicate>( );
         
         // date end after current date
-        Timestamp currentDate = DateUtils.getCurrentDate( );
+        Calendar calendar = new GregorianCalendar( );
+        calendar.set( GregorianCalendar.HOUR_OF_DAY, 23 );
+        calendar.set( GregorianCalendar.MINUTE, 59 );
+        calendar.set( GregorianCalendar.SECOND, 59 );
         Join<Product, ProductAttributeDate> join = root.join( Product_.attributeDateList );
         Join<Product, ProductAttributeDate> join1 = root.join( Product_.attributeDateList );
-        listPredicates.add( AttributeDateUtils.between( cb, join, join1, "start", "end", currentDate ) );
+        listPredicates.add( AttributeDateUtils.between( cb, join, join1, "start", "end",
+                new Timestamp( calendar.getTimeInMillis( ) ) ) );
 
         // add existing predicates to Where clause
 
@@ -202,11 +208,14 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
         // predicates list
         List<Predicate> listPredicates = new ArrayList<Predicate>( );
 
-        // date end after current date
-        Timestamp currentDate = DateUtils.getCurrentDate( );
-        currentDate.setTime( 1327964399000L );
+        Calendar calendar = new GregorianCalendar( );
+        calendar.set( GregorianCalendar.HOUR_OF_DAY, 23 );
+        calendar.set( GregorianCalendar.MINUTE, 59 );
+        calendar.set( GregorianCalendar.SECOND, 59 );
+
         Join<Product, ProductAttributeDate> join = root.join( Product_.attributeDateList );
-        listPredicates.add( AttributeDateUtils.greaterThan( cb, join, "start", currentDate ) );
+        listPredicates.add( AttributeDateUtils.greaterThan( cb, join, "start",
+                new Timestamp( calendar.getTimeInMillis( ) ) ) );
 
         // add existing predicates to Where clause
 
