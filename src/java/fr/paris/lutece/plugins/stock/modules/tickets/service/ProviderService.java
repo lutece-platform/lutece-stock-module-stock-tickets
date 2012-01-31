@@ -102,8 +102,8 @@ public final class ProviderService extends AbstractService implements IProviderS
         ResultList<Provider> listPartner = this._daoProvider.findByFilter( providerFilter, null );
         if ( listPartner != null && !listPartner.isEmpty( ) )
         {
-            if ( provider.getId( ) != null && provider.getId( ) > 0
-                    && listPartner.get( 0 ).getId( ) != provider.getId( ) )
+            if ( ( provider.getId( ) != null && provider.getId( ) > 0 && listPartner.get( 0 ).getId( ) != provider
+                    .getId( ) ) || ( listPartner.get( 0 ).getName( ).equals( provider.getName( ) ) ) )
             {
                 throw new BusinessException( provider, MESSAGE_ERROR_PARTNER_UNIQUE_BY_NAME );
             }
