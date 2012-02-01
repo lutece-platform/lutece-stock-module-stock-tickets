@@ -98,9 +98,10 @@ public interface IShowService
      * 
      * @param product The product to modify in database
      * @param request The HTTP request
+     * @return the product
      * @throws ValidationException the validation exception
      */
-    void doSaveProduct( ShowDTO product, HttpServletRequest request ) throws ValidationException;
+    ShowDTO doSaveProduct( ShowDTO product, HttpServletRequest request ) throws ValidationException;
 
     /**
      * Find by id.

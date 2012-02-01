@@ -130,14 +130,16 @@ public class ShowService extends ProductService implements IShowService
      * @throws ValidationException
      */
     @Transactional( readOnly = false, propagation = Propagation.REQUIRES_NEW )
-    public void doSaveProduct( ShowDTO product, HttpServletRequest request ) throws ValidationException
+    public ShowDTO doSaveProduct( ShowDTO product, HttpServletRequest request ) throws ValidationException
     {
     	// Start date must be before end date
     	if ( DateUtils.getDate( product.getStartDate( ), false ).after( DateUtils.getDate( product.getEndDate( ), false ) ) )
     	{
     		throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_DATE_CHEVAUCHE );
     	}
-    	
+
+        Product productEntity = product.convert( );
+
         List<Product> listeProduct = _daoProduct.getAllByName( product.getName( ) );
         if ( product.getId( ) != null && product.getId( ) > 0 )
         {
@@ -158,8 +160,10 @@ public class ShowService extends ProductService implements IShowService
             {
                 throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_NAME_MUST_BE_UNIQUE );
             }
-            _daoProduct.create( product.convert( ) );
+            _daoProduct.create( productEntity );
         }
+
+        return ShowDTO.convertEntity( productEntity );
     }
 
     /*
