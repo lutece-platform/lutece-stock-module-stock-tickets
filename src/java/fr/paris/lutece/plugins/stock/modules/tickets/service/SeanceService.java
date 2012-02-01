@@ -239,10 +239,12 @@ public class SeanceService extends OfferService implements ISeanceService
         List<SeanceDTO> offerList = SeanceDTO.convertEntityList( _daoOffer.findByProduct( showId, filter ) );
 
         List<String> dateList = new ArrayList<String>( );
+        Date today = new Date( );
         for ( SeanceDTO seance : offerList )
         {
             String sDateHour = TicketsConstants.FORMAT_COMBO_DATE_SEANCE.format( seance.getDateHour( ) );
-            if ( seance.getStatut( ).equals( TicketsConstants.OFFER_STATUT_OPEN ) )
+            if ( seance.getStatut( ).equals( TicketsConstants.OFFER_STATUT_OPEN )
+                    && seance.getDateHour( ).after( today ) )
             {
                 if ( !dateList.contains( sDateHour ) )
                 // Pas de type de séance non complète ajoutée pour cette date
