@@ -50,6 +50,8 @@ import fr.paris.lutece.plugins.stock.service.OfferService;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -237,12 +239,13 @@ public class SeanceService extends OfferService implements ISeanceService
     public List<String> findSeanceByShow( Integer showId, OfferFilter filter )
     {
         List<SeanceDTO> offerList = SeanceDTO.convertEntityList( _daoOffer.findByProduct( showId, filter ) );
+        final DateFormat sdfComboSeance = new SimpleDateFormat( TicketsConstants.FORMAT_COMBO_DATE_SEANCE );
 
         List<String> dateList = new ArrayList<String>( );
         Date today = new Date( );
         for ( SeanceDTO seance : offerList )
         {
-            String sDateHour = TicketsConstants.FORMAT_COMBO_DATE_SEANCE.format( seance.getDateHour( ) );
+            String sDateHour = sdfComboSeance.format( seance.getDateHour( ) );
             if ( seance.getStatut( ).equals( TicketsConstants.OFFER_STATUT_OPEN )
                     && seance.getDateHour( ).after( today ) )
             {

@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.utils.constants;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 
 /**
@@ -91,6 +89,6 @@ public class TicketsConstants
     // Attributes
     public static final String ATTR_POSTER_NAME = "posterName";
 
-    public static final DateFormat FORMAT_COMBO_DATE_SEANCE = new SimpleDateFormat( "dd MMMMM yyyy '-' HH'h'mm" );
+    public static final String FORMAT_COMBO_DATE_SEANCE = "dd MMMMM yyyy '-' HH'h'mm";
 
 }
