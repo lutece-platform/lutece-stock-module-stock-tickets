@@ -99,6 +99,8 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
     /** The _purchase session manager. */
     @Inject
     private IPurchaseSessionManager _purchaseSessionManager;
+    @Inject
+    private IStatisticService _serviceStatistic;
 
     /**
      * Constructor.
@@ -147,8 +149,11 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
             else
             {
                 _daoPurchase.create( purchase );
+                purchaseDTO.setId( purchase.getId( ) );
+                // Statistic management
+                _serviceStatistic.doManagePurchaseSaving( purchaseDTO );
             }
-            purchaseDTO.setId( purchase.getId( ) );
+
         }
         catch ( PurchaseOutOfStock e )
         {
@@ -215,6 +220,9 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
             SeanceDTO seance = this._serviceOffer.findSeanceById( reservation.getOffer( ).getId( ) );
             seance.setQuantity( seance.getQuantity( ) + reservation.getQuantity( ) );
             this._serviceOffer.update( seance );
+
+            // On supprimes les statistiques de la reservation
+            _serviceStatistic.doRemovePurchaseStatisticByIdPurchase( nIdPurchase );
 
             _daoPurchase.remove( nIdPurchase );
         }
