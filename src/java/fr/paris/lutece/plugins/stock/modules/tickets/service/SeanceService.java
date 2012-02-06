@@ -254,7 +254,10 @@ public class SeanceService extends OfferService implements ISeanceService
                 {
                     if ( seance.getQuantity( ) == 0 )
                     {
-                        dateList.add( sDateHour + " - COMPLET" );
+                        if ( !dateList.contains( sDateHour + " - COMPLET" ) )
+                        {
+                            dateList.add( sDateHour + " - COMPLET" );
+                        }
                     }
                     else
                     {
