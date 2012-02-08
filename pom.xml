@@ -10,7 +10,7 @@
 	<groupId>fr.paris.lutece.plugins</groupId>
 	<artifactId>module-stock-tickets</artifactId>
 	<packaging>lutece-plugin</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>Lutece stock tickets module</name>
 	<description>Contains common objects for ticket ordering</description>
 	
@@ -44,8 +44,8 @@
 	</properties>
 	
 	<scm>
-		<connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/applications/module-stock-tickets</connection>
-		<developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/applications/module-stock-tickets</developerConnection>
-		<url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/applications/module-stock-tickets/</url>
+		<connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/tags/module-stock-tickets-1.0.0</connection>
+		<developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/tags/module-stock-tickets-1.0.0</developerConnection>
+		<url>http://dev.lutece.paris.fr/viewvc/lutece/portal/tags/module-stock-tickets-1.0.0</url>
 	</scm> 
 </project>
