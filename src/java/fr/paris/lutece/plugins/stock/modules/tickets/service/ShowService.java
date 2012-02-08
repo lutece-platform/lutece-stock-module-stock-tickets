@@ -146,7 +146,7 @@ public class ShowService extends ProductService implements IShowService
             //Update
             if ( listeProduct != null
                     && ( listeProduct.size( ) > 1 || listeProduct.size( ) == 1
-                            && listeProduct.get( 0 ).getId( ) != product.getId( ) ) )
+                            && !listeProduct.get( 0 ).getId( ).equals( product.getId( ) ) ) )
             {
                 throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_NAME_MUST_BE_UNIQUE );
             }

@@ -59,7 +59,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * DTO for Reservation
- *
+ * 
  * @author nmoitry
  */
 public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDTO
@@ -97,7 +97,9 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
     }
 
     /**
-     * @param _id the id to set
+     * Sets the id.
+     * 
+     * @param idPurchase the new id
      */
     public void setId( Integer idPurchase )
     {
@@ -113,6 +115,8 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
     }
 
     /**
+     * Sets the user name.
+     * 
      * @param userName the userName to set
      */
     public void setUserName( String userName )
@@ -152,6 +156,12 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
         this.date = date;
     }
 
+    /**
+     * Convert entity list.
+     * 
+     * @param listSource the list source
+     * @return the result list
+     */
     public static ResultList<ReservationDTO> convertEntityList( Collection<Purchase> listSource )
     {
         ResultList<ReservationDTO> listDest = new ResultList<ReservationDTO>( );
@@ -169,6 +179,12 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
 
     }
 
+    /**
+     * Convert entity.
+     * 
+     * @param source the source
+     * @return the reservation dto
+     */
     public static ReservationDTO convertEntity( Purchase source )
     {
         Mapper mapper = (Mapper) SpringContextService.getBean( "mapper" );
@@ -181,7 +197,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
         {
             if ( attributeDateList.get( ATTR_DATE ) != null )
             {
-            	reservation.setDate( DateUtils.getDateFr( attributeDateList.get( ATTR_DATE ) ) );
+                reservation.setDate( DateUtils.getDateFr( attributeDateList.get( ATTR_DATE ) ) );
             }
         }
 
@@ -202,10 +218,14 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
             }
         }
 
-
         return reservation;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see fr.paris.lutece.plugins.stock.commons.AbstractDTO#convert()
+     */
     public Purchase convert( )
     {
         Purchase purchase = mapper.map( this, Purchase.class );
@@ -237,51 +257,51 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      * set the offer to offer
      * @param offer the offer
      */
-	public void setOffer( SeanceDTO offer )
-	{
+    public void setOffer( SeanceDTO offer )
+    {
         this.offer = offer;
-	}
+    }
 
-	/**
-	 * return the offer
-	 * @return the offer
-	 */
-	public SeanceDTO getOffer(  )
-	{
+    /**
+     * return the offer
+     * @return the offer
+     */
+    public SeanceDTO getOffer( )
+    {
         return this.offer;
-	}
+    }
 
-	/**
-	 * @param nameAgent the nameAgent to set
-	 */
-	public void setNameAgent( String nameAgent )
-	{
+    /**
+     * @param nameAgent the nameAgent to set
+     */
+    public void setNameAgent( String nameAgent )
+    {
         this.nameAgent = nameAgent;
-	}
+    }
 
-	/**
-	 * @return the nameAgent
-	 */
-	public String getNameAgent( )
-	{
+    /**
+     * @return the nameAgent
+     */
+    public String getNameAgent( )
+    {
         return nameAgent;
-	}
+    }
 
-	/**
-	 * @param firstNameAgent the firstNameAgent to set
-	 */
-	public void setFirstNameAgent( String firstNameAgent )
-	{
+    /**
+     * @param firstNameAgent the firstNameAgent to set
+     */
+    public void setFirstNameAgent( String firstNameAgent )
+    {
         this.firstNameAgent = firstNameAgent;
-	}
+    }
 
-	/**
-	 * @return the firstNameAgent
-	 */
-	public String getFirstNameAgent( )
-	{
+    /**
+     * @return the firstNameAgent
+     */
+    public String getFirstNameAgent( )
+    {
         return firstNameAgent;
-	}
+    }
 
     /**
      * @return the emailAgent
@@ -299,6 +319,12 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
         this.emailAgent = emailAgent;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * fr.paris.lutece.plugins.stock.business.purchase.IPurchaseDTO#getOfferId()
+     */
     public Integer getOfferId( )
     {
         return this.getOffer( ).getId( );

@@ -187,7 +187,7 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
     protected void buildSortQuery( PurchaseFilter filter, Root<Purchase> root, CriteriaQuery<Purchase> query,
         CriteriaBuilder builder )
     {
-        if ( filter.getOrders(  ) != null && !filter.getOrders(  ).isEmpty( ))
+        if ( filter.getOrders( ) != null && !filter.getOrders( ).isEmpty( ) )
         {
             List<Order> orderList = new ArrayList<Order>( );
             

@@ -134,8 +134,8 @@ public class SeanceService extends OfferService implements ISeanceService
             // Si modification, l'id de l'offre recuperee doit etre differente
             // de celle en cours de modification
             if ( otherOfferCancel
-                    && ( offer.getId( ) == null || ( offer.getId( ) != null && seanceList.get( 0 ).getId( ) != offer
-                            .getId( ) ) ) )
+                    && ( offer.getId( ) == null || ( offer.getId( ) != null && !seanceList.get( 0 ).getId( )
+                            .equals( offer.getId( ) ) ) ) )
     		{
     			throw new BusinessException( offer, MESSAGE_ERROR_OFFER_UNIQUE_BY_DATE_BY_SPECTACLE );
     		}

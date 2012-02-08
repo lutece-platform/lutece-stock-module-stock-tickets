@@ -291,7 +291,7 @@ public final class CategoryService implements ICategoryService
             // Update
             if ( listeCategory != null
                     && ( listeCategory.size( ) > 1 || listeCategory.size( ) == 1
-                            && listeCategory.get( 0 ).getId( ) != category.getId( ) ) )
+                            && !listeCategory.get( 0 ).getId( ).equals( category.getId( ) ) ) )
             {
                 throw new BusinessException( category, MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE );
             }
