@@ -249,7 +249,7 @@ public class StatisticService implements IStatisticService
         }
         catch ( ParseException e )
         {
-            LOGGER.warn( "Erreur lors du parsing de la date de début ou de fin du produit", e );
+            LOGGER.warn( "Erreur lors du parsing de la date de dÃ©but ou de fin du produit", e );
         }
     }
 
@@ -457,7 +457,7 @@ public class StatisticService implements IStatisticService
         }
         catch ( ParseException e )
         {
-            LOGGER.warn( "Erreur lors du parsing de la date de début ou de fin du produit", e );
+            LOGGER.warn( "Erreur lors du parsing de la date de dÃ©but ou de fin du produit", e );
         }
     }
 
