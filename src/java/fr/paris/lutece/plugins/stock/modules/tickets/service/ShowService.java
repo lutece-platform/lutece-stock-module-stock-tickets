@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.service;
 
+import fr.paris.lutece.plugins.stock.business.product.IProductImageDAO;
 import fr.paris.lutece.plugins.stock.business.product.Product;
 import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
@@ -44,11 +45,11 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
 import fr.paris.lutece.plugins.stock.service.ProductService;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +70,9 @@ public class ShowService extends ProductService implements IShowService
     @Named( "stock-tickets.showDAO" )
 	private IShowDAO _daoProduct;
 
+    @Inject
+    private IProductImageDAO _daoProductImage;
+
     /**
      *
      *{@inheritDoc}
@@ -84,6 +88,8 @@ public class ShowService extends ProductService implements IShowService
     public void doDeleteProduct( int nIdProduct )
     {
         _daoProduct.remove( nIdProduct );
+        // Remove poster
+        _daoProductImage.remove( nIdProduct );
     }
 
     /**
@@ -130,7 +136,7 @@ public class ShowService extends ProductService implements IShowService
      * @throws ValidationException
      */
     @Transactional( readOnly = false, propagation = Propagation.REQUIRES_NEW )
-    public ShowDTO doSaveProduct( ShowDTO product, HttpServletRequest request ) throws ValidationException
+    public ShowDTO doSaveProduct( ShowDTO product, File[] filePosterArray ) throws ValidationException
     {
     	// Start date must be before end date
     	if ( DateUtils.getDate( product.getStartDate( ), false ).after( DateUtils.getDate( product.getEndDate( ), false ) ) )
@@ -151,7 +157,7 @@ public class ShowService extends ProductService implements IShowService
                 throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_NAME_MUST_BE_UNIQUE );
             }
 
-            _daoProduct.update( product.convert( ) );
+            _daoProduct.update( productEntity );
         }
         else
         {
@@ -161,6 +167,21 @@ public class ShowService extends ProductService implements IShowService
                 throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_NAME_MUST_BE_UNIQUE );
             }
             _daoProduct.create( productEntity );
+        }
+        
+        // Save poster images
+        if ( filePosterArray != null )
+        {
+            // try
+            // {
+            _daoProductImage.saveImage( productEntity.getId( ), filePosterArray[0], filePosterArray[1] );
+            // }
+            // catch ( FileNotFoundException e )
+            // {
+            // throw new TechnicalException(
+            // "Erreur lors de l'enregistrement des images du poster : "
+            // + e.getMessage( ), e );
+            // }
         }
 
         return ShowDTO.convertEntity( productEntity );
@@ -223,5 +244,21 @@ public class ShowService extends ProductService implements IShowService
     public List<ShowDTO> getCurrentAndComeProduct( List<String> orderList )
     {
         return ShowDTO.convertEntityList( _daoProduct.getCurrentAndComeProduct( orderList ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public byte[] getImage( Integer idProduct )
+    {
+        return _daoProductImage.getImage( idProduct );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public byte[] getTbImage( Integer idProduct )
+    {
+        return _daoProductImage.getTbImage( idProduct );
     }
 }

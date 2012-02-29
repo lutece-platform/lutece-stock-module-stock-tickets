@@ -39,9 +39,8 @@ import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
 import fr.paris.lutece.plugins.stock.commons.exception.ValidationException;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
 
+import java.io.File;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,11 +96,11 @@ public interface IShowService
      * Modifies a product.
      * 
      * @param product The product to modify in database
-     * @param request The HTTP request
+     * @param filePosterArray files poster
      * @return the product
      * @throws ValidationException the validation exception
      */
-    ShowDTO doSaveProduct( ShowDTO product, HttpServletRequest request ) throws ValidationException;
+    ShowDTO doSaveProduct( ShowDTO product, File[] filePosterArray ) throws ValidationException;
 
     /**
      * Find by id.
@@ -151,4 +150,20 @@ public interface IShowService
      * @return list of product
      */
     List<ShowDTO> getCurrentAndComeProduct( List<String> orderList );
+
+    /**
+     * Gets the image data.
+     * 
+     * @param idProduct the id product
+     * @return the image
+     */
+    byte[] getImage( Integer idProduct );
+
+    /**
+     * Gets the thumbnail image.
+     * 
+     * @param idProduct the id product
+     * @return the tb image
+     */
+    byte[] getTbImage( Integer idProduct );
 }
