@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2002-2012, Mairie de Paris
  * All rights reserved.
