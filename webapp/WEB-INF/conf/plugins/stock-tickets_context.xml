@@ -18,6 +18,7 @@
     <bean id="stock-tickets.showService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.ShowService" />
 	<bean id="stock-tickets.providerService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.ProviderService"/>
 	<bean id="stock-tickets.categoryService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.CategoryService"/>
+	<bean id="stock-tickets.showCategoryService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.ShowCategoryService"/>
 	<bean id="stock-tickets.notificationService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.NotificationService"/>
 	<bean id="stock-tickets.statisticService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.StatisticService"/>
 	

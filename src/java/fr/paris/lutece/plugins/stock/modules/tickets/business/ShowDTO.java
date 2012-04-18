@@ -147,6 +147,9 @@ public class ShowDTO extends AbstractDTO<Product>
     /** The alaffiche. */
     private Boolean alaffiche = Boolean.FALSE;
 
+    /** The categoryColor */
+    private String categoryColor;
+
     /**
      * Gets the id.
      * 
@@ -418,7 +421,7 @@ public class ShowDTO extends AbstractDTO<Product>
         ResultList<ShowDTO> listDest = new ResultList<ShowDTO>( );
         if ( listSource instanceof ResultList )
         {
-            listDest.setTotalResult( ( (ResultList) listSource ).getTotalResult( ) );
+            listDest.setTotalResult( ( (ResultList<Product>) listSource ).getTotalResult( ) );
         }
 
         for ( Product source : listSource )
@@ -491,14 +494,17 @@ public class ShowDTO extends AbstractDTO<Product>
             }
         }
 
+        String categoryColor = null;
+        if ( source.getCategory( ) != null )
+        {
+            categoryColor = ShowCategoryDTO.convertEntity( source.getCategory( ) ).getColor( );
+        }
+        show.setCategoryColor( StringUtils.defaultString( categoryColor ) );
+
         return show;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.paris.lutece.plugins.stock.commons.AbstractDTO#convert()
-     */
+    /** {@inheritDoc} */
     public Product convert( )
     {
         Product product = mapper.map( this, Product.class );
@@ -535,8 +541,8 @@ public class ShowDTO extends AbstractDTO<Product>
         if ( this.getAlaffiche( ) != null )
         {
             product.getAttributeNumList( ).add(
-                    new ProductAttributeNum( ATTR_A_LAFFICHE, ( this.getAlaffiche( ) ? new BigDecimal( 1 )
-                            : new BigDecimal( 0 ) ), product ) );
+                    new ProductAttributeNum( ATTR_A_LAFFICHE,
+                            ( this.getAlaffiche( ) ? BigDecimal.ONE : BigDecimal.ZERO ), product ) );
         }
 
         return product;
@@ -601,6 +607,26 @@ public class ShowDTO extends AbstractDTO<Product>
     public void setAlaffiche( Boolean aLaffiche )
     {
         this.alaffiche = aLaffiche;
+    }
+
+    /**
+     * Get the category color.
+     * 
+     * @return the categoryColor, or an empty string if empty
+     */
+    public String getCategoryColor( )
+    {
+        return categoryColor;
+    }
+
+    /**
+     * Set the category color.
+     * 
+     * @param categoryColor the categoryColor to set
+     */
+    public void setCategoryColor( String categoryColor )
+    {
+        this.categoryColor = categoryColor;
     }
 
 }

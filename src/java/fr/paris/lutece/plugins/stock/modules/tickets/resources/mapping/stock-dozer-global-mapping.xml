@@ -51,5 +51,9 @@
 		<class-a>fr.paris.lutece.plugins.stock.business.purchase.Purchase</class-a>
 		<class-b>fr.paris.lutece.plugins.stock.modules.tickets.business.ReservationDTO</class-b>
 	</mapping>
+	<mapping>
+		<class-a>fr.paris.lutece.plugins.stock.business.categoryCategory</class-a>
+		<class-b>fr.paris.lutece.plugins.stock.modules.tickets.business.ShowCategoryDTO</class-b>
+	</mapping>
   
 </mappings>

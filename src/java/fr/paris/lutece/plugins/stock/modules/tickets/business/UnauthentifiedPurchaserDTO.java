@@ -33,36 +33,71 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-import fr.paris.lutece.plugins.stock.business.offer.IOfferDAO;
-import fr.paris.lutece.plugins.stock.business.offer.Offer;
-
-import java.sql.Timestamp;
-import java.util.List;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
- * Interface for seance dao
  * 
- * @author abataille
+ * DTO for unauthentified agent
+ * 
  */
-public interface ISeanceDAO extends IOfferDAO
+public class UnauthentifiedPurchaserDTO
 {
+    @NotEmpty
+    @Email
+    private String emailAgent;
+    @NotEmpty
+    private String nameAgent;
+    @NotEmpty
+    private String firstNameAgent;
 
     /**
-     * Returns list of available seance types (not cancelled) for given date and
-     * hour.
-     * 
-     * @param offerId the offer id
-     * @param dateHour date and hour
-     * @return seance list
+     * @return the emailAgent
      */
-    List<Offer> findAvailableSeanceByDate( Integer offerId, Timestamp dateHour );
+    public String getEmailAgent( )
+    {
+        return emailAgent;
+    }
 
     /**
-     * Returns list of available seance types (not cancelled) for given offer id
-     * @param offerId offer id
-     * @return seance list
+     * @param emailAgent the emailAgent to set
      */
-    List<Offer> findAvailableSeance( Integer offerId );
+    public void setEmailAgent( String emailAgent )
+    {
+        this.emailAgent = emailAgent;
+    }
+
+    /**
+     * @return the nameAgent
+     */
+    public String getNameAgent( )
+    {
+        return nameAgent;
+    }
+
+    /**
+     * @param nameAgent the nameAgent to set
+     */
+    public void setNameAgent( String nameAgent )
+    {
+        this.nameAgent = nameAgent;
+    }
+
+    /**
+     * @return the firstNameAgent
+     */
+    public String getFirstNameAgent( )
+    {
+        return firstNameAgent;
+    }
+
+    /**
+     * @param firstNameAgent the firstNameAgent to set
+     */
+    public void setFirstNameAgent( String firstNameAgent )
+    {
+        this.firstNameAgent = firstNameAgent;
+    }
 
 }
