@@ -34,8 +34,10 @@
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
 import fr.paris.lutece.plugins.stock.business.attribute.offer.OfferAttributeDate;
+import fr.paris.lutece.plugins.stock.business.attribute.purchase.PurchaseAttribute;
 import fr.paris.lutece.plugins.stock.business.attribute.purchase.PurchaseAttributeDate;
 import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
+import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeUtils;
 import fr.paris.lutece.plugins.stock.business.offer.Offer;
 import fr.paris.lutece.plugins.stock.business.offer.OfferGenre;
 import fr.paris.lutece.plugins.stock.business.offer.OfferGenre_;
@@ -92,8 +94,9 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
         
         if ( StringUtils.isNotBlank( filter.getUserName(  ) ) )
         {
-            listPredicates.add( builder.like( root.get( Purchase_.userName ),
-                    StockJPAUtils.buildCriteriaLikeString( filter.getUserName(  ) ) ) );
+            Join<Purchase, PurchaseAttribute> join = root.join( Purchase_.attributeList );
+            listPredicates.add( AttributeUtils.like( builder, join, ReservationDTO.ATTR_NAME_AGENT,
+                    filter.getUserName( ) ) );
         }
         
         if ( StringUtils.isNotBlank( filter.getProductName(  ) ) )
