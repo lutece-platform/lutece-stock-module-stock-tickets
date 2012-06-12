@@ -135,6 +135,9 @@ public class ShowDTO extends AbstractDTO<Product>
     /** The provider name. */
     private String providerName;
 
+    /** The provider Address. */
+    private String providerAddress;
+
     /** The provider mail. */
     private String providerMail;
 
@@ -383,11 +386,31 @@ public class ShowDTO extends AbstractDTO<Product>
     /**
      * Sets the provider name.
      * 
-     * @param providerName the providerName to set
+     * @param providerAddress the providerAddress to set
      */
     public void setProviderName( String providerName )
     {
         this.providerName = providerName;
+    }
+
+    /**
+     * Gets the provider Address.
+     * 
+     * @return the providerAddress
+     */
+    public String getProviderAddress( )
+    {
+        return providerAddress;
+    }
+
+    /**
+     * Sets the provider Address.
+     * 
+     * @param providerAddress the providerAddress to set
+     */
+    public void setProviderAddress( String providerAddress )
+    {
+        this.providerAddress = providerAddress;
     }
 
     /**

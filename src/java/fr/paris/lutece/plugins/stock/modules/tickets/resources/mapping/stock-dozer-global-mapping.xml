@@ -23,6 +23,10 @@
 		   		<b>providerName</b>
 			</field>
 			<field type="one-way">
+		    	<a>provider.address</a>
+		   		<b>providerAddress</b>
+			</field>
+			<field type="one-way">
 		    	<a>provider.mail</a>
 		   		<b>providerMail</b>
 			</field>
