@@ -94,9 +94,15 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
         
         if ( StringUtils.isNotBlank( filter.getUserName(  ) ) )
         {
+            listPredicates.add( builder.like( root.get( Purchase_.userName ),
+                    StockJPAUtils.buildCriteriaLikeString( filter.getUserName(  ) ) ) );
+        }
+
+        if ( StringUtils.isNotBlank( filter.getAgentName() ) )
+        {
             Join<Purchase, PurchaseAttribute> join = root.join( Purchase_.attributeList );
             listPredicates.add( AttributeUtils.like( builder, join, ReservationDTO.ATTR_NAME_AGENT,
-                    filter.getUserName( ) ) );
+                    filter.getAgentName( ) ) );
         }
         
         if ( StringUtils.isNotBlank( filter.getProductName(  ) ) )
