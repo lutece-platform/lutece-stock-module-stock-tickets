@@ -56,6 +56,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class PartnerDTO extends AbstractDTO<Provider>
 {
     public static final String ATTR_CONTACT = "contactName";
+    public static final String ATTR_CONTACT_2 = "contactName2";
+    public static final String ATTR_CONTACT_PHONE_NUMBER_2 = "phoneNumber2";
+    public static final String ATTR_CONTACT_MAIL_2 = "mail2";
+    public static final String ATTR_CONTACT_3 = "contactName3";
+    public static final String ATTR_CONTACT_PHONE_NUMBER_3 = "phoneNumber3";
+    public static final String ATTR_CONTACT_MAIL_3 = "mail3";
+
+    public static final String ATTR_CONTACT_4 = "contactName4";
+    public static final String ATTR_CONTACT_PHONE_NUMBER_4 = "phoneNumber4";
+    public static final String ATTR_CONTACT_MAIL_4 = "mail4";
 
     private Integer id;
     @NotEmpty
@@ -67,6 +77,31 @@ public class PartnerDTO extends AbstractDTO<Provider>
     @NotEmpty
     @Email
     private String mail;
+
+    /**
+     * Second contact name
+     */
+    private String contactName2;
+    private String phoneNumber2;
+    @Email
+    private String mail2;
+    
+    /**
+     * Third contact name
+     */
+    private String contactName3;
+    private String phoneNumber3;
+    @Email
+    private String mail3;
+    
+    /**
+     * Fourth contact name
+     */
+    private String contactName4;
+    private String phoneNumber4;
+    @Email
+    private String mail4;
+    
     private String comment;
 
     /**
@@ -187,6 +222,150 @@ public class PartnerDTO extends AbstractDTO<Provider>
 
 
     /**
+     * @return the contactName2
+     */
+    public String getContactName2( )
+    {
+        return contactName2;
+    }
+
+    /**
+     * @param contactName2 the contactName2 to set
+     */
+    public void setContactName2( String contactName2 )
+    {
+        this.contactName2 = contactName2;
+    }
+
+    /**
+     * @return the phoneNumber2
+     */
+    public String getPhoneNumber2( )
+    {
+        return phoneNumber2;
+    }
+
+    /**
+     * @param phoneNumber2 the phoneNumber2 to set
+     */
+    public void setPhoneNumber2( String phoneNumber2 )
+    {
+        this.phoneNumber2 = phoneNumber2;
+    }
+
+    /**
+     * @return the mail2
+     */
+    public String getMail2( )
+    {
+        return mail2;
+    }
+
+    /**
+     * @param mail2 the mail2 to set
+     */
+    public void setMail2( String mail2 )
+    {
+        this.mail2 = mail2;
+    }
+
+    /**
+     * @return the contactName3
+     */
+    public String getContactName3( )
+    {
+        return contactName3;
+    }
+
+    /**
+     * @param contactName3 the contactName3 to set
+     */
+    public void setContactName3( String contactName3 )
+    {
+        this.contactName3 = contactName3;
+    }
+
+    /**
+     * @return the phoneNumber3
+     */
+    public String getPhoneNumber3( )
+    {
+        return phoneNumber3;
+    }
+
+    /**
+     * @param phoneNumber3 the phoneNumber3 to set
+     */
+    public void setPhoneNumber3( String phoneNumber3 )
+    {
+        this.phoneNumber3 = phoneNumber3;
+    }
+
+    /**
+     * @return the mail3
+     */
+    public String getMail3( )
+    {
+        return mail3;
+    }
+
+    /**
+     * @param mail3 the mail3 to set
+     */
+    public void setMail3( String mail3 )
+    {
+        this.mail3 = mail3;
+    }
+
+    /**
+     * @return the contactName4
+     */
+    public String getContactName4( )
+    {
+        return contactName4;
+    }
+
+    /**
+     * @param contactName4 the contactName4 to set
+     */
+    public void setContactName4( String contactName4 )
+    {
+        this.contactName4 = contactName4;
+    }
+
+    /**
+     * @return the phoneNumber4
+     */
+    public String getPhoneNumber4( )
+    {
+        return phoneNumber4;
+    }
+
+    /**
+     * @param phoneNumber4 the phoneNumber4 to set
+     */
+    public void setPhoneNumber4( String phoneNumber4 )
+    {
+        this.phoneNumber4 = phoneNumber4;
+    }
+
+    /**
+     * @return the mail4
+     */
+    public String getMail4( )
+    {
+        return mail4;
+    }
+
+    /**
+     * @param mail4 the mail4 to set
+     */
+    public void setMail4( String mail4 )
+    {
+        this.mail4 = mail4;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -197,6 +376,55 @@ public class PartnerDTO extends AbstractDTO<Provider>
         if ( StringUtils.isNotEmpty( this.getContactName( ) ) )
         {
             provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT, this.getContactName( ), provider ) );
+        }
+        
+        //Contact 2
+        if ( StringUtils.isNotEmpty( this.getContactName2( ) ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_2, this.getContactName2( ), provider ) );
+        }
+
+        if ( StringUtils.isNotEmpty( this.getPhoneNumber2( ) ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_PHONE_NUMBER_2, this.getPhoneNumber2( ), provider ) );
+        }
+
+        if ( StringUtils.isNotEmpty( this.getMail2( ) ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_MAIL_2, this.getMail2( ), provider ) );
+        }
+        
+        //Contact 3
+        if ( StringUtils.isNotEmpty( this.getContactName3( ) ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_3, this.getContactName3( ), provider ) );
+        }
+
+        if ( StringUtils.isNotEmpty( this.getPhoneNumber3( ) ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_PHONE_NUMBER_3, this.getPhoneNumber3( ), provider ) );
+        }
+
+        if ( StringUtils.isNotEmpty( this.getMail3( ) ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_MAIL_3, this.getMail3( ), provider ) );
+        }
+        
+
+        //Contact 4
+        if ( StringUtils.isNotEmpty( this.getContactName4( ) ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_4, this.getContactName4( ), provider ) );
+        }
+
+        if ( StringUtils.isNotEmpty( this.getPhoneNumber4( ) ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_PHONE_NUMBER_4, this.getPhoneNumber4( ), provider ) );
+        }
+
+        if ( StringUtils.isNotEmpty( this.getMail4( ) ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_MAIL_4, this.getMail4( ), provider ) );
         }
         return provider;
     }
@@ -219,6 +447,51 @@ public class PartnerDTO extends AbstractDTO<Provider>
                 if ( ATTR_CONTACT.equals( attribute.getKey( ) ) )
                 {
                     partnerDTO.setContactName( attribute.getValue( ) );
+                }
+
+                if ( ATTR_CONTACT_2.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setContactName2( attribute.getValue( ) );
+                }
+
+                if ( ATTR_CONTACT_PHONE_NUMBER_2.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setPhoneNumber2( attribute.getValue( ) );
+                }
+
+                if ( ATTR_CONTACT_MAIL_2.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setMail2( attribute.getValue( ) );
+                }
+
+                if ( ATTR_CONTACT_3.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setContactName3( attribute.getValue( ) );
+                }
+
+                if ( ATTR_CONTACT_PHONE_NUMBER_3.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setPhoneNumber3( attribute.getValue( ) );
+                }
+
+                if ( ATTR_CONTACT_MAIL_3.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setMail3( attribute.getValue( ) );
+                }
+
+                if ( ATTR_CONTACT_4.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setContactName4( attribute.getValue( ) );
+                }
+
+                if ( ATTR_CONTACT_PHONE_NUMBER_4.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setPhoneNumber4( attribute.getValue( ) );
+                }
+
+                if ( ATTR_CONTACT_MAIL_4.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setMail4( attribute.getValue( ) );
                 }
             }
         }

@@ -102,9 +102,9 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
         {
             Join<Purchase, PurchaseAttribute> join = root.join( Purchase_.attributeList );
             listPredicates.add( AttributeUtils.like( builder, join, ReservationDTO.ATTR_NAME_AGENT,
-                    filter.getAgentName( ) ) );
+                    StockJPAUtils.buildCriteriaLikeString( filter.getAgentName( ) ) ) );
         }
-        
+
         if ( StringUtils.isNotBlank( filter.getProductName(  ) ) )
         {
             listPredicates.add( builder.like( product.get( Product_.name ),
