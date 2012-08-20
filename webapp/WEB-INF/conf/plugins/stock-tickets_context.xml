@@ -58,6 +58,8 @@
 		class="fr.paris.lutece.plugins.stock.utils.dozer.CustomIdDozerConverter" />
 	<bean id="customDTODozerConverter"
 		class="fr.paris.lutece.plugins.stock.utils.dozer.CustomDTODozerConverter" />
+		
+	<bean id="stock-tickets.showExtendableResourceService" class="fr.paris.lutece.plugins.stock.modules.tickets.service.resource.ShowExtendableResourceService" />
 	
 </beans>
 

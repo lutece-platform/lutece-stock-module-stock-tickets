@@ -42,7 +42,13 @@ import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.AfterCurrentDate;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.DateFormat;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
+import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+
+import org.apache.commons.lang.StringUtils;
+import org.dozer.Mapper;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -52,19 +58,16 @@ import java.util.Set;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang.StringUtils;
-import org.dozer.Mapper;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.URL;
-
 
 /**
  * DOCUMENT ME!.
- * 
+ *
  * @author abataille
  */
-public class ShowDTO extends AbstractDTO<Product>
+public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 {
+	/** The Constant PROPERTY_RESOURCE_TYPE. */
+	public static final String PROPERTY_RESOURCE_TYPE = "stock-product";
 
     /** The Constant ATTR_DATE_START. */
     public static final String ATTR_DATE_START = "start";
@@ -155,27 +158,28 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the id.
-     * 
+     *
      * @return the id
      */
-    public Integer getId( )
+    @Override
+	public Integer getId( )
     {
         return id;
     }
 
     /**
      * Sets the id.
-     * 
+     *
      * @param idProduct the new id
      */
     public void setId( Integer idProduct )
     {
-        this.id = idProduct;
+        id = idProduct;
     }
 
     /**
      * Gets the description.
-     * 
+     *
      * @return the description
      */
     public String getDescription( )
@@ -185,7 +189,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the description.
-     * 
+     *
      * @param description the description to set
      */
     public void setDescription( String description )
@@ -195,7 +199,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the name.
-     * 
+     *
      * @return the name
      */
     public String getName( )
@@ -205,7 +209,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the name.
-     * 
+     *
      * @param name the name to set
      */
     public void setName( String name )
@@ -215,7 +219,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the price.
-     * 
+     *
      * @return the price
      */
     public Float getPrice( )
@@ -225,7 +229,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the price.
-     * 
+     *
      * @param price the price to set
      */
     public void setPrice( Float price )
@@ -235,7 +239,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the id category.
-     * 
+     *
      * @return the idCategory
      */
     public Integer getIdCategory( )
@@ -245,7 +249,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the id category.
-     * 
+     *
      * @param idCategory the idCategory to set
      */
     public void setIdCategory( Integer idCategory )
@@ -255,7 +259,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the id provider.
-     * 
+     *
      * @return the idProvider
      */
     public Integer getIdProvider( )
@@ -265,7 +269,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the id provider.
-     * 
+     *
      * @param idProvider the idProvider to set
      */
     public void setIdProvider( Integer idProvider )
@@ -275,7 +279,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the with.
-     * 
+     *
      * @return the with
      */
     public String getWith( )
@@ -285,7 +289,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the with.
-     * 
+     *
      * @param with the with to set
      */
     public void setWith( String with )
@@ -295,7 +299,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the start date.
-     * 
+     *
      * @return the startDate
      */
     public String getStartDate( )
@@ -305,7 +309,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the start date.
-     * 
+     *
      * @param startDate the startDate to set
      */
     public void setStartDate( String startDate )
@@ -315,7 +319,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the end date.
-     * 
+     *
      * @return the endDate
      */
     public String getEndDate( )
@@ -325,7 +329,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the end date.
-     * 
+     *
      * @param endDate the endDate to set
      */
     public void setEndDate( String endDate )
@@ -335,7 +339,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the website.
-     * 
+     *
      * @return the website
      */
     public String getWebsite( )
@@ -345,7 +349,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the website.
-     * 
+     *
      * @param website the website to set
      */
     public void setWebsite( String website )
@@ -355,7 +359,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the poster name.
-     * 
+     *
      * @return the posterName
      */
     public String getPosterName( )
@@ -365,7 +369,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the poster name.
-     * 
+     *
      * @param posterName the posterName to set
      */
     public void setPosterName( String posterName )
@@ -375,7 +379,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the provider name.
-     * 
+     *
      * @return the providerName
      */
     public String getProviderName( )
@@ -385,8 +389,8 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the provider name.
-     * 
-     * @param providerAddress the providerAddress to set
+     *
+     * @param providerName the providerName to set
      */
     public void setProviderName( String providerName )
     {
@@ -395,7 +399,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the provider Address.
-     * 
+     *
      * @return the providerAddress
      */
     public String getProviderAddress( )
@@ -405,7 +409,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the provider Address.
-     * 
+     *
      * @param providerAddress the providerAddress to set
      */
     public void setProviderAddress( String providerAddress )
@@ -415,7 +419,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the category name.
-     * 
+     *
      * @return the categoryrName
      */
     public String getCategoryName( )
@@ -425,7 +429,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the category name.
-     * 
+     *
      * @param categoryName the new category name
      */
     public void setCategoryName( String categoryName )
@@ -435,7 +439,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Convert entity list.
-     * 
+     *
      * @param listSource the list source
      * @return the result list
      */
@@ -458,7 +462,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Convert entity.
-     * 
+     *
      * @param source the source
      * @return the show dto
      */
@@ -528,44 +532,45 @@ public class ShowDTO extends AbstractDTO<Product>
     }
 
     /** {@inheritDoc} */
-    public Product convert( )
+    @Override
+	public Product convert( )
     {
         Product product = mapper.map( this, Product.class );
 
-        if ( StringUtils.isNotEmpty( this.getEndDate( ) ) )
+        if ( StringUtils.isNotEmpty( getEndDate( ) ) )
         {
             product.getAttributeDateList( ).add(
-                    new ProductAttributeDate( ATTR_DATE_END, DateUtils.getDate( this.getEndDate( ), false ), product ) );
+                    new ProductAttributeDate( ATTR_DATE_END, DateUtils.getDate( getEndDate( ), false ), product ) );
         }
 
-        if ( StringUtils.isNotEmpty( this.getStartDate( ) ) )
+        if ( StringUtils.isNotEmpty( getStartDate( ) ) )
         {
             product.getAttributeDateList( ).add(
-                    new ProductAttributeDate( ATTR_DATE_START, DateUtils.getDate( this.getStartDate( ), false ),
+                    new ProductAttributeDate( ATTR_DATE_START, DateUtils.getDate( getStartDate( ), false ),
                             product ) );
         }
 
-        if ( StringUtils.isNotEmpty( this.getWith( ) ) )
+        if ( StringUtils.isNotEmpty( getWith( ) ) )
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_WITH, this.getWith( ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_WITH, getWith( ), product ) );
         }
-        if ( StringUtils.isNotEmpty( this.getWebsite( ) ) )
+        if ( StringUtils.isNotEmpty( getWebsite( ) ) )
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_WEBSITE, this.getWebsite( ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_WEBSITE, getWebsite( ), product ) );
         }
-        if ( StringUtils.isNotEmpty( this.getPosterName( ) ) )
+        if ( StringUtils.isNotEmpty( getPosterName( ) ) )
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_POSTER, this.getPosterName( ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_POSTER, getPosterName( ), product ) );
         }
-        if ( StringUtils.isNotEmpty( this.getTargetPublic( ) ) )
+        if ( StringUtils.isNotEmpty( getTargetPublic( ) ) )
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_PUBLIC, this.getTargetPublic( ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_PUBLIC, getTargetPublic( ), product ) );
         }
-        if ( this.getAlaffiche( ) != null )
+        if ( getAlaffiche( ) != null )
         {
             product.getAttributeNumList( ).add(
                     new ProductAttributeNum( ATTR_A_LAFFICHE,
-                            ( this.getAlaffiche( ) ? BigDecimal.ONE : BigDecimal.ZERO ), product ) );
+                            ( getAlaffiche( ) ? BigDecimal.ONE : BigDecimal.ZERO ), product ) );
         }
 
         return product;
@@ -573,7 +578,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
 	    /**
      * Sets the provider mail.
-     * 
+     *
      * @param providerMail the providerMail to set
      */
 	public void setProviderMail( String providerMail )
@@ -583,7 +588,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
 	    /**
      * Gets the provider mail.
-     * 
+     *
      * @return the providerMail
      */
 	public String getProviderMail( )
@@ -593,7 +598,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the target public.
-     * 
+     *
      * @return the targetPublic
      */
     public String getTargetPublic( )
@@ -603,7 +608,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the target public.
-     * 
+     *
      * @param targetPublic the targetPublic to set
      */
     public void setTargetPublic( String targetPublic )
@@ -614,7 +619,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Gets the alaffiche.
-     * 
+     *
      * @return the aLaffiche
      */
     public Boolean getAlaffiche( )
@@ -624,17 +629,17 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Sets the alaffiche.
-     * 
+     *
      * @param aLaffiche the aLaffiche to set
      */
     public void setAlaffiche( Boolean aLaffiche )
     {
-        this.alaffiche = aLaffiche;
+        alaffiche = aLaffiche;
     }
 
     /**
      * Get the category color.
-     * 
+     *
      * @return the categoryColor, or an empty string if empty
      */
     public String getCategoryColor( )
@@ -644,7 +649,7 @@ public class ShowDTO extends AbstractDTO<Product>
 
     /**
      * Set the category color.
-     * 
+     *
      * @param categoryColor the categoryColor to set
      */
     public void setCategoryColor( String categoryColor )
@@ -652,4 +657,30 @@ public class ShowDTO extends AbstractDTO<Product>
         this.categoryColor = categoryColor;
     }
 
+    /**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getIdExtendableResource( )
+	{
+		return Integer.toString( id );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getExtendableResourceType( )
+	{
+		return PROPERTY_RESOURCE_TYPE;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getExtendableResourceName( )
+	{
+		return name;
+	}
 }
