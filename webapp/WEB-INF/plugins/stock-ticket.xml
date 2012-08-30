@@ -2,7 +2,7 @@
 
 	<name>stock-tickets</name>
 	<class>fr.paris.lutece.plugins.stock.modules.tickets.service.TicketsPlugin</class>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<description>module.stock.tickets.module.description</description>
 	<documentation/>
 	<installation/>
