@@ -45,11 +45,6 @@ import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-import org.apache.commons.lang.StringUtils;
-import org.dozer.Mapper;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.URL;
-
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Map;
@@ -57,6 +52,11 @@ import java.util.Set;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang.StringUtils;
+import org.dozer.Mapper;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 
 
 /**
@@ -683,4 +683,13 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 	{
 		return name;
 	}
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getExtendableResourceDescription( )
+    {
+        return description;
+    }
 }

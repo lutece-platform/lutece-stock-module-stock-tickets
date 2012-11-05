@@ -35,12 +35,15 @@ package fr.paris.lutece.plugins.stock.modules.tickets.service.resource;
 
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
 import fr.paris.lutece.plugins.stock.modules.tickets.service.IShowService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.Locale;
 
 import javax.inject.Inject;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -49,6 +52,8 @@ import javax.inject.Inject;
  */
 public class ShowExtendableResourceService implements IExtendableResourceService
 {
+    private static final String MESSAGE_RESOURCE_TYPE_DESCRIPTION = "module.stock.tickets.stockProduct.resourceTypeDescription";
+
 	@Inject
 	private IShowService _showService;
 
@@ -74,4 +79,22 @@ public class ShowExtendableResourceService implements IExtendableResourceService
 		}
 		return null;
 	}
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getResourceType( )
+    {
+        return ShowDTO.PROPERTY_RESOURCE_TYPE;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getResourceTypeDescription( Locale locale )
+    {
+        return I18nService.getLocalizedString( MESSAGE_RESOURCE_TYPE_DESCRIPTION, locale );
+    }
 }
