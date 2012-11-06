@@ -692,4 +692,14 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     {
         return description;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getExtendableResourceImageUrl( )
+    {
+        // No image
+        return null;
+    }
 }
