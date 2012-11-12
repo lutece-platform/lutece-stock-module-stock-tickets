@@ -83,7 +83,7 @@ public class ShowExtendableResourceService implements IExtendableResourceService
     /**
      * {@inheritDoc}
      */
-    @Override
+//    @Override
     public String getResourceType( )
     {
         return ShowDTO.PROPERTY_RESOURCE_TYPE;
@@ -92,7 +92,7 @@ public class ShowExtendableResourceService implements IExtendableResourceService
     /**
      * {@inheritDoc}
      */
-    @Override
+//    @Override
     public String getResourceTypeDescription( Locale locale )
     {
         return I18nService.getLocalizedString( MESSAGE_RESOURCE_TYPE_DESCRIPTION, locale );

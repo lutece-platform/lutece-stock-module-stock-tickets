@@ -687,7 +687,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * {@inheritDoc}
      */
-    @Override
+//    @Override
     public String getExtendableResourceDescription( )
     {
         return description;
@@ -696,7 +696,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * {@inheritDoc}
      */
-    @Override
+//    @Override
     public String getExtendableResourceImageUrl( )
     {
         // No image
