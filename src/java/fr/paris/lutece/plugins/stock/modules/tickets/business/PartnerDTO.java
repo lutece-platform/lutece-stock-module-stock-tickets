@@ -55,7 +55,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class PartnerDTO extends AbstractDTO<Provider>
 {
+    //CONSTANTS
+    public static final String STRING_TRUE = "true";
+    public static final String STRING_FALSE = "false";
+
     public static final String ATTR_CONTACT = "contactName";
+    public static final String ATTR_IS_ACCESSIBLE = "accessible";
+    public static final String ATTR_ACCESSIBLE_COMMENT = "accessibleComment";
+    public static final String ATTR_METRO_COMMENT = "metroComment";
     public static final String ATTR_CONTACT_2 = "contactName2";
     public static final String ATTR_CONTACT_PHONE_NUMBER_2 = "phoneNumber2";
     public static final String ATTR_CONTACT_MAIL_2 = "mail2";
@@ -73,6 +80,9 @@ public class PartnerDTO extends AbstractDTO<Provider>
     private String address;
     private String contactName;
     private String phoneNumber;
+    private boolean accessible;
+    private String accessibleComment;
+    private String metroComment;
     @NotEmpty
     @Email
     private String mail;
@@ -365,6 +375,54 @@ public class PartnerDTO extends AbstractDTO<Provider>
     }
 
     /**
+     * @return boolean is Accessible
+     */
+    public boolean isAccessible( )
+    {
+        return accessible;
+    }
+
+    /**
+     * @param accessible true or false
+     */
+    public void setAccessible( boolean accessible )
+    {
+        this.accessible = accessible;
+    }
+
+    /**
+     * @return accessibleComment
+     */
+    public String getAccessibleComment( )
+    {
+        return accessibleComment;
+    }
+
+    /**
+     * @param accessibleComment the new comment for accessibility
+     */
+    public void setAccessibleComment( String accessibleComment )
+    {
+        this.accessibleComment = accessibleComment;
+    }
+
+    /**
+     * @return metro comment
+     */
+    public String getMetroComment( )
+    {
+        return metroComment;
+    }
+
+    /**
+     * @param metroComment
+     */
+    public void setMetroComment( String metroComment )
+    {
+        this.metroComment = metroComment;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -377,6 +435,29 @@ public class PartnerDTO extends AbstractDTO<Provider>
             provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT, this.getContactName( ), provider ) );
         }
         
+        //Accessibility
+        if ( this.isAccessible( ) )
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_IS_ACCESSIBLE, STRING_TRUE, provider ) );
+        }
+        else
+        {
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_IS_ACCESSIBLE, STRING_FALSE, provider ) );
+        }
+
+        if ( StringUtils.isNotEmpty( this.getAccessibleComment( ) ) )
+        {
+            provider.getAttributeList( ).add(
+                    new ProviderAttribute( ATTR_ACCESSIBLE_COMMENT, this.getAccessibleComment( ), provider ) );
+        }
+
+        //Metro comment
+        if ( StringUtils.isNotEmpty( this.getMetroComment( ) ) )
+        {
+            provider.getAttributeList( ).add(
+                    new ProviderAttribute( ATTR_METRO_COMMENT, this.getMetroComment( ), provider ) );
+        }
+
         //Contact 2
         if ( StringUtils.isNotEmpty( this.getContactName2( ) ) )
         {
@@ -443,6 +524,31 @@ public class PartnerDTO extends AbstractDTO<Provider>
         {
             for ( ProviderAttribute attribute : attributeList )
             {
+                //Accessibility
+                if ( ATTR_IS_ACCESSIBLE.equals( attribute.getKey( ) ) )
+                {
+                    if ( attribute.getValue( ).equals( STRING_TRUE ) )
+                    {
+                        partnerDTO.setAccessible( true );
+                    }
+                    else
+                    {
+                        partnerDTO.setAccessible( false );
+                    }
+                }
+
+                if ( ATTR_ACCESSIBLE_COMMENT.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setAccessibleComment( attribute.getValue( ) );
+                }
+
+                //Metro comment
+                if ( ATTR_METRO_COMMENT.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setMetroComment( attribute.getValue( ) );
+                }
+
+                //Contacts
                 if ( ATTR_CONTACT.equals( attribute.getKey( ) ) )
                 {
                     partnerDTO.setContactName( attribute.getValue( ) );
