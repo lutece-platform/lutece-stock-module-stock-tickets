@@ -72,7 +72,6 @@ public class PartnerDTO extends AbstractDTO<Provider>
     private String name;
     private String address;
     private String contactName;
-    @NotEmpty
     private String phoneNumber;
     @NotEmpty
     @Email
