@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.plugins.stock.business.purchase.IPurchaseDAO;
 /**
  * Interface for reservation dao
  * 
- * @author nmoitry
  */
 public interface IReservationDAO extends IPurchaseDAO
 {
