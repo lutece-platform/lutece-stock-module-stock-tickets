@@ -97,4 +97,10 @@ public class ShowExtendableResourceService implements IExtendableResourceService
     {
         return I18nService.getLocalizedString( MESSAGE_RESOURCE_TYPE_DESCRIPTION, locale );
     }
+
+	@Override
+	public String getResourceUrl(String strIdResource, String strResourceType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
