@@ -86,7 +86,7 @@ public interface IPurchaseService
      */
     void doDeletePurchase( int nIdReservation );
 
-	    /**
+    /**
      * Find by filter.
      * 
      * @param filter the filter
@@ -94,6 +94,14 @@ public interface IPurchaseService
      * @return the purchase list filtered
      */
     ResultList<ReservationDTO> findByFilter( PurchaseFilter filter, PaginationProperties paginationProperties );
+
+    /**
+     * Find by filter without pagination properties.
+     * 
+     * @param filter the filter
+     * @return the purchase list filtered
+     */
+    ResultList<ReservationDTO> findByFilter( PurchaseFilter filter );
 
     /**
      * Update.

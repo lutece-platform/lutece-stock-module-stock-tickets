@@ -150,6 +150,11 @@ public class SeanceService extends OfferService implements ISeanceService
     		}
     	}
     	
+        if ( offer.getInitialQuantity( ) == null )
+        {
+            offer.setInitialQuantity( offer.getQuantity( ) );
+        }
+
         if ( offer.getId( ) != null && offer.getId( ) > 0 )
         {
         	_daoOffer.update( offer.convert( ) );
@@ -176,6 +181,18 @@ public class SeanceService extends OfferService implements ISeanceService
         }
 
 		_daoOffer.remove( nIdOffer );
+    }
+
+    /**
+     * Same action as doDeleteOffer but with many offer
+     * @param nIdsOffer the list of offer which must be delete
+     */
+    public void doMasseDeleteOffer( List<Integer> nIdsOffer )
+    {
+        for ( int i : nIdsOffer )
+        {
+            doDeleteOffer( i );
+        }
     }
 
 

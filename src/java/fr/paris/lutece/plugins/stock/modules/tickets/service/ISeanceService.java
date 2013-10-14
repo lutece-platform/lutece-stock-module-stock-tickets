@@ -72,9 +72,13 @@ public interface ISeanceService
      */
     void doDeleteOffer( int nIdSeance );
 
+    /**
+     * Same action as doDeleteOffer but with many offer
+     * @param nIdsOffer the list of offer which must be delete
+     */
+    void doMasseDeleteOffer( List<Integer> listOffer );
 
-
-	    /**
+    /**
      * Find by filter.
      * 
      * @param filter the filter

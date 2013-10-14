@@ -66,6 +66,13 @@ import org.hibernate.validator.constraints.URL;
  */
 public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 {
+
+    /** The Constant STRING_TRUE. */
+    public static final String STRING_TRUE = "true";
+
+    /** The Constant STRING_FALSE. */
+    public static final String STRING_FALSE = "false";
+
 	/** The Constant PROPERTY_RESOURCE_TYPE. */
 	public static final String PROPERTY_RESOURCE_TYPE = "stock-product";
 
@@ -89,6 +96,9 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
     /** The Constant ATTR_A_LAFFICHE. */
     public static final String ATTR_A_LAFFICHE = "aLaffiche";
+
+    /** The Constant ATTR_SUBSCRIBABLE. */
+    public static final String ATTR_SUBSCRIBABLE = "subscribable";
 
     /** The id. */
     private Integer id;
@@ -155,6 +165,9 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
     /** The categoryColor */
     private String categoryColor;
+    
+    /** The subscribable */
+    private boolean subscribable;
 
     /**
      * Gets the id.
@@ -438,6 +451,24 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     }
 
     /**
+     * Get the subscribable
+     * @return subscribable
+     */
+    public boolean isSubscribable( )
+    {
+        return subscribable;
+    }
+
+    /**
+     * Set the subscribable
+     * @param subscribable
+     */
+    public void setSubscribable( boolean subscribable )
+    {
+        this.subscribable = subscribable;
+    }
+
+    /**
      * Convert entity list.
      *
      * @param listSource the list source
@@ -518,6 +549,19 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
                 {
                     show.setTargetPublic( attribute.getValue( ) );
                 }
+
+                //Subscription for users
+                if ( ATTR_SUBSCRIBABLE.equals( attribute.getKey( ) ) )
+                {
+                    if ( attribute.getValue( ).equals( STRING_TRUE ) )
+                    {
+                        show.setSubscribable( true );
+                    }
+                    else
+                    {
+                        show.setSubscribable( false );
+                    }
+                }
             }
         }
 
@@ -571,6 +615,16 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
             product.getAttributeNumList( ).add(
                     new ProductAttributeNum( ATTR_A_LAFFICHE,
                             ( getAlaffiche( ) ? BigDecimal.ONE : BigDecimal.ZERO ), product ) );
+        }
+
+        //Subscription to the show (send an email)
+        if ( this.isSubscribable( ) )
+        {
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_SUBSCRIBABLE, STRING_TRUE, product ) );
+        }
+        else
+        {
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_SUBSCRIBABLE, STRING_FALSE, product ) );
         }
 
         return product;

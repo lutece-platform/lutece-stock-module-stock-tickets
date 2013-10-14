@@ -69,6 +69,8 @@ public class SeanceDTO extends AbstractDTO<Offer>
     public static final String ATTR_DATE = "date";
     public static final String ATTR_REDUCT_PRICE = "reductPrice";
     public static final String ATTR_HOUR = "hour";
+    public static final String ATTR_INIT_QUANTITY = "initialQuantity";
+    public static final String ATTR_ID_CONTACT = "idContact";
     private Integer id;
     private String description;
     private String name;
@@ -82,6 +84,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
     @Min( value = 0 )
     @NotNull
     private Integer quantity;
+    private Integer initialQuantity;
     @DateFormat( format = "dd/MM/yyyy" )
     @NotEmpty
     @AfterCurrentDate
@@ -91,6 +94,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
     private String hour;
     private String statut;
     private Date dateHour;
+    private Integer idContact;
 
     /**
      * @return the id
@@ -183,6 +187,24 @@ public class SeanceDTO extends AbstractDTO<Offer>
     }
 
     /**
+     * @return the initial quantity
+     */
+    public Integer getInitialQuantity( )
+    {
+        return initialQuantity;
+    }
+
+    /**
+     * Sets the initial quantity.
+     * 
+     * @param quantity the quantity to set
+     */
+    public void setInitialQuantity( Integer initialQuantity )
+    {
+        this.initialQuantity = initialQuantity;
+    }
+
+    /**
      * @return the hour
      */
     public String getHour( )
@@ -219,7 +241,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
     }
 
     /**
-     * Convert entity list.
+     * Convert entity list from database
      * 
      * @param listSource the list source
      * @return the result list
@@ -246,7 +268,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
     }
 
     /**
-     * Convert entity.
+     * Convert entity from database
      * 
      * @param source the source
      * @return the seance dto
@@ -282,18 +304,22 @@ public class SeanceDTO extends AbstractDTO<Offer>
             {
                 seance.setReductPrice( attributeNumList.get( ATTR_REDUCT_PRICE ).floatValue( ) );
             }
+            if ( attributeNumList.get( ATTR_INIT_QUANTITY ) != null )
+            {
+                seance.setInitialQuantity( attributeNumList.get( ATTR_INIT_QUANTITY ).intValue( ) );
+            }
+            if ( attributeNumList.get( ATTR_ID_CONTACT ) != null )
+            {
+                seance.setIdContact( attributeNumList.get( ATTR_ID_CONTACT ).intValue( ) );
+            }
         }
 
         return seance;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.paris.lutece.plugins.stock.commons.AbstractDTO#convert()
-     */
     /**
-     * {@inheritDoc}
+     * Convert an offer to database
+     * @see fr.paris.lutece.plugins.stock.commons.AbstractDTO#convert()
      */
     public Offer convert( )
     {
@@ -315,6 +341,17 @@ public class SeanceDTO extends AbstractDTO<Offer>
         {
             offer.getAttributeNumList( ).add(
                     new OfferAttributeNum( ATTR_REDUCT_PRICE, BigDecimal.valueOf( this.getReductPrice( ) ), offer ) );
+        }
+        if ( this.initialQuantity != null )
+        {
+            offer.getAttributeNumList( )
+                    .add( new OfferAttributeNum( ATTR_INIT_QUANTITY, BigDecimal.valueOf( this.getInitialQuantity( ) ),
+                            offer ) );
+        }
+        if ( this.idContact != null )
+        {
+            offer.getAttributeNumList( ).add(
+                    new OfferAttributeNum( ATTR_ID_CONTACT, BigDecimal.valueOf( this.getIdContact( ) ), offer ) );
         }
 
         return offer;
@@ -414,4 +451,21 @@ public class SeanceDTO extends AbstractDTO<Offer>
         this.dateHour = theDateHour;
     }
 
+    /**
+     * Set the contact
+     * @param contact the new contact to set
+     */
+    public void setIdContact( Integer idContact )
+    {
+        this.idContact = idContact;
+    }
+
+    /**
+     * 
+     * @return the contact
+     */
+    public Integer getIdContact( )
+    {
+        return idContact;
+    }
 }

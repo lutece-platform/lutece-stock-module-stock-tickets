@@ -39,12 +39,15 @@ import fr.paris.lutece.plugins.stock.commons.AbstractDTO;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.dozer.Mapper;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 
@@ -59,59 +62,64 @@ public class PartnerDTO extends AbstractDTO<Provider>
     public static final String STRING_TRUE = "true";
     public static final String STRING_FALSE = "false";
 
-    public static final String ATTR_CONTACT = "contactName";
+    public static final String ATTR_CONTACT_NAME = "contactName";
+    public static final String ATTR_CONTACT_ID = "contactId";
+    public static final String ATTR_CONTACT_PHONE = "phoneNumber";
+    public static final String ATTR_CONTACT_MAIL = "mail";
     public static final String ATTR_IS_ACCESSIBLE = "accessible";
     public static final String ATTR_ACCESSIBLE_COMMENT = "accessibleComment";
     public static final String ATTR_METRO_COMMENT = "metroComment";
-    public static final String ATTR_CONTACT_2 = "contactName2";
-    public static final String ATTR_CONTACT_PHONE_NUMBER_2 = "phoneNumber2";
-    public static final String ATTR_CONTACT_MAIL_2 = "mail2";
-    public static final String ATTR_CONTACT_3 = "contactName3";
-    public static final String ATTR_CONTACT_PHONE_NUMBER_3 = "phoneNumber3";
-    public static final String ATTR_CONTACT_MAIL_3 = "mail3";
-
-    public static final String ATTR_CONTACT_4 = "contactName4";
-    public static final String ATTR_CONTACT_PHONE_NUMBER_4 = "phoneNumber4";
-    public static final String ATTR_CONTACT_MAIL_4 = "mail4";
 
     private Integer id;
     @NotEmpty
     private String name;
     private String address;
-    private String contactName;
-    private String phoneNumber;
     private boolean accessible;
     private String accessibleComment;
     private String metroComment;
-    @NotEmpty
-    @Email
-    private String mail;
+    private String comment;
 
     /**
-     * Second contact name
+     * List of the contact of this partner
      */
-    private String contactName2;
-    private String phoneNumber2;
-    @Email
-    private String mail2;
-    
+    private List<Contact> contactList = new ArrayList<Contact>( );
+
     /**
-     * Third contact name
+     * Methode use to find a contact with it's id
+     * @param id the contact id
+     * @return the contact or null if he doesn't exist
      */
-    private String contactName3;
-    private String phoneNumber3;
-    @Email
-    private String mail3;
-    
+    private Contact findContactById( int id )
+    {
+        boolean trouve = false;
+        int i = 0;
+        Contact res = null;
+        while ( !trouve && i < contactList.size( ) )
+        {
+            if ( contactList.get( i ).getId( ) == id )
+            {
+                res = contactList.get( i );
+                trouve = true;
+            }
+            i++;
+        }
+        return res;
+    }
+
     /**
-     * Fourth contact name
+     * Add an empty contact to the partner
      */
-    private String contactName4;
-    private String phoneNumber4;
-    @Email
-    private String mail4;
-    
-    private String comment;
+    public void addEmptyContact(){
+        int i= 0;
+        for ( Contact c : contactList )
+        {
+            if ( c.getId( ) >= i )
+            {
+                i = c.getId( ) + 1;
+            }
+        }
+        this.contactList.add( new Contact( i, "", "", "" ) );
+    }
 
     /**
      * @return the idProvider
@@ -164,49 +172,81 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * @return the contactName
      */
-    public String getContactName( )
+    public String getContactName( int idContact )
     {
-        return contactName;
+        return contactList.get( idContact ).getName( );
     }
 
     /**
      * @param contactName the contactName to set
      */
-    public void setContactName( String contactName )
+    public void setContactName( int idContact, String contactName )
     {
-        this.contactName = contactName;
+        if ( findContactById( idContact )==null )
+        {
+            contactList.add( new Contact( idContact, "", "", "" ) );
+        }
+        findContactById( idContact ).setName( contactName );
     }
 
     /**
      * @return the phoneNumber
      */
-    public String getPhoneNumber( )
+    public String getContactPhoneNumber( int idContact )
     {
-        return phoneNumber;
+        return findContactById( idContact ).getPhoneNumber( );
     }
 
     /**
      * @param phoneNumber the phoneNumber to set
      */
-    public void setPhoneNumber( String phoneNumber )
+    public void setContactPhoneNumber( int idContact, String phoneNumber )
     {
-        this.phoneNumber = phoneNumber;
+        if ( findContactById( idContact )==null )
+        {
+            contactList.add( new Contact( idContact, "", "", "" ) );
+        }
+        findContactById( idContact ).setPhoneNumber( phoneNumber );
     }
 
     /**
      * @return the mail
      */
-    public String getMail( )
+    public String getContactMail( int idContact )
     {
-        return mail;
+        return findContactById( idContact ).getMail( );
     }
 
     /**
      * @param mail the mail to set
      */
-    public void setMail( String mail )
+    public void setContactMail( int idContact, String mail )
     {
-        this.mail = mail;
+        if ( findContactById( idContact )==null )
+        {
+            contactList.add( new Contact( idContact, "", "", "" ) );
+        }
+        findContactById( idContact ).setMail( mail );
+    }
+
+    /**
+     * @return the id
+     */
+    public int getContactId( int idContact )
+    {
+        return findContactById( idContact ).getId( );
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setContactId( int idContact, int id )
+    {
+        if ( findContactById( idContact ) == null )
+        {
+            contactList.add( new Contact( idContact, "", "", "" ) );
+        }
+        findContactById( idContact ).setId( id );
     }
 
     /**
@@ -227,151 +267,6 @@ public class PartnerDTO extends AbstractDTO<Provider>
     public void setComment( String comment )
     {
         this.comment = comment;
-    }
-
-
-    /**
-     * @return the contactName2
-     */
-    public String getContactName2( )
-    {
-        return contactName2;
-    }
-
-    /**
-     * @param contactName2 the contactName2 to set
-     */
-    public void setContactName2( String contactName2 )
-    {
-        this.contactName2 = contactName2;
-    }
-
-    /**
-     * @return the phoneNumber2
-     */
-    public String getPhoneNumber2( )
-    {
-        return phoneNumber2;
-    }
-
-    /**
-     * @param phoneNumber2 the phoneNumber2 to set
-     */
-    public void setPhoneNumber2( String phoneNumber2 )
-    {
-        this.phoneNumber2 = phoneNumber2;
-    }
-
-    /**
-     * @return the mail2
-     */
-    public String getMail2( )
-    {
-        return mail2;
-    }
-
-    /**
-     * @param mail2 the mail2 to set
-     */
-    public void setMail2( String mail2 )
-    {
-        this.mail2 = mail2;
-    }
-
-    /**
-     * @return the contactName3
-     */
-    public String getContactName3( )
-    {
-        return contactName3;
-    }
-
-    /**
-     * @param contactName3 the contactName3 to set
-     */
-    public void setContactName3( String contactName3 )
-    {
-        this.contactName3 = contactName3;
-    }
-
-    /**
-     * @return the phoneNumber3
-     */
-    public String getPhoneNumber3( )
-    {
-        return phoneNumber3;
-    }
-
-    /**
-     * @param phoneNumber3 the phoneNumber3 to set
-     */
-    public void setPhoneNumber3( String phoneNumber3 )
-    {
-        this.phoneNumber3 = phoneNumber3;
-    }
-
-    /**
-     * @return the mail3
-     */
-    public String getMail3( )
-    {
-        return mail3;
-    }
-
-    /**
-     * @param mail3 the mail3 to set
-     */
-    public void setMail3( String mail3 )
-    {
-        this.mail3 = mail3;
-    }
-
-    /**
-     * @return the contactName4
-     */
-    public String getContactName4( )
-    {
-        return contactName4;
-    }
-
-    /**
-     * @param contactName4 the contactName4 to set
-     */
-    public void setContactName4( String contactName4 )
-    {
-        this.contactName4 = contactName4;
-    }
-
-    /**
-     * @return the phoneNumber4
-     */
-    public String getPhoneNumber4( )
-    {
-        return phoneNumber4;
-    }
-
-    /**
-     * @param phoneNumber4 the phoneNumber4 to set
-     */
-    public void setPhoneNumber4( String phoneNumber4 )
-    {
-        this.phoneNumber4 = phoneNumber4;
-    }
-
-    /**
-     * @return the mail4
-     */
-    public String getMail4( )
-    {
-        return mail4;
-    }
-
-    /**
-     * @param mail4 the mail4 to set
-     */
-    public void setMail4( String mail4 )
-    {
-        this.mail4 = mail4;
     }
 
     /**
@@ -429,11 +324,6 @@ public class PartnerDTO extends AbstractDTO<Provider>
     public Provider convert( )
     {
         Provider provider = mapper.map( this, Provider.class );
-
-        if ( StringUtils.isNotEmpty( this.getContactName( ) ) )
-        {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT, this.getContactName( ), provider ) );
-        }
         
         //Accessibility
         if ( this.isAccessible( ) )
@@ -458,53 +348,17 @@ public class PartnerDTO extends AbstractDTO<Provider>
                     new ProviderAttribute( ATTR_METRO_COMMENT, this.getMetroComment( ), provider ) );
         }
 
-        //Contact 2
-        if ( StringUtils.isNotEmpty( this.getContactName2( ) ) )
+        for ( Contact contact : contactList )
         {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_2, this.getContactName2( ), provider ) );
-        }
-
-        if ( StringUtils.isNotEmpty( this.getPhoneNumber2( ) ) )
-        {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_PHONE_NUMBER_2, this.getPhoneNumber2( ), provider ) );
-        }
-
-        if ( StringUtils.isNotEmpty( this.getMail2( ) ) )
-        {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_MAIL_2, this.getMail2( ), provider ) );
-        }
-        
-        //Contact 3
-        if ( StringUtils.isNotEmpty( this.getContactName3( ) ) )
-        {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_3, this.getContactName3( ), provider ) );
-        }
-
-        if ( StringUtils.isNotEmpty( this.getPhoneNumber3( ) ) )
-        {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_PHONE_NUMBER_3, this.getPhoneNumber3( ), provider ) );
-        }
-
-        if ( StringUtils.isNotEmpty( this.getMail3( ) ) )
-        {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_MAIL_3, this.getMail3( ), provider ) );
-        }
-        
-
-        //Contact 4
-        if ( StringUtils.isNotEmpty( this.getContactName4( ) ) )
-        {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_4, this.getContactName4( ), provider ) );
-        }
-
-        if ( StringUtils.isNotEmpty( this.getPhoneNumber4( ) ) )
-        {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_PHONE_NUMBER_4, this.getPhoneNumber4( ), provider ) );
-        }
-
-        if ( StringUtils.isNotEmpty( this.getMail4( ) ) )
-        {
-            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_CONTACT_MAIL_4, this.getMail4( ), provider ) );
+            provider.getAttributeList( ).add(
+                    new ProviderAttribute( "contactId" + String.valueOf( contact.getId( ) ), String.valueOf( contact
+                            .getId( ) ), provider ) );
+            provider.getAttributeList( ).add(
+                    new ProviderAttribute( "contactName" + contact.getId( ), contact.getName( ), provider ) );
+            provider.getAttributeList( ).add(
+                    new ProviderAttribute( "phoneNumber" + contact.getId( ), contact.getPhoneNumber( ), provider ) );
+            provider.getAttributeList( ).add(
+                    new ProviderAttribute( "mail" + contact.getId( ), contact.getMail( ), provider ) );
         }
         return provider;
     }
@@ -537,66 +391,37 @@ public class PartnerDTO extends AbstractDTO<Provider>
                     }
                 }
 
-                if ( ATTR_ACCESSIBLE_COMMENT.equals( attribute.getKey( ) ) )
+                else if ( ATTR_ACCESSIBLE_COMMENT.equals( attribute.getKey( ) ) )
                 {
                     partnerDTO.setAccessibleComment( attribute.getValue( ) );
                 }
 
                 //Metro comment
-                if ( ATTR_METRO_COMMENT.equals( attribute.getKey( ) ) )
+                else if ( ATTR_METRO_COMMENT.equals( attribute.getKey( ) ) )
                 {
                     partnerDTO.setMetroComment( attribute.getValue( ) );
                 }
 
                 //Contacts
-                if ( ATTR_CONTACT.equals( attribute.getKey( ) ) )
+                else if ( attribute.getKey( ).startsWith( ATTR_CONTACT_NAME ) )
                 {
-                    partnerDTO.setContactName( attribute.getValue( ) );
+                    int id = Integer.valueOf( attribute.getKey( ).substring( ATTR_CONTACT_NAME.length( ) ) );
+                    partnerDTO.setContactName( id, attribute.getValue( ) );
                 }
-
-                if ( ATTR_CONTACT_2.equals( attribute.getKey( ) ) )
+                else if ( attribute.getKey( ).startsWith( ATTR_CONTACT_PHONE ) )
                 {
-                    partnerDTO.setContactName2( attribute.getValue( ) );
+                    int id = Integer.valueOf( attribute.getKey( ).substring( ATTR_CONTACT_PHONE.length( ) ) );
+                    partnerDTO.setContactPhoneNumber( id, attribute.getValue( ) );
                 }
-
-                if ( ATTR_CONTACT_PHONE_NUMBER_2.equals( attribute.getKey( ) ) )
+                else if ( attribute.getKey( ).startsWith( ATTR_CONTACT_MAIL ) )
                 {
-                    partnerDTO.setPhoneNumber2( attribute.getValue( ) );
+                    int id = Integer.valueOf( attribute.getKey( ).substring( ATTR_CONTACT_MAIL.length( ) ) );
+                    partnerDTO.setContactMail( id, attribute.getValue( ) );
                 }
-
-                if ( ATTR_CONTACT_MAIL_2.equals( attribute.getKey( ) ) )
+                else if ( attribute.getKey( ).startsWith( ATTR_CONTACT_ID ) )
                 {
-                    partnerDTO.setMail2( attribute.getValue( ) );
-                }
-
-                if ( ATTR_CONTACT_3.equals( attribute.getKey( ) ) )
-                {
-                    partnerDTO.setContactName3( attribute.getValue( ) );
-                }
-
-                if ( ATTR_CONTACT_PHONE_NUMBER_3.equals( attribute.getKey( ) ) )
-                {
-                    partnerDTO.setPhoneNumber3( attribute.getValue( ) );
-                }
-
-                if ( ATTR_CONTACT_MAIL_3.equals( attribute.getKey( ) ) )
-                {
-                    partnerDTO.setMail3( attribute.getValue( ) );
-                }
-
-                if ( ATTR_CONTACT_4.equals( attribute.getKey( ) ) )
-                {
-                    partnerDTO.setContactName4( attribute.getValue( ) );
-                }
-
-                if ( ATTR_CONTACT_PHONE_NUMBER_4.equals( attribute.getKey( ) ) )
-                {
-                    partnerDTO.setPhoneNumber4( attribute.getValue( ) );
-                }
-
-                if ( ATTR_CONTACT_MAIL_4.equals( attribute.getKey( ) ) )
-                {
-                    partnerDTO.setMail4( attribute.getValue( ) );
+                    int id = Integer.valueOf( attribute.getKey( ).substring( ATTR_CONTACT_ID.length( ) ) );
+                    partnerDTO.setContactId( id, Integer.valueOf( attribute.getValue( ) ) );
                 }
             }
         }
@@ -623,6 +448,63 @@ public class PartnerDTO extends AbstractDTO<Provider>
         }
 
         return listDest;
-
     }
+
+    /**
+     * @return the classeList
+     */
+    @Valid
+    public List<Contact> getContactList( )
+    {
+        return contactList;
+    }
+
+    /**
+     * @param classeList the classeList to set
+     */
+    public void setContactList( List<Contact> classeList )
+    {
+        this.contactList = classeList;
+    }
+
+    /**
+     * Setter prestation pour le form
+     * @param index index
+     * @param classe classe
+     */
+    @Valid
+    public void setContactForm( int index, Contact contact )
+    {
+        while ( index >= contactList.size( ) )
+        {
+            this.contactList.add( new Contact( ) );
+        }
+
+        this.contactList.set( index, contact );
+    }
+
+    /**
+     * Prestation form
+     * @param index index
+     * @return prestation
+     */
+    public Contact getContactForm( int index )
+    {
+        while ( index >= contactList.size( ) )
+        {
+            this.contactList.add( new Contact( ) );
+        }
+
+        return contactList.get( index );
+    }
+
+    /**
+     * Remove contact from partner with id
+     * @param idContact the id of the contact which will be deleted
+     */
+    public void removeContact( int idContact )
+    {
+        contactList.remove( findContactById( idContact ) );
+    }
+
 }

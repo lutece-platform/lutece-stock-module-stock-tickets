@@ -63,6 +63,7 @@ public class TicketsConstants
     public static final String PROPERTY_DEFAULT_ITEM_PER_PAGE = "stock-kiosque.itemsPerPage";
     public static final String PROPERTY_CSV_SEPARATOR = "stock-billetterie.csv.separator";
     public static final String PROPERTY_CSV_EXTENSION = "stock-billetterie.csv.extension";
+    public static final String PROPERTY_CSV_PURCHASE_NAME = "stock-billetterie.csv.purchase.file.name";
     public static final String I18N_ALL = "module.stock.kiosque.manage_partner.filter.defaultType";
 
     // Parameters
