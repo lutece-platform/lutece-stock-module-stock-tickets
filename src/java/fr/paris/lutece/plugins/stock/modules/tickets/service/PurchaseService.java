@@ -87,14 +87,14 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
     private static final Logger LOGGER = Logger.getLogger( PurchaseService.class );
 
     /** The _dao purchase. */
-	@Inject
+    @Inject
     @Named( "stock-tickets.reservationDAO" )
-	private IReservationDAO _daoPurchase;
+    private IReservationDAO _daoPurchase;
 
     /** The _service offer. */
-	@Inject
+    @Inject
     @Named( "stock-tickets.seanceService" )
-	private ISeanceService _serviceOffer;
+    private ISeanceService _serviceOffer;
 
     /** The _purchase session manager. */
     @Inject
@@ -105,17 +105,16 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
     /**
      * Constructor.
      */
-    private PurchaseService(  )
+    private PurchaseService( )
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public void init(  )
+    public void init( )
     {
     }
-
 
     /**
      * {@inheritDoc}
@@ -130,8 +129,7 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
 
             // Load business rules bean of offer type
             IPurchaseRules purchaseRules = (IPurchaseRules) SpringContextService
-                    .getBean( "stock-tickets.purchaseRules."
-                    + purchaseDTO.getOffer( ).getIdGenre( ) );
+                    .getBean( "stock-tickets.purchaseRules." + purchaseDTO.getOffer( ).getIdGenre( ) );
 
             // Check business rules
             purchaseRules.checkBeforePurchase( purchaseDTO, sessionId );
@@ -198,23 +196,22 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
         return bookingList;
     }
 
-
     /**
      * {@inheritDoc}
      */
     public Integer getNumberOfReservationByIdProductAndUserName( Integer id, Integer idOfferGenre, String userName )
     {
         return this._daoPurchase.getQuantityPurchasedByIdProductAndUserName( id, idOfferGenre, userName );
-	}
+    }
 
-	/**
+    /**
      * {@inheritDoc}
      */
     public void doDeletePurchase( int nIdPurchase )
     {
-    	// Update the seance quantity
-    	ReservationDTO reservation = this.findById( nIdPurchase );
-    	
+        // Update the seance quantity
+        ReservationDTO reservation = this.findById( nIdPurchase );
+
         if ( reservation != null )
         {
             SeanceDTO seance = this._serviceOffer.findSeanceById( reservation.getOffer( ).getId( ) );
@@ -253,7 +250,8 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
      */
     public ResultList<ReservationDTO> findByFilter( PurchaseFilter filter, PaginationProperties paginationProperties )
     {
-        return ReservationDTO.convertEntityList( _daoPurchase.findByFilter( filter, paginationProperties ) );
+        return ReservationDTO
+                .convertEntityListWithPagination( _daoPurchase.findByFilter( filter, paginationProperties ) );
     }
 
     /**
