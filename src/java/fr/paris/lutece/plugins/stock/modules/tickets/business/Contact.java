@@ -3,6 +3,7 @@ package fr.paris.lutece.plugins.stock.modules.tickets.business;
 import java.util.Comparator;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
@@ -21,6 +22,7 @@ public class Contact
      * adress mail of the contact
      */
     @Email
+    @NotEmpty
     private String _mail;
 
     /**
