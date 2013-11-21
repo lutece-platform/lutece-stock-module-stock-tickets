@@ -80,6 +80,8 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
     @DateFormat( format = "dd/MM/yyyy" )
     @NotEmpty
     private String date;
+    
+    private String heure;
     @NotEmpty
     @Email
     private String emailAgent;
@@ -385,5 +387,20 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
     public Integer getOfferId( )
     {
         return this.getOffer( ).getId( );
+    }
+    
+    /**
+     * Set the heure
+     * @param heure the heure to set
+     */
+    public void setHeure(String heure){
+        this.heure = heure;
+    }
+
+    @Override
+    public String getHeure( )
+    {
+        // TODO Auto-generated method stub
+        return heure;
     }
 }
