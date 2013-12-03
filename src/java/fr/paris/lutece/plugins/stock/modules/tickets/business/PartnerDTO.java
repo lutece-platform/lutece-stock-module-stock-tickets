@@ -219,7 +219,13 @@ public class PartnerDTO extends AbstractDTO<Provider>
      */
     public String getContactMail( int idContact )
     {
-        return findContactById( idContact ).getMail( );
+        String mail = null;
+        Contact contact = findContactById( idContact );
+        if ( contact != null )
+        {
+            mail = contact.getMail( );
+        }
+        return mail;
     }
 
     /**
