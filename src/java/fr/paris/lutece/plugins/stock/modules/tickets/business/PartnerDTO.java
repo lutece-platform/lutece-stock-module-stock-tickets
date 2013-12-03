@@ -34,11 +34,13 @@
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
 import fr.paris.lutece.plugins.stock.business.attribute.provider.ProviderAttribute;
+import fr.paris.lutece.plugins.stock.business.attribute.provider.ProviderAttributeNum;
 import fr.paris.lutece.plugins.stock.business.provider.Provider;
 import fr.paris.lutece.plugins.stock.commons.AbstractDTO;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -69,6 +71,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
     public static final String ATTR_IS_ACCESSIBLE = "accessible";
     public static final String ATTR_ACCESSIBLE_COMMENT = "accessibleComment";
     public static final String ATTR_METRO_COMMENT = "metroComment";
+    public static final String ATTR_DISTRICT = "district";
 
     private Integer id;
     @NotEmpty
@@ -78,6 +81,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
     private String accessibleComment;
     private String metroComment;
     private String comment;
+    private Integer district;
 
     /**
      * List of the contact of this partner
@@ -109,8 +113,9 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * Add an empty contact to the partner
      */
-    public void addEmptyContact(){
-        int i= 0;
+    public void addEmptyContact( )
+    {
+        int i = 0;
         for ( Contact c : contactList )
         {
             if ( c.getId( ) >= i )
@@ -182,7 +187,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
      */
     public void setContactName( int idContact, String contactName )
     {
-        if ( findContactById( idContact )==null )
+        if ( findContactById( idContact ) == null )
         {
             contactList.add( new Contact( idContact, "", "", "" ) );
         }
@@ -202,7 +207,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
      */
     public void setContactPhoneNumber( int idContact, String phoneNumber )
     {
-        if ( findContactById( idContact )==null )
+        if ( findContactById( idContact ) == null )
         {
             contactList.add( new Contact( idContact, "", "", "" ) );
         }
@@ -222,7 +227,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
      */
     public void setContactMail( int idContact, String mail )
     {
-        if ( findContactById( idContact )==null )
+        if ( findContactById( idContact ) == null )
         {
             contactList.add( new Contact( idContact, "", "", "" ) );
         }
@@ -324,7 +329,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
     public Provider convert( )
     {
         Provider provider = mapper.map( this, Provider.class );
-        
+
         //Accessibility
         if ( this.isAccessible( ) )
         {
@@ -333,6 +338,12 @@ public class PartnerDTO extends AbstractDTO<Provider>
         else
         {
             provider.getAttributeList( ).add( new ProviderAttribute( ATTR_IS_ACCESSIBLE, STRING_FALSE, provider ) );
+        }
+
+        if ( district != null && district > 0 )
+        {
+            provider.getAttributeNumList( ).add(
+                    new ProviderAttributeNum( ATTR_DISTRICT, new BigDecimal( district ), provider ) );
         }
 
         if ( StringUtils.isNotEmpty( this.getAccessibleComment( ) ) )
@@ -372,6 +383,18 @@ public class PartnerDTO extends AbstractDTO<Provider>
     {
         Mapper mapper = (Mapper) SpringContextService.getBean( "mapper" );
         PartnerDTO partnerDTO = mapper.map( source, PartnerDTO.class );
+
+        Set<ProviderAttributeNum> attributeNumList = source.getAttributeNumList( );
+        if ( attributeNumList != null )
+        {
+            for ( ProviderAttributeNum attribute : attributeNumList )
+            {
+                if ( ATTR_DISTRICT.equals( attribute.getKey( ) ) )
+                {
+                    partnerDTO.setDistrict( attribute.getValue( ).intValue( ) );
+                }
+            }
+        }
 
         Set<ProviderAttribute> attributeList = source.getAttributeList( );
         if ( attributeList != null )
@@ -505,6 +528,22 @@ public class PartnerDTO extends AbstractDTO<Provider>
     public void removeContact( int idContact )
     {
         contactList.remove( findContactById( idContact ) );
+    }
+
+    /**
+     * @return the district
+     */
+    public Integer getDistrict( )
+    {
+        return district;
+    }
+
+    /**
+     * @param district the district to set
+     */
+    public void setDistrict( Integer district )
+    {
+        this.district = district;
     }
 
 }
