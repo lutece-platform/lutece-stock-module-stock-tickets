@@ -203,41 +203,6 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
     }
 
     /**
-     * Convert entity list.
-     * 
-     * @param listSource the list source
-     * @return the result list
-     */
-    public static ResultList<ReservationDTO> convertEntityListWithPagination( Collection<Purchase> listSource )
-    {
-        ResultList<ReservationDTO> listDest = new ResultList<ReservationDTO>( );
-        if ( listSource instanceof ResultList )
-        {
-            listDest.setTotalResult( ( (ResultList) listSource ).getTotalResult( ) );
-        }
-
-        for ( Purchase source : listSource )
-        {
-            listDest.add( convertEntity( source ) );
-        }
-
-        int size = listDest.size( );
-
-        if ( size < ( (ResultList) listSource ).getTotalResult( ) )
-        {
-            for ( int i = 0; i < ( (ResultList) listSource ).getTotalResult( ) - size; i++ )
-            {
-                ReservationDTO reservation = new ReservationDTO( );
-                reservation.setToDisplay( false );
-                listDest.add( reservation );
-            }
-        }
-
-        return listDest;
-
-    }
-
-    /**
      * Convert entity for pagination
      * @param source the source
      * @return the reservation dto

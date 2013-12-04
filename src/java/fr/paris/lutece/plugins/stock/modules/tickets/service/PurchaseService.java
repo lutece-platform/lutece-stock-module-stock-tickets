@@ -241,28 +241,17 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
         _daoPurchase.update( purchase.convert( ) );
     }
 
-    /**
-     * Find purchases by filter with paginator.
-     * 
-     * @param filter the filter
-     * @param paginationProperties the pagination properties
-     * @return list of purchases
-     */
+    @Override
     public ResultList<ReservationDTO> findByFilter( PurchaseFilter filter, PaginationProperties paginationProperties )
     {
-        return ReservationDTO
-                .convertEntityListWithPagination( _daoPurchase.findByFilter( filter, paginationProperties ) );
+        ResultList<Purchase> findByFilter = _daoPurchase.findByFilter( filter, paginationProperties );
+        return ReservationDTO.convertEntityList( findByFilter );
     }
 
-    /**
-     * Find purchases by filter without pagination properties.
-     * 
-     * @param filter the filter
-     * @return list of purchases
-     */
+    @Override
     public ResultList<ReservationDTO> findByFilter( PurchaseFilter filter )
     {
-        return ReservationDTO.convertEntityList( _daoPurchase.findByFilter( filter, null ) );
+        return findByFilter( filter, null );
     }
 
     /*
