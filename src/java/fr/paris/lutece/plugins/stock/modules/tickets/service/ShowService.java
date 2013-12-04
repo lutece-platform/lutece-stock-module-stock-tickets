@@ -44,21 +44,26 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.IShowDAO;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
 import fr.paris.lutece.plugins.stock.service.ProductService;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
+import fr.paris.lutece.util.date.DateUtil;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
 /**
- *
+ * 
  * ProductService
- *
+ * 
  */
 public class ShowService extends ProductService implements IShowService
 {
@@ -68,22 +73,22 @@ public class ShowService extends ProductService implements IShowService
 
     @Inject
     @Named( "stock-tickets.showDAO" )
-	private IShowDAO _daoProduct;
+    private IShowDAO _daoProduct;
 
     @Inject
     private IProductImageDAO _daoProductImage;
 
     /**
-     *
-     *{@inheritDoc}
+     * 
+     * {@inheritDoc}
      */
-    public void init(  )
+    public void init( )
     {
     }
 
     /**
-     *
-     *{@inheritDoc}
+     * 
+     * {@inheritDoc}
      */
     public void doDeleteProduct( int nIdProduct )
     {
@@ -93,8 +98,8 @@ public class ShowService extends ProductService implements IShowService
     }
 
     /**
-     *
-     *{@inheritDoc}
+     * 
+     * {@inheritDoc}
      */
     public ShowDTO getProduct( int nIdProduct )
     {
@@ -102,8 +107,8 @@ public class ShowService extends ProductService implements IShowService
     }
 
     /**
-     *
-     *{@inheritDoc}
+     * 
+     * {@inheritDoc}
      */
     public List<ShowDTO> findByFilter( ProductFilter filter )
     {
@@ -112,7 +117,7 @@ public class ShowService extends ProductService implements IShowService
 
     /**
      * {@inheritDoc}
-     *
+     * 
      */
     @Transactional( readOnly = false, propagation = Propagation.REQUIRES_NEW )
     public void updateProduct( ShowDTO product )
@@ -138,11 +143,12 @@ public class ShowService extends ProductService implements IShowService
     @Transactional( readOnly = false, propagation = Propagation.REQUIRES_NEW )
     public ShowDTO doSaveProduct( ShowDTO product, File[] filePosterArray ) throws ValidationException
     {
-    	// Start date must be before end date
-    	if ( DateUtils.getDate( product.getStartDate( ), false ).after( DateUtils.getDate( product.getEndDate( ), false ) ) )
-    	{
-    		throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_DATE_CHEVAUCHE );
-    	}
+        // Start date must be before end date
+        if ( DateUtils.getDate( product.getStartDate( ), false ).after(
+                DateUtils.getDate( product.getEndDate( ), false ) ) )
+        {
+            throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_DATE_CHEVAUCHE );
+        }
 
         Product productEntity = product.convert( );
 
@@ -168,7 +174,7 @@ public class ShowService extends ProductService implements IShowService
             }
             _daoProduct.create( productEntity );
         }
-        
+
         // Save poster images
         if ( filePosterArray != null )
         {
@@ -220,8 +226,7 @@ public class ShowService extends ProductService implements IShowService
         return ShowDTO.convertEntityList( _daoProduct.findAll( ) );
     }
 
-
-        /**
+    /**
      * {@inheritDoc}
      */
     public List<ShowDTO> getCurrentProduct( List<String> orderList, PaginationProperties paginator )
@@ -229,8 +234,7 @@ public class ShowService extends ProductService implements IShowService
         return ShowDTO.convertEntityList( _daoProduct.getCurrentProduct( orderList, paginator ) );
     }
 
-
-        /**
+    /**
      * {@inheritDoc}
      */
     public List<ShowDTO> getComeProduct( List<String> ordList, PaginationProperties paginator )
@@ -260,5 +264,28 @@ public class ShowService extends ProductService implements IShowService
     public byte[] getTbImage( Integer idProduct )
     {
         return _daoProductImage.getTbImage( idProduct );
+    }
+
+    @Override
+    public void correctProduct( ShowDTO product )
+    {
+        uncheckShowForHomePage( product );
+    }
+
+    /**
+     * Uncheck the alaffiche value if the end start is past
+     * @param product the product to check
+     */
+    private void uncheckShowForHomePage( ShowDTO product )
+    {
+        if ( StringUtils.isNotBlank( product.getEndDate( ) ) )
+        {
+            Date endDate = DateUtil.formatDate( product.getEndDate( ), Locale.FRENCH );
+            Date currentDate = new Date( );
+            if ( currentDate.after( endDate ) )
+            {
+                product.setAlaffiche( false );
+            }
+        }
     }
 }

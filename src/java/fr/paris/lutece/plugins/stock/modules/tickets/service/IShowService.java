@@ -166,4 +166,10 @@ public interface IShowService
      * @return the tb image
      */
     byte[] getTbImage( Integer idProduct );
+
+    /**
+     * Check if rules should be apply to the product
+     * @param product the product to check
+     */
+    void correctProduct( ShowDTO product );
 }
