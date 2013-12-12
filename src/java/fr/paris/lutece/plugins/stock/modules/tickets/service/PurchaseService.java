@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.service;
 
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+
 import fr.paris.lutece.plugins.stock.business.purchase.Purchase;
 import fr.paris.lutece.plugins.stock.business.purchase.PurchaseFilter;
 import fr.paris.lutece.plugins.stock.business.purchase.exception.PurchaseException;
@@ -49,14 +57,6 @@ import fr.paris.lutece.plugins.stock.service.IPurchaseSessionManager;
 import fr.paris.lutece.plugins.stock.service.impl.AbstractService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-
 
 /**
  * PurchaseService.
@@ -70,7 +70,7 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
 
     /** The Constant RESOURCE_TYPE. */
     public static final String RESOURCE_TYPE = "PURCHASE";
-    
+
     // MESSAGE
     /** The Constant MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER. */
     public static final String MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER = "module.stock.billetterie.message.error.purchase.quantity.offer";
@@ -142,6 +142,12 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
             Purchase purchase = purchaseDTO.convert( );
             if ( purchaseDTO.getId( ) != null && purchaseDTO.getId( ) > 0 )
             {
+                //get the actual purchase and update old offer
+                Purchase purchaseInDb = _daoPurchase.findById( purchaseDTO.getId( ) );
+                SeanceDTO oldSeance = this._serviceOffer.findSeanceById( purchaseInDb.getOffer( ).getId( ) );
+                oldSeance.setQuantity( oldSeance.getQuantity( ) + purchaseInDb.getQuantity( ) );
+                this._serviceOffer.update( oldSeance );
+
                 _daoPurchase.update( purchase );
             }
             else
