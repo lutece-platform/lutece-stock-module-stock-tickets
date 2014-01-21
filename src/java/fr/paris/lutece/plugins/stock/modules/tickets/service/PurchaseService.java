@@ -33,14 +33,6 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.service;
 
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-
 import fr.paris.lutece.plugins.stock.business.purchase.Purchase;
 import fr.paris.lutece.plugins.stock.business.purchase.PurchaseFilter;
 import fr.paris.lutece.plugins.stock.business.purchase.exception.PurchaseException;
@@ -56,6 +48,14 @@ import fr.paris.lutece.plugins.stock.service.IPurchaseRules;
 import fr.paris.lutece.plugins.stock.service.IPurchaseSessionManager;
 import fr.paris.lutece.plugins.stock.service.impl.AbstractService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -132,30 +132,33 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
                     .getBean( "stock-tickets.purchaseRules." + purchaseDTO.getOffer( ).getIdGenre( ) );
 
             // Check business rules
-            purchaseRules.checkBeforePurchase( purchaseDTO, sessionId );
-
-            // Update the seance quantity
-            SeanceDTO seance = this._serviceOffer.findSeanceById( purchaseDTO.getOffer( ).getId( ) );
-            seance.setQuantity( seance.getQuantity( ) - purchaseDTO.getQuantity( ) );
-            this._serviceOffer.update( seance );
-
-            Purchase purchase = purchaseDTO.convert( );
-            if ( purchaseDTO.getId( ) != null && purchaseDTO.getId( ) > 0 )
+            synchronized ( purchaseDTO.getEmailAgent( ) )
             {
-                //get the actual purchase and update old offer
-                Purchase purchaseInDb = _daoPurchase.findById( purchaseDTO.getId( ) );
-                SeanceDTO oldSeance = this._serviceOffer.findSeanceById( purchaseInDb.getOffer( ).getId( ) );
-                oldSeance.setQuantity( oldSeance.getQuantity( ) + purchaseInDb.getQuantity( ) );
-                this._serviceOffer.update( oldSeance );
+                purchaseRules.checkBeforePurchase( purchaseDTO, sessionId );
 
-                _daoPurchase.update( purchase );
-            }
-            else
-            {
-                _daoPurchase.create( purchase );
-                purchaseDTO.setId( purchase.getId( ) );
-                // Statistic management
-                _serviceStatistic.doManagePurchaseSaving( purchaseDTO );
+                // Update the seance quantity
+                SeanceDTO seance = this._serviceOffer.findSeanceById( purchaseDTO.getOffer( ).getId( ) );
+                seance.setQuantity( seance.getQuantity( ) - purchaseDTO.getQuantity( ) );
+                this._serviceOffer.update( seance );
+
+                Purchase purchase = purchaseDTO.convert( );
+                if ( purchaseDTO.getId( ) != null && purchaseDTO.getId( ) > 0 )
+                {
+                    //get the actual purchase and update old offer
+                    Purchase purchaseInDb = _daoPurchase.findById( purchaseDTO.getId( ) );
+                    SeanceDTO oldSeance = this._serviceOffer.findSeanceById( purchaseInDb.getOffer( ).getId( ) );
+                    oldSeance.setQuantity( oldSeance.getQuantity( ) + purchaseInDb.getQuantity( ) );
+                    this._serviceOffer.update( oldSeance );
+
+                    _daoPurchase.update( purchase );
+                }
+                else
+                {
+                    _daoPurchase.create( purchase );
+                    purchaseDTO.setId( purchase.getId( ) );
+                    // Statistic management
+                    _serviceStatistic.doManagePurchaseSaving( purchaseDTO );
+                }
             }
 
         }
