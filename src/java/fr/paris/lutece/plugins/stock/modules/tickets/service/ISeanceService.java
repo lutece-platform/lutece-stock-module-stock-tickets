@@ -41,6 +41,7 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.SeanceDTO;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,9 +122,10 @@ public interface ISeanceService
      * 
      * @param showId id of the show
      * @param filter offer filter
+     * @param locale the locale
      * @return list of date string
      */
-    List<String> findSeanceByShow( Integer showId, OfferFilter filter );
+    List<String> findSeanceByShow( Integer showId, OfferFilter filter, Locale locale );
 
     /**
      * Find seance by date and hour.

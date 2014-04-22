@@ -33,6 +33,19 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.service;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import fr.paris.lutece.plugins.stock.business.offer.IOfferGenreDAO;
 import fr.paris.lutece.plugins.stock.business.offer.OfferFilter;
 import fr.paris.lutece.plugins.stock.business.offer.OfferGenre;
@@ -48,18 +61,6 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.SeanceFilter;
 import fr.paris.lutece.plugins.stock.modules.tickets.utils.constants.TicketsConstants;
 import fr.paris.lutece.plugins.stock.service.OfferService;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
-
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -253,10 +254,10 @@ public class SeanceService extends OfferService implements ISeanceService
     /**
      * {@inheritDoc}
      */
-    public List<String> findSeanceByShow( Integer showId, OfferFilter filter )
+    public List<String> findSeanceByShow( Integer showId, OfferFilter filter, Locale locale )
     {
         List<SeanceDTO> offerList = SeanceDTO.convertEntityList( _daoOffer.findByProduct( showId, filter ) );
-        final DateFormat sdfComboSeance = new SimpleDateFormat( TicketsConstants.FORMAT_COMBO_DATE_SEANCE );
+        final DateFormat sdfComboSeance = new SimpleDateFormat( TicketsConstants.FORMAT_COMBO_DATE_SEANCE, locale );
 
         List<String> dateList = new ArrayList<String>( );
         Date today = new Date( );
