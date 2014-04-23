@@ -261,7 +261,7 @@ public class SeanceDAO extends OfferDAO<Integer, Offer> implements ISeanceDAO
             		{
             			orderList.add( builder.asc( product.get( "name" ) ) );
             		}
-            		else if ( order.equals( "type.name" ) )
+            		else if ( order.equals( "typeName" ) )
             		{
             			orderList.add( builder.asc( type.get( "name" ) ) );
             		}
@@ -289,7 +289,7 @@ public class SeanceDAO extends OfferDAO<Integer, Offer> implements ISeanceDAO
             		{
             			orderList.add( builder.desc( product.get( "name" ) ) );
             		}
-            		else if ( order.equals( "type.name" ) )
+            		else if ( order.equals( "typeName" ) )
             		{
             			orderList.add( builder.desc( type.get( "name" ) ) );
             		}

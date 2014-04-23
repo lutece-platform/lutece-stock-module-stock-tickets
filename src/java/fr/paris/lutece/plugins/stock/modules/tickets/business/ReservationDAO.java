@@ -228,7 +228,7 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
                         addRestriction( query, builder.equal( joinHour.get( "key" ), "hour" ) );
             			orderList.add( builder.asc( joinHour.get( "value" ) ) );
             		}
-            		else if ( order.equals( "offer.type.name" ) )
+            		else if ( order.equals( "offer.typeName" ) )
             		{
             			orderList.add( builder.asc( type.get( "name" ) ) );
             		}
@@ -262,7 +262,7 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
                         addRestriction( query, builder.equal( joinHour.get( "key" ), "hour" ) );
                         orderList.add( builder.desc( joinHour.get( "value" ) ) );
                     }
-            		else if ( order.equals( "offer.type.name" ) )
+            		else if ( order.equals( "offer.typeName" ) )
             		{
             			orderList.add( builder.desc( type.get( "name" ) ) );
             		}

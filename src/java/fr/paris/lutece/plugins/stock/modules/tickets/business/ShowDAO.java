@@ -33,18 +33,6 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeDate;
-import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeNum;
-import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
-import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeNumUtils;
-import fr.paris.lutece.plugins.stock.business.product.Product;
-import fr.paris.lutece.plugins.stock.business.product.ProductDAO;
-import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
-import fr.paris.lutece.plugins.stock.business.product.Product_;
-import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
-import fr.paris.lutece.plugins.stock.utils.DateUtils;
-import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -57,10 +45,25 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeDate;
+import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeNum;
+import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
+import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeNumUtils;
+import fr.paris.lutece.plugins.stock.business.category.Category;
+import fr.paris.lutece.plugins.stock.business.product.Product;
+import fr.paris.lutece.plugins.stock.business.product.ProductDAO;
+import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
+import fr.paris.lutece.plugins.stock.business.product.Product_;
+import fr.paris.lutece.plugins.stock.business.provider.Provider;
+import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
+import fr.paris.lutece.plugins.stock.utils.DateUtils;
+import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
 
 /**
@@ -70,7 +73,6 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
 {
-
 
     /**
      * Build the criteria query from the filter
@@ -151,24 +153,27 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
         }
     }
 
-    /* (non-Javadoc)
-	 * @see fr.paris.lutece.plugins.stock.modules.tickets.business.IShowDAO#getCurrentProduct(java.util.List)
-	 */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see fr.paris.lutece.plugins.stock.modules.tickets.business.IShowDAO#
+     * getCurrentProduct(java.util.List)
+     */
     /**
      * {@inheritDoc}
      */
     public List<Product> getCurrentProduct( List<String> orderList, PaginationProperties paginator )
-	{
+    {
         EntityManager em = getEM( );
         CriteriaBuilder cb = em.getCriteriaBuilder( );
 
         CriteriaQuery<Product> cq = cb.createQuery( Product.class );
 
         Root<Product> root = cq.from( Product.class );
-        
+
         // predicates list
         List<Predicate> listPredicates = new ArrayList<Predicate>( );
-        
+
         // date end after current date
         Calendar calendar = new GregorianCalendar( );
         calendar.set( GregorianCalendar.HOUR_OF_DAY, 23 );
@@ -182,7 +187,7 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
         // add existing predicates to Where clause
 
         cq.where( listPredicates.toArray( new Predicate[0] ) );
-        
+
         ProductFilter filter = new ProductFilter( );
         filter.setOrderAsc( true );
         filter.setOrders( orderList );
@@ -190,7 +195,7 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
         cq.distinct( true );
 
         return createPagedQuery( cq, paginator ).getResultList( );
-	}
+    }
 
     /**
      * {@inheritDoc}
@@ -283,53 +288,46 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
         {
             List<Order> orderList = new ArrayList<Order>( );
 
-            if ( filter.isOrderAsc( ) )
-            {
-                // get asc order
-                for ( String order : filter.getOrders( ) )
-                {
-                    if ( order.equals( "dateEnd" ) )
-                    {
-                        Join<Product, ProductAttributeDate> joinProduct = root.join( Product_.attributeDateList );
-                        addRestriction( query, builder.equal( joinProduct.get( "key" ), "end" ) );
-                        orderList.add( builder.asc( joinProduct.get( "value" ) ) );
-                    }
-                    else if ( order.equals( "dateStart" ) )
-                    {
-                        Join<Product, ProductAttributeDate> joinProduct = root.join( Product_.attributeDateList );
-                        addRestriction( query, builder.equal( joinProduct.get( "key" ), "start" ) );
-                        orderList.add( builder.asc( joinProduct.get( "value" ) ) );
-                    }
-                    else
-                    {
-                        orderList.add( builder.asc( root.get( order ) ) );
-                    }
-                }
-            }
-            else
-            {
-                // get desc order
-                for ( String order : filter.getOrders( ) )
-                {
-                    if ( order.equals( "dateEnd" ) )
-                    {
-                        Join<Product, ProductAttributeDate> joinProduct = root.join( Product_.attributeDateList );
-                        addRestriction( query, builder.equal( joinProduct.get( "key" ), "end" ) );
-                        orderList.add( builder.desc( joinProduct.get( "value" ) ) );
-                    }
-                    else if ( order.equals( "dateStart" ) )
-                    {
-                        Join<Product, ProductAttributeDate> joinProduct = root.join( Product_.attributeDateList );
-                        addRestriction( query, builder.equal( joinProduct.get( "key" ), "start" ) );
-                        orderList.add( builder.desc( joinProduct.get( "value" ) ) );
-                    }
-                    else
-                    {
-                        orderList.add( builder.desc( root.get( order ) ) );
-                    }
-                }
-            }
+            Path<Object> path = null;
 
+            // get asc order
+            for ( String order : filter.getOrders( ) )
+            {
+                if ( order.equals( "dateEnd" ) )
+                {
+                    Join<Product, ProductAttributeDate> joinProduct = root.join( Product_.attributeDateList );
+                    addRestriction( query, builder.equal( joinProduct.get( "key" ), "end" ) );
+                    path = joinProduct.get( "value" );
+                }
+                else if ( order.equals( "dateStart" ) )
+                {
+                    Join<Product, ProductAttributeDate> joinProduct = root.join( Product_.attributeDateList );
+                    addRestriction( query, builder.equal( joinProduct.get( "key" ), "start" ) );
+                    path = joinProduct.get( "value" );
+                }
+                else if ( order.equals( "providerName" ) )
+                {
+                    Join<Product, Provider> joinProvider = root.join( Product_.provider );
+                    path = joinProvider.get( "name" );
+                }
+                else if ( order.equals( "categoryName" ) )
+                {
+                    Join<Product, Category> joinCategory = root.join( Product_.category );
+                    path = joinCategory.get( "name" );
+                }
+                else
+                {
+                    path = root.get( order );
+                }
+                if ( filter.isOrderAsc( ) )
+                {
+                    orderList.add( builder.asc( path ) );
+                }
+                else
+                {
+                    orderList.add( builder.desc( path ) );
+                }
+            }
             query.orderBy( orderList );
         }
     }
