@@ -13,9 +13,6 @@ import java.util.List;
 public interface IShowDAO extends IProductDAO
 {
 
-    /**
-     * {@inheritDoc}
-     */
     List<Product> getCurrentProduct( List<String> orderList, PaginationProperties paginator );
 
     /**

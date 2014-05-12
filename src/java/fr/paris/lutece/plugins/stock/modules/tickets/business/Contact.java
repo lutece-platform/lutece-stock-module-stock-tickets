@@ -1,15 +1,13 @@
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-import java.util.Comparator;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.util.Comparator;
 
 
 /**
  * This object store informations about a partner's contact
- * @author jchaline
- * 
  */
 public class Contact
 {
@@ -40,6 +38,10 @@ public class Contact
      */
     public static final Comparator<Contact> COMPARATOR_USING_ID = new Comparator<Contact>( )
     {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
         public int compare( Contact o1, Contact o2 )
         {
             int compare = 0;
@@ -82,8 +84,8 @@ public class Contact
     }
 
     /**
-     * Set the phone number
-     * @param id
+     * Set the id
+     * @param id The id
      */
     public void setId( int id )
     {
@@ -149,14 +151,27 @@ public class Contact
      * @param c the other contact
      * @return true if they are the same, false otherwise
      */
+    @Override
     public boolean equals( Object c )
     {
         return ( (Contact) c ).getId( ) == this._id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode( )
+    {
+        return getId( );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String toString( )
     {
         return "Contact " + this._id + ":" + this._name + "," + this._mail + "," + this._phoneNumber + ";";
     }
-
 }

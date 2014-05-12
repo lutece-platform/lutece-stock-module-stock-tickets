@@ -44,24 +44,24 @@ import fr.paris.lutece.plugins.stock.commons.validator.annotation.ValidId;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import org.apache.commons.lang.StringUtils;
+import org.dozer.Mapper;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang.StringUtils;
-import org.dozer.Mapper;
-import org.hibernate.validator.constraints.NotEmpty;
-
 
 /**
  * DTO for Seance
- * 
- * @author nmoitry
  */
 public class SeanceDTO extends AbstractDTO<Offer>
 {
@@ -94,11 +94,12 @@ public class SeanceDTO extends AbstractDTO<Offer>
     private String hour;
     private String statut;
     private Date dateHour;
-    private Integer idContact;
+    private Integer[] idContact;
 
     /**
-     * @return the id
+     * {@inheritDoc}
      */
+    @Override
     public Integer getId( )
     {
         return id;
@@ -197,7 +198,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
     /**
      * Sets the initial quantity.
      * 
-     * @param quantity the quantity to set
+     * @param initialQuantity the quantity to set
      */
     public void setInitialQuantity( Integer initialQuantity )
     {
@@ -251,7 +252,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
         ResultList<SeanceDTO> listDest = new ResultList<SeanceDTO>( );
         if ( listSource instanceof ResultList )
         {
-            listDest.setTotalResult( ( (ResultList) listSource ).getTotalResult( ) );
+            listDest.setTotalResult( ( (ResultList<Offer>) listSource ).getTotalResult( ) );
         }
         SeanceDTO seanceDTO;
         for ( Offer source : listSource )
@@ -308,10 +309,23 @@ public class SeanceDTO extends AbstractDTO<Offer>
             {
                 seance.setInitialQuantity( attributeNumList.get( ATTR_INIT_QUANTITY ).intValue( ) );
             }
-            if ( attributeNumList.get( ATTR_ID_CONTACT ) != null )
+            int nNbContacts = 0;
+            List<Integer> listIdContact = new ArrayList<Integer>( );
+            BigDecimal idContact = attributeNumList.get( ATTR_ID_CONTACT );
+            while ( idContact != null )
             {
-                seance.setIdContact( attributeNumList.get( ATTR_ID_CONTACT ).intValue( ) );
+                listIdContact.add( idContact.intValue( ) );
+                nNbContacts++;
+                idContact = attributeNumList.get( ATTR_ID_CONTACT + nNbContacts );
             }
+            Integer[] arrayIdContact = new Integer[nNbContacts];
+            nNbContacts = 0;
+            for ( Integer nIdContact : listIdContact )
+            {
+                arrayIdContact[nNbContacts] = nIdContact;
+                nNbContacts++;
+            }
+            seance.setIdContact( arrayIdContact );
         }
 
         return seance;
@@ -321,6 +335,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      * Convert an offer to database
      * @see fr.paris.lutece.plugins.stock.commons.AbstractDTO#convert()
      */
+    @Override
     public Offer convert( )
     {
         Offer offer = mapper.map( this, Offer.class );
@@ -348,10 +363,16 @@ public class SeanceDTO extends AbstractDTO<Offer>
                     .add( new OfferAttributeNum( ATTR_INIT_QUANTITY, BigDecimal.valueOf( this.getInitialQuantity( ) ),
                             offer ) );
         }
-        if ( this.idContact != null )
+        if ( this.idContact != null && this.idContact.length > 0 )
         {
-            offer.getAttributeNumList( ).add(
-                    new OfferAttributeNum( ATTR_ID_CONTACT, BigDecimal.valueOf( this.getIdContact( ) ), offer ) );
+            int nNbContact = 0;
+            for ( Integer nIdContact : idContact )
+            {
+                offer.getAttributeNumList( ).add(
+                        new OfferAttributeNum( nNbContact == 0 ? ATTR_ID_CONTACT : ATTR_ID_CONTACT + nNbContact,
+                                BigDecimal.valueOf( nIdContact ), offer ) );
+                nNbContact++;
+            }
         }
 
         return offer;
@@ -453,9 +474,9 @@ public class SeanceDTO extends AbstractDTO<Offer>
 
     /**
      * Set the contact
-     * @param contact the new contact to set
+     * @param idContact the new contact to set
      */
-    public void setIdContact( Integer idContact )
+    public void setIdContact( Integer[] idContact )
     {
         this.idContact = idContact;
     }
@@ -464,7 +485,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      * 
      * @return the contact
      */
-    public Integer getIdContact( )
+    public Integer[] getIdContact( )
     {
         return idContact;
     }
