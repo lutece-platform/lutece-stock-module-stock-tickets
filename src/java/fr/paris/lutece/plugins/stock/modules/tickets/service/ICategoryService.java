@@ -39,9 +39,9 @@ import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
 import fr.paris.lutece.plugins.stock.commons.exception.ValidationException;
 
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -50,7 +50,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ICategoryService
 {
-
     /**
      * Init the object.
      */
@@ -58,7 +57,7 @@ public interface ICategoryService
 
     /**
      * Creates a category.
-     * 
+     *
      * @param category The category to create in database
      * @return error if occurs
      */
@@ -66,7 +65,7 @@ public interface ICategoryService
 
     /**
      * Modifies a category.
-     * 
+     *
      * @param category The category to modify in database
      * @return error if occurs
      */
@@ -74,14 +73,14 @@ public interface ICategoryService
 
     /**
      * Deletes a category.
-     * 
+     *
      * @param nIdCategory The category id to delete in database
      */
     void doDeleteCategory( int nIdCategory );
 
     /**
      * Get the category with the given id.
-     * 
+     *
      * @param nIdCategory The category id
      * @return The category with the given id
      */
@@ -89,7 +88,7 @@ public interface ICategoryService
 
     /**
      * Finds a category and fetch parent.
-     * 
+     *
      * @param nIdCategory the id of the searched category
      * @return the category
      */
@@ -97,7 +96,7 @@ public interface ICategoryService
 
     /**
      * Finds a category and all his subcategories and fetch children.
-     * 
+     *
      * @param nIdCategory the id of upper category
      * @return the category
      */
@@ -105,23 +104,23 @@ public interface ICategoryService
 
     /**
      * Finds all categories which match the given filter.
-     * 
+     *
      * @param filter The filter
      * @param paginationProperties the pagination properties
      * @return A list of categories which match the given filter
      */
     ResultList<Category> findByFilter( CategoryFilter filter, PaginationProperties paginationProperties );
 
-	    /**
-     * Finds all categories (first level) and fetch children.
-     * 
-     * @return all first level categories
-     */
-	List<Category> findAllFirstLevelWithChildren();
+    /**
+    * Finds all categories (first level) and fetch children.
+    *
+    * @return all first level categories
+    */
+    List<Category> findAllFirstLevelWithChildren(  );
 
     /**
      * Finds all category's children and fetch children.
-     * 
+     *
      * @param idCategory the id of upper category
      * @return all category's children
      */
@@ -129,7 +128,7 @@ public interface ICategoryService
 
     /**
      * Finds a category and all his subcategories and fetch children.
-     * 
+     *
      * @param nIdCategory the id of upper category
      * @return the category
      */
@@ -137,7 +136,7 @@ public interface ICategoryService
 
     /**
      * Finds a category and fetch parent.
-     * 
+     *
      * @param nIdCategory the id of the searched category
      * @return the category
      */
@@ -145,7 +144,7 @@ public interface ICategoryService
 
     /**
      * Finds a category and fetch product.
-     * 
+     *
      * @param nIdCategory the id of the searched category
      * @return the category
      */
@@ -153,7 +152,7 @@ public interface ICategoryService
 
     /**
      * Finds by filter and fetch children.
-     * 
+     *
      * @param filter the filter
      * @return the category list
      */
@@ -161,14 +160,14 @@ public interface ICategoryService
 
     /**
      * Returns all.
-     * 
+     *
      * @return the list
      */
-    List<Category> findAll( );
+    List<Category> findAll(  );
 
     /**
      * Find by id.
-     * 
+     *
      * @param nIdCategory the n id category
      * @return the category
      */
@@ -176,14 +175,14 @@ public interface ICategoryService
 
     /**
      * Update the category.
-     * 
+     *
      * @param category the category
      */
     void update( Category category );
 
     /**
      * Modifies a category.
-     * 
+     *
      * @param category The category to modify in database
      * @throws ValidationException the validation exception
      */
@@ -191,9 +190,9 @@ public interface ICategoryService
 
     /**
      * Return all category.
-     * 
+     *
      * @param orderList list of order
      * @return the list of provider
      */
-	List<Category> findAll( List<String> orderList );
+    List<Category> findAll( List<String> orderList );
 }

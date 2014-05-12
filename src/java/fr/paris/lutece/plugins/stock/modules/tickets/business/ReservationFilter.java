@@ -45,7 +45,6 @@ import java.sql.Timestamp;
  */
 public class ReservationFilter extends PurchaseFilter
 {
-
     private Timestamp _dateBegin;
     private Timestamp _dateEnd;
     private Timestamp _dateOr;
@@ -62,24 +61,24 @@ public class ReservationFilter extends PurchaseFilter
     /**
      * @return the hour
      */
-    public Timestamp getHour( )
+    public Timestamp getHour(  )
     {
         return _hour;
     }
 
     /**
      * Gets the date begin.
-     * 
+     *
      * @return the date begin
      */
-    public Timestamp getDateBegin( )
+    public Timestamp getDateBegin(  )
     {
         return _dateBegin;
     }
 
     /**
      * Sets the date begin.
-     * 
+     *
      * @param dateBegin the new date begin
      */
     public void setDateBegin( Timestamp dateBegin )
@@ -89,17 +88,17 @@ public class ReservationFilter extends PurchaseFilter
 
     /**
      * Gets the date end.
-     * 
+     *
      * @return the date end
      */
-    public Timestamp getDateEnd( )
+    public Timestamp getDateEnd(  )
     {
         return _dateEnd;
     }
 
     /**
      * Sets the date end.
-     * 
+     *
      * @param dateEnd the new date end
      */
     public void setDateEnd( Timestamp dateEnd )
@@ -109,22 +108,21 @@ public class ReservationFilter extends PurchaseFilter
 
     /**
      * Gets the date or.
-     * 
+     *
      * @return the date or
      */
-    public Timestamp getDateOr( )
+    public Timestamp getDateOr(  )
     {
         return _dateOr;
     }
 
     /**
      * Sets the date or.
-     * 
+     *
      * @param dateOr the new date or
      */
     public void setDateOr( Timestamp dateOr )
     {
         _dateOr = dateOr;
     }
-
 }

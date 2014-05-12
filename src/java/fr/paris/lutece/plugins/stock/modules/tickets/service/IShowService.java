@@ -39,10 +39,11 @@ import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
 import fr.paris.lutece.plugins.stock.commons.exception.ValidationException;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
 
-import java.io.File;
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+
+import java.util.List;
 
 
 /**
@@ -51,8 +52,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IShowService
 {
-
-
     /**
      * Init the product service and register it in the global product service.
      */
@@ -60,15 +59,14 @@ public interface IShowService
 
     /**
      * Delete the product.
-     * 
+     *
      * @param nIdProduct the id of the product to delete
      */
     void doDeleteProduct( int nIdProduct );
 
-
     /**
      * Return the product object.
-     * 
+     *
      * @param nIdProduct the product id
      * @return the product
      */
@@ -76,16 +74,15 @@ public interface IShowService
 
     /**
      * Return a filtered list of product.
-     * 
+     *
      * @param filter the product filter
      * @return list of product
      */
     List<ShowDTO> findByFilter( ProductFilter filter );
 
-
     /**
      * Return a filtered list of product.
-     * 
+     *
      * @param filter the product filter
      * @param paginationProperties the pagination properties
      * @return list of product
@@ -94,17 +91,18 @@ public interface IShowService
 
     /**
      * Modifies a product.
-     * 
+     *
      * @param product The product to modify in database
      * @param filePosterArray files poster
      * @return the product
      * @throws ValidationException the validation exception
      */
-    ShowDTO doSaveProduct( ShowDTO product, File[] filePosterArray ) throws ValidationException;
+    ShowDTO doSaveProduct( ShowDTO product, File[] filePosterArray )
+        throws ValidationException;
 
     /**
      * Find by id.
-     * 
+     *
      * @param nIdProduct the n id product
      * @return the show dto
      */
@@ -112,7 +110,7 @@ public interface IShowService
 
     /**
      * Return a list of all products.
-     * 
+     *
      * @param paginationProperties the pagination properties
      * @return list of product
      */
@@ -120,14 +118,14 @@ public interface IShowService
 
     /**
      * Return a list of all products.
-     * 
+     *
      * @return list of product
      */
-	List<ShowDTO> findAll( );
+    List<ShowDTO> findAll(  );
 
     /**
      * Return a list of products with date_end after the current date.
-     * 
+     *
      * @param orderList the list of orders
      * @param paginator the paginator
      * @return list of product
@@ -136,7 +134,7 @@ public interface IShowService
 
     /**
      * Return a list of product with date_start after the current date.
-     * 
+     *
      * @param orderList the order list
      * @param paginator the paginator
      * @return list of product
@@ -145,7 +143,7 @@ public interface IShowService
 
     /**
      * Return a list of product with date_end after the current date.
-     * 
+     *
      * @param orderList the order list
      * @return list of product
      */
@@ -153,7 +151,7 @@ public interface IShowService
 
     /**
      * Gets the image data.
-     * 
+     *
      * @param idProduct the id product
      * @return the image
      */
@@ -161,7 +159,7 @@ public interface IShowService
 
     /**
      * Gets the thumbnail image.
-     * 
+     *
      * @param idProduct the id product
      * @return the tb image
      */

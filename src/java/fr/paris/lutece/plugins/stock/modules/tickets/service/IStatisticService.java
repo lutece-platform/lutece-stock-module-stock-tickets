@@ -37,9 +37,9 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.ReservationDTO;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ResultStatistic;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
 
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -92,7 +92,7 @@ public interface IStatisticService
 
     /**
      * get the purchase count by dates parameters.
-     * 
+     *
      * @param strDateDebut the date begin
      * @param strDateFin the date end
      * @return the count purchases by dates
@@ -103,25 +103,25 @@ public interface IStatisticService
      * get the product showing count
      * @return the product count
      */
-    Integer getCountProductALAffiche( );
+    Integer getCountProductALAffiche(  );
 
     /**
      * get the product forthcoming count
      * @return the product count
      */
-    Integer getCountProductAVenir( );
+    Integer getCountProductAVenir(  );
 
     /**
      * get the purchase day count
      * @return the purchase count
      */
-    Integer getCountPurchaseOfDay( );
+    Integer getCountPurchaseOfDay(  );
 
     /**
      * get the purchase month count
      * @return the purchase count
      */
-    Integer getCountPurchaseOfMonth( );
+    Integer getCountPurchaseOfMonth(  );
 
     /**
      * remove all product statistic associated to the product identifier

@@ -40,26 +40,26 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * Service for sending notifications
- * 
+ *
  * @author abataille
  */
 public class NotificationService implements INotificationService
 {
-
     private static final String PROPERTY_MAIL_SENDER_NAME = "stock-billetterie.mail.senderName";
     private static final String PROPERTY_MAIL_SENDER_EMAIL = "stock-billetterie.mail.senderEmail";
 
     /* (non-Javadoc)
      * @see fr.paris.lutece.plugins.stock.modules.tickets.service.INotificationService#send(fr.paris.lutece.plugins.stock.modules.tickets.business.NotificationDTO)
      */
+
     /**
      * {@inheritDoc}
      */
     public void send( NotificationDTO notification )
     {
-        MailService.sendMailHtml( notification.getRecipientsTo( ),
-                AppPropertiesService.getProperty( PROPERTY_MAIL_SENDER_NAME ),
-                AppPropertiesService.getProperty( PROPERTY_MAIL_SENDER_EMAIL ), notification.getSubject( ),
-                notification.getMessage( ).replace( "\r\n", "<br/>" ) );
+        MailService.sendMailHtml( notification.getRecipientsTo(  ),
+            AppPropertiesService.getProperty( PROPERTY_MAIL_SENDER_NAME ),
+            AppPropertiesService.getProperty( PROPERTY_MAIL_SENDER_EMAIL ), notification.getSubject(  ),
+            notification.getMessage(  ).replace( "\r\n", "<br/>" ) );
     }
 }

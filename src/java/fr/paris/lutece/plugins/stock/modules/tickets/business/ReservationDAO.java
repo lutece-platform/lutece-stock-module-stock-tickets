@@ -52,7 +52,10 @@ import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.plugins.stock.utils.NumberUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +67,6 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.commons.lang.StringUtils;
-
 
 /**
  * DOCUMENT ME!
@@ -74,7 +75,6 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IReservationDAO
 {
-
     /**
      * Build the criteria query used when purchases are searched by filter
      * @param filter the filter
@@ -83,26 +83,25 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
      * @param builder the criteria builder
      */
     protected void buildCriteriaQuery( PurchaseFilter filter, Root<Purchase> root, CriteriaQuery<Purchase> query,
-            CriteriaBuilder builder )
+        CriteriaBuilder builder )
     {
         // predicates list
         List<Predicate> listPredicates = new ArrayList<Predicate>(  );
-        
+
         Join<Purchase, Offer> offer = root.join( Purchase_.offer, JoinType.INNER );
         Join<Offer, Product> product = offer.join( Offer_.product, JoinType.INNER );
         Join<Offer, OfferGenre> type = offer.join( Offer_.type, JoinType.INNER );
-        
+
         if ( StringUtils.isNotBlank( filter.getUserName(  ) ) )
         {
-            listPredicates.add( builder.equal( root.get( Purchase_.userName ),
-                    filter.getUserName(  ) ) );
+            listPredicates.add( builder.equal( root.get( Purchase_.userName ), filter.getUserName(  ) ) );
         }
 
-        if ( StringUtils.isNotBlank( filter.getAgentName() ) )
+        if ( StringUtils.isNotBlank( filter.getAgentName(  ) ) )
         {
             Join<Purchase, PurchaseAttribute> join = root.join( Purchase_.attributeList );
             listPredicates.add( AttributeUtils.like( builder, join, ReservationDTO.ATTR_NAME_AGENT,
-                    StockJPAUtils.buildCriteriaLikeString( filter.getAgentName( ) ) ) );
+                    StockJPAUtils.buildCriteriaLikeString( filter.getAgentName(  ) ) ) );
         }
 
         if ( StringUtils.isNotBlank( filter.getProductName(  ) ) )
@@ -111,72 +110,71 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
                     StockJPAUtils.buildCriteriaLikeString( filter.getProductName(  ) ) ) );
         }
 
-        if ( filter.getIdProduct( ) != null && filter.getIdProduct( ) > 0 )
+        if ( ( filter.getIdProduct(  ) != null ) && ( filter.getIdProduct(  ) > 0 ) )
         {
-            listPredicates.add( builder.equal( product.get( Product_.id ), filter.getIdProduct( ) ) );
+            listPredicates.add( builder.equal( product.get( Product_.id ), filter.getIdProduct(  ) ) );
         }
 
-        if ( StringUtils.isNotBlank( filter.getId( ) ) && NumberUtils.validateInt( filter.getId( ) ) )
+        if ( StringUtils.isNotBlank( filter.getId(  ) ) && NumberUtils.validateInt( filter.getId(  ) ) )
         {
-            listPredicates.add( builder.equal( root.get( Purchase_.id ), Integer.parseInt( filter.getId( ) ) ) );
+            listPredicates.add( builder.equal( root.get( Purchase_.id ), Integer.parseInt( filter.getId(  ) ) ) );
         }
-        
+
         if ( filter instanceof ReservationFilter )
         {
             ReservationFilter reservationFilter = (ReservationFilter) filter;
+
             // Date from (= date of reservation <= date from)
-            if ( reservationFilter.getDateBegin( ) != null )
+            if ( reservationFilter.getDateBegin(  ) != null )
             {
-                Timestamp dateFrom = DateUtils.getDate( reservationFilter.getDateBegin( ), false );
+                Timestamp dateFrom = DateUtils.getDate( reservationFilter.getDateBegin(  ), false );
                 Join<Purchase, PurchaseAttributeDate> join = root.join( Purchase_.attributeDateList );
                 listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, ReservationDTO.ATTR_DATE,
                         dateFrom ) );
             }
+
             // Date to (=date of reservation >= date to)
-            if ( reservationFilter.getDateEnd( ) != null )
+            if ( reservationFilter.getDateEnd(  ) != null )
             {
-                Timestamp dateEnd = DateUtils.getDate( reservationFilter.getDateEnd( ), false );
+                Timestamp dateEnd = DateUtils.getDate( reservationFilter.getDateEnd(  ), false );
                 Join<Purchase, PurchaseAttributeDate> join = root.join( Purchase_.attributeDateList );
-                listPredicates
-                        .add( AttributeDateUtils.lessThanOrEqualTo( builder, join, ReservationDTO.ATTR_DATE, dateEnd ) );
+                listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, ReservationDTO.ATTR_DATE,
+                        dateEnd ) );
             }
 
             // Date the (=date reservation == date the)
-            if ( reservationFilter.getDateOr( ) != null )
+            if ( reservationFilter.getDateOr(  ) != null )
             {
-                Timestamp dateThe = DateUtils.getDate( reservationFilter.getDateOr( ), false );
+                Timestamp dateThe = DateUtils.getDate( reservationFilter.getDateOr(  ), false );
                 Join<Purchase, PurchaseAttributeDate> join = root.join( Purchase_.attributeDateList );
                 listPredicates.add( AttributeDateUtils.equal( builder, join, ReservationDTO.ATTR_DATE, dateThe ) );
             }
         }
-        
+
         // Date from (= date of reservation <= date from)
-        if ( filter.getDateBeginOffer( ) != null )
+        if ( filter.getDateBeginOffer(  ) != null )
         {
-            Timestamp dateFrom = DateUtils.getDate( filter.getDateBeginOffer( ), false );
+            Timestamp dateFrom = DateUtils.getDate( filter.getDateBeginOffer(  ), false );
             Join<Offer, OfferAttributeDate> join = offer.join( Offer_.attributeDateList );
-            listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, SeanceDTO.ATTR_DATE,
-                    dateFrom ) );
+            listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, SeanceDTO.ATTR_DATE, dateFrom ) );
         }
+
         // Date to (=date of reservation >= date to)
-        if ( filter.getDateEndOffer( ) != null )
+        if ( filter.getDateEndOffer(  ) != null )
         {
-            Timestamp dateEnd = DateUtils.getDate( filter.getDateEndOffer( ), false );
+            Timestamp dateEnd = DateUtils.getDate( filter.getDateEndOffer(  ), false );
             Join<Offer, OfferAttributeDate> join = offer.join( Offer_.attributeDateList );
-            listPredicates
-                    .add( AttributeDateUtils.lessThanOrEqualTo( builder, join, SeanceDTO.ATTR_DATE, dateEnd ) );
+            listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, SeanceDTO.ATTR_DATE, dateEnd ) );
         }
-        
-        if ( filter.getIdGenre(  ) != null && filter.getIdGenre(  ) > 0 )
+
+        if ( ( filter.getIdGenre(  ) != null ) && ( filter.getIdGenre(  ) > 0 ) )
         {
-            listPredicates.add( builder.equal( type.get( OfferGenre_.id ),
-            		filter.getIdGenre(  ) ) );
+            listPredicates.add( builder.equal( type.get( OfferGenre_.id ), filter.getIdGenre(  ) ) );
         }
-        
-        if ( filter.getIdOffer(  ) != null && filter.getIdOffer(  ) > 0 )
+
+        if ( ( filter.getIdOffer(  ) != null ) && ( filter.getIdOffer(  ) > 0 ) )
         {
-            listPredicates.add( builder.equal( offer.get( Offer_.id ),
-            		filter.getIdOffer(  ) ) );
+            listPredicates.add( builder.equal( offer.get( Offer_.id ), filter.getIdOffer(  ) ) );
         }
 
         if ( !listPredicates.isEmpty(  ) )
@@ -185,7 +183,7 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
             query.where( listPredicates.toArray( new Predicate[0] ) );
         }
     }
-    
+
     /**
      * Add the order by parameter to the query
      * @param filter the filter
@@ -196,10 +194,10 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
     protected void buildSortQuery( PurchaseFilter filter, Root<Purchase> root, CriteriaQuery<Purchase> query,
         CriteriaBuilder builder )
     {
-        if ( filter.getOrders( ) != null && !filter.getOrders( ).isEmpty( ) )
+        if ( ( filter.getOrders(  ) != null ) && !filter.getOrders(  ).isEmpty(  ) )
         {
-            List<Order> orderList = new ArrayList<Order>( );
-            
+            List<Order> orderList = new ArrayList<Order>(  );
+
             Join<Purchase, Offer> offer = root.join( Purchase_.offer, JoinType.INNER );
             Join<Offer, Product> product = offer.join( Offer_.product, JoinType.INNER );
             Join<Offer, OfferGenre> type = offer.join( Offer_.type, JoinType.INNER );
@@ -207,46 +205,47 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
             if ( filter.isOrderAsc(  ) )
             {
                 // get asc order
-            	for ( String order : filter.getOrders( ) )
-            	{
-            		if ( order.equals( "offer.product.name" ) )
-            		{
-            			orderList.add( builder.asc( product.get( "name" ) ) );
-            		}
-            		else if ( order.equals( "date" ) )
-            		{
+                for ( String order : filter.getOrders(  ) )
+                {
+                    if ( order.equals( "offer.product.name" ) )
+                    {
+                        orderList.add( builder.asc( product.get( "name" ) ) );
+                    }
+                    else if ( order.equals( "date" ) )
+                    {
                         Join<Purchase, PurchaseAttributeDate> joinDate = root.join( Purchase_.attributeDateList );
                         addRestriction( query, builder.equal( joinDate.get( "key" ), "date" ) );
                         orderList.add( builder.desc( joinDate.get( "value" ) ) );
-            		}
-            		else if ( order.equals( "offer.date" ) )
-            		{
-            			Join<Offer, OfferAttributeDate> joinDate = offer.join( Offer_.attributeDateList );
+                    }
+                    else if ( order.equals( "offer.date" ) )
+                    {
+                        Join<Offer, OfferAttributeDate> joinDate = offer.join( Offer_.attributeDateList );
                         addRestriction( query, builder.equal( joinDate.get( "key" ), "date" ) );
-            			orderList.add( builder.desc( joinDate.get( "value" ) ) );
-            			Join<Offer, OfferAttributeDate> joinHour = offer.join( Offer_.attributeDateList );
+                        orderList.add( builder.desc( joinDate.get( "value" ) ) );
+
+                        Join<Offer, OfferAttributeDate> joinHour = offer.join( Offer_.attributeDateList );
                         addRestriction( query, builder.equal( joinHour.get( "key" ), "hour" ) );
-            			orderList.add( builder.asc( joinHour.get( "value" ) ) );
-            		}
-            		else if ( order.equals( "offer.typeName" ) )
-            		{
-            			orderList.add( builder.asc( type.get( "name" ) ) );
-            		}
-            		else
-            		{
-            			orderList.add( builder.asc( root.get( order ) ) );
-            		}
-            	}
+                        orderList.add( builder.asc( joinHour.get( "value" ) ) );
+                    }
+                    else if ( order.equals( "offer.typeName" ) )
+                    {
+                        orderList.add( builder.asc( type.get( "name" ) ) );
+                    }
+                    else
+                    {
+                        orderList.add( builder.asc( root.get( order ) ) );
+                    }
+                }
             }
             else
             {
                 // get desc order
-            	for ( String order : filter.getOrders( ) )
-            	{
-            		if ( order.equals( "offer.product.name" ) )
-            		{
-            			orderList.add( builder.desc( product.get( "name" ) ) );
-            		}
+                for ( String order : filter.getOrders(  ) )
+                {
+                    if ( order.equals( "offer.product.name" ) )
+                    {
+                        orderList.add( builder.desc( product.get( "name" ) ) );
+                    }
                     else if ( order.equals( "date" ) )
                     {
                         Join<Purchase, PurchaseAttributeDate> joinDate = root.join( Purchase_.attributeDateList );
@@ -258,23 +257,23 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
                         Join<Offer, OfferAttributeDate> joinDate = offer.join( Offer_.attributeDateList );
                         addRestriction( query, builder.equal( joinDate.get( "key" ), "date" ) );
                         orderList.add( builder.asc( joinDate.get( "value" ) ) );
+
                         Join<Offer, OfferAttributeDate> joinHour = offer.join( Offer_.attributeDateList );
                         addRestriction( query, builder.equal( joinHour.get( "key" ), "hour" ) );
                         orderList.add( builder.desc( joinHour.get( "value" ) ) );
                     }
-            		else if ( order.equals( "offer.typeName" ) )
-            		{
-            			orderList.add( builder.desc( type.get( "name" ) ) );
-            		}
-            		else
-            		{
-            			orderList.add( builder.desc( root.get( order ) ) );
-            		}
-            	}
+                    else if ( order.equals( "offer.typeName" ) )
+                    {
+                        orderList.add( builder.desc( type.get( "name" ) ) );
+                    }
+                    else
+                    {
+                        orderList.add( builder.desc( root.get( order ) ) );
+                    }
+                }
             }
 
             query.orderBy( orderList );
         }
     }
-
 }

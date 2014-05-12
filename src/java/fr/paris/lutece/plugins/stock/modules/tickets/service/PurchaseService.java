@@ -49,22 +49,25 @@ import fr.paris.lutece.plugins.stock.service.IPurchaseSessionManager;
 import fr.paris.lutece.plugins.stock.service.impl.AbstractService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import org.apache.log4j.Logger;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-
 
 /**
  * PurchaseService.
  */
-@Transactional( rollbackFor = { Exception.class } )
+@Transactional( rollbackFor = 
+{
+    Exception.class}
+ )
 public final class PurchaseService extends AbstractService implements IPurchaseService
 {
-
     /** The Constant RIGHT_MANAGE_OFFRES. */
     public static final String RIGHT_MANAGE_OFFRES = "PURCHASES_MANAGEMENT";
 
@@ -83,6 +86,7 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
 
     /** The Constant MESSAGE_ERROR_PURCHASE_SESSION_EXPIRED. */
     public static final String MESSAGE_ERROR_PURCHASE_SESSION_EXPIRED = "module.stock.billetterie.message.error.purchase.session.expired";
+
     /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger( PurchaseService.class );
 
@@ -105,14 +109,14 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
     /**
      * Constructor.
      */
-    private PurchaseService( )
+    private PurchaseService(  )
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public void init( )
+    public void init(  )
     {
     }
 
@@ -121,33 +125,33 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
      */
     public ReservationDTO doSavePurchase( ReservationDTO purchaseDTO, String sessionId )
     {
-
         try
         {
             // Load offer
-            purchaseDTO.setOffer( this._serviceOffer.findSeanceById( purchaseDTO.getOffer( ).getId( ) ) );
+            purchaseDTO.setOffer( this._serviceOffer.findSeanceById( purchaseDTO.getOffer(  ).getId(  ) ) );
 
             // Load business rules bean of offer type
-            IPurchaseRules purchaseRules = (IPurchaseRules) SpringContextService
-                    .getBean( "stock-tickets.purchaseRules." + purchaseDTO.getOffer( ).getIdGenre( ) );
+            IPurchaseRules purchaseRules = (IPurchaseRules) SpringContextService.getBean( 
+                    "stock-tickets.purchaseRules." + purchaseDTO.getOffer(  ).getIdGenre(  ) );
 
             // Check business rules
-            synchronized ( purchaseDTO.getEmailAgent( ) )
+            synchronized ( purchaseDTO.getEmailAgent(  ) )
             {
                 purchaseRules.checkBeforePurchase( purchaseDTO, sessionId );
 
                 // Update the seance quantity
-                SeanceDTO seance = this._serviceOffer.findSeanceById( purchaseDTO.getOffer( ).getId( ) );
-                seance.setQuantity( seance.getQuantity( ) - purchaseDTO.getQuantity( ) );
+                SeanceDTO seance = this._serviceOffer.findSeanceById( purchaseDTO.getOffer(  ).getId(  ) );
+                seance.setQuantity( seance.getQuantity(  ) - purchaseDTO.getQuantity(  ) );
                 this._serviceOffer.update( seance );
 
-                Purchase purchase = purchaseDTO.convert( );
-                if ( purchaseDTO.getId( ) != null && purchaseDTO.getId( ) > 0 )
+                Purchase purchase = purchaseDTO.convert(  );
+
+                if ( ( purchaseDTO.getId(  ) != null ) && ( purchaseDTO.getId(  ) > 0 ) )
                 {
                     //get the actual purchase and update old offer
-                    Purchase purchaseInDb = _daoPurchase.findById( purchaseDTO.getId( ) );
-                    SeanceDTO oldSeance = this._serviceOffer.findSeanceById( purchaseInDb.getOffer( ).getId( ) );
-                    oldSeance.setQuantity( oldSeance.getQuantity( ) + purchaseInDb.getQuantity( ) );
+                    Purchase purchaseInDb = _daoPurchase.findById( purchaseDTO.getId(  ) );
+                    SeanceDTO oldSeance = this._serviceOffer.findSeanceById( purchaseInDb.getOffer(  ).getId(  ) );
+                    oldSeance.setQuantity( oldSeance.getQuantity(  ) + purchaseInDb.getQuantity(  ) );
                     this._serviceOffer.update( oldSeance );
 
                     _daoPurchase.update( purchase );
@@ -155,12 +159,11 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
                 else
                 {
                     _daoPurchase.create( purchase );
-                    purchaseDTO.setId( purchase.getId( ) );
+                    purchaseDTO.setId( purchase.getId(  ) );
                     // Statistic management
                     _serviceStatistic.doManagePurchaseSaving( purchaseDTO );
                 }
             }
-
         }
         catch ( PurchaseOutOfStock e )
         {
@@ -196,12 +199,15 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
         {
             throw new BusinessException( null, MESSAGE_ERROR_PURCHASE_SESSION_EXPIRED );
         }
+
         int i = 0;
+
         for ( ReservationDTO reservation : bookingList )
         {
             bookingList.set( i, this.doSavePurchase( reservation, sessionId ) );
             i++;
         }
+
         return bookingList;
     }
 
@@ -223,8 +229,8 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
 
         if ( reservation != null )
         {
-            SeanceDTO seance = this._serviceOffer.findSeanceById( reservation.getOffer( ).getId( ) );
-            seance.setQuantity( seance.getQuantity( ) + reservation.getQuantity( ) );
+            SeanceDTO seance = this._serviceOffer.findSeanceById( reservation.getOffer(  ).getId(  ) );
+            seance.setQuantity( seance.getQuantity(  ) + reservation.getQuantity(  ) );
             this._serviceOffer.update( seance );
 
             // On supprimes les statistiques de la reservation
@@ -236,24 +242,26 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * fr.paris.lutece.plugins.stock.modules.tickets.service.IPurchaseService
      * #update
      * (fr.paris.lutece.plugins.stock.modules.tickets.business.ReservationDTO)
      */
+
     /**
      * {@inheritDoc}
      */
     public void update( ReservationDTO purchase )
     {
-        _daoPurchase.update( purchase.convert( ) );
+        _daoPurchase.update( purchase.convert(  ) );
     }
 
     @Override
     public ResultList<ReservationDTO> findByFilter( PurchaseFilter filter, PaginationProperties paginationProperties )
     {
         ResultList<Purchase> findByFilter = _daoPurchase.findByFilter( filter, paginationProperties );
+
         return ReservationDTO.convertEntityList( findByFilter );
     }
 
@@ -265,17 +273,18 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * fr.paris.lutece.plugins.stock.modules.tickets.service.IPurchaseService
      * #findAll()
      */
+
     /**
      * {@inheritDoc}
      */
-    public List<ReservationDTO> findAll( )
+    public List<ReservationDTO> findAll(  )
     {
-        return ReservationDTO.convertEntityList( _daoPurchase.findAll( ) );
+        return ReservationDTO.convertEntityList( _daoPurchase.findAll(  ) );
     }
 
     /**
@@ -297,5 +306,4 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
             _purchaseSessionManager.release( sessionId, reservation );
         }
     }
-
 }

@@ -38,9 +38,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
- * 
+ *
  * DTO for unauthentified agent
- * 
+ *
  */
 public class UnauthentifiedPurchaserDTO
 {
@@ -55,7 +55,7 @@ public class UnauthentifiedPurchaserDTO
     /**
      * @return the emailAgent
      */
-    public String getEmailAgent( )
+    public String getEmailAgent(  )
     {
         return emailAgent;
     }
@@ -71,7 +71,7 @@ public class UnauthentifiedPurchaserDTO
     /**
      * @return the nameAgent
      */
-    public String getNameAgent( )
+    public String getNameAgent(  )
     {
         return nameAgent;
     }
@@ -87,7 +87,7 @@ public class UnauthentifiedPurchaserDTO
     /**
      * @return the firstNameAgent
      */
-    public String getFirstNameAgent( )
+    public String getFirstNameAgent(  )
     {
         return firstNameAgent;
     }
@@ -99,5 +99,4 @@ public class UnauthentifiedPurchaserDTO
     {
         this.firstNameAgent = firstNameAgent;
     }
-
 }

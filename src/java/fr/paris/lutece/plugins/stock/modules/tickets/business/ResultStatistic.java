@@ -37,9 +37,9 @@ import java.sql.Timestamp;
 
 
 /**
- * 
+ *
  * class ResultStatistic
- * 
+ *
  */
 public class ResultStatistic
 {
@@ -50,7 +50,7 @@ public class ResultStatistic
      * return the number of response
      * @return the number of response
      */
-    public int getNumberResponse( )
+    public int getNumberResponse(  )
     {
         return _nNumberResponse;
     }
@@ -65,10 +65,10 @@ public class ResultStatistic
     }
 
     /**
-     * 
+     *
      * @return the statistic date
      */
-    public Timestamp getStatisticDate( )
+    public Timestamp getStatisticDate(  )
     {
         return _tStatisticDate;
     }

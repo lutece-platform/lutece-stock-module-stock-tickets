@@ -42,11 +42,11 @@ import fr.paris.lutece.plugins.stock.commons.exception.BusinessException;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.PartnerDTO;
 import fr.paris.lutece.plugins.stock.service.impl.AbstractService;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 import javax.inject.Inject;
-
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -57,12 +57,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional( readOnly = false )
 public final class ProviderService extends AbstractService implements IProviderService
 {
-	// MESSAGE
-	private static final String MESSAGE_ERROR_PARTNER_UNIQUE_BY_NAME = "module.stock.billetterie.save_partner.name.unique";
-	
+    // MESSAGE
+    private static final String MESSAGE_ERROR_PARTNER_UNIQUE_BY_NAME = "module.stock.billetterie.save_partner.name.unique";
     private static ProviderService _instance = new ProviderService(  );
-	@Inject
-	private IProviderDAO _daoProvider;
+    @Inject
+    private IProviderDAO _daoProvider;
 
     /**
      * Constructor
@@ -80,7 +79,6 @@ public final class ProviderService extends AbstractService implements IProviderS
         return _instance;
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -88,36 +86,35 @@ public final class ProviderService extends AbstractService implements IProviderS
     {
     }
 
-
     /**
      * {@inheritDoc}
      */
     @Transactional( readOnly = false )
     public void doSaveProvider( PartnerDTO provider )
     {
-
         // BO-CU01-E01-RGE04 : Le nom doit etre unique
-        ProviderFilter providerFilter = new ProviderFilter( );
-        providerFilter.setName( provider.getName( ) );
+        ProviderFilter providerFilter = new ProviderFilter(  );
+        providerFilter.setName( provider.getName(  ) );
+
         ResultList<Provider> listPartner = this._daoProvider.findByFilter( providerFilter, null );
-        if ( listPartner != null && !listPartner.isEmpty( ) )
+
+        if ( ( listPartner != null ) && !listPartner.isEmpty(  ) )
         {
-            if ( ( provider.getId( ) == null || provider.getId( ) < 0 || !listPartner.get( 0 ).getId( )
-                    .equals( provider.getId( ) ) ) )
+            if ( ( ( provider.getId(  ) == null ) || ( provider.getId(  ) < 0 ) ||
+                    !listPartner.get( 0 ).getId(  ).equals( provider.getId(  ) ) ) )
             {
                 throw new BusinessException( provider, MESSAGE_ERROR_PARTNER_UNIQUE_BY_NAME );
             }
         }
 
-        if ( provider.getId( ) != null && provider.getId( ) > 0 )
+        if ( ( provider.getId(  ) != null ) && ( provider.getId(  ) > 0 ) )
         {
-            _daoProvider.update( provider.convert( ) );
+            _daoProvider.update( provider.convert(  ) );
         }
         else
         {
-            _daoProvider.create( provider.convert( ) );
+            _daoProvider.create( provider.convert(  ) );
         }
-
     }
 
     /**
@@ -129,16 +126,13 @@ public final class ProviderService extends AbstractService implements IProviderS
         _daoProvider.remove( nIdProvider );
     }
 
-
-
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public PartnerDTO findByIdWithProducts( int nId )
     {
         return PartnerDTO.convertEntity( _daoProvider.findByIdWithProducts( nId ) );
-	}
-
+    }
 
     /**
      * {@inheritDoc}
@@ -148,19 +142,19 @@ public final class ProviderService extends AbstractService implements IProviderS
         return PartnerDTO.convertEntity( _daoProvider.findById( nId ) );
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public ResultList<PartnerDTO> findByFilter( ProviderFilter filter, PaginationProperties paginationProperties )
     {
         return PartnerDTO.convertEntityList( _daoProvider.findByFilter( filter, paginationProperties ) );
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-    public List<PartnerDTO> findAll( )
+    /**
+     * {@inheritDoc}
+     */
+    public List<PartnerDTO> findAll(  )
     {
-        return PartnerDTO.convertEntityList( _daoProvider.findAll( ) );
+        return PartnerDTO.convertEntityList( _daoProvider.findAll(  ) );
     }
 }

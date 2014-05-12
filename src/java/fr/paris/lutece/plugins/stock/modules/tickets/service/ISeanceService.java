@@ -39,36 +39,37 @@ import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.SeanceDTO;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * The Interface ISeanceService.
  */
-@Transactional( rollbackFor = { Exception.class } )
+@Transactional( rollbackFor = 
+{
+    Exception.class}
+ )
 public interface ISeanceService
 {
-
     /**
      * Init this service.
      */
     void init(  );
 
-
     /**
      * Modifies a seance.
-     * 
+     *
      * @param seance The seance to modify in database
      */
     void doSaveOffer( SeanceDTO seance );
 
     /**
      * Delete a seance.
-     * 
+     *
      * @param nIdSeance the identifier of the seance to delete
      */
     void doDeleteOffer( int nIdSeance );
@@ -81,7 +82,7 @@ public interface ISeanceService
 
     /**
      * Find by filter.
-     * 
+     *
      * @param filter the filter
      * @param paginationProperties the pagination properties
      * @return the offer list filtered
@@ -90,36 +91,36 @@ public interface ISeanceService
 
     /**
      * Update.
-     * 
+     *
      * @param offer the offer
      */
     void update( SeanceDTO offer );
 
     /**
      * Find all.
-     * 
+     *
      * @return the list
      */
-    List<SeanceDTO> findAll( );
+    List<SeanceDTO> findAll(  );
 
     /**
      * Return an offer by his id.
-     * 
+     *
      * @param nIdOffer offer id
      * @return the other
      */
     SeanceDTO findSeanceById( Integer nIdOffer );
 
-	    /**
-     * Return all the offer genre.
-     * 
-     * @return the list of offer genre
-     */
-	List<OfferGenre> findAllGenre();
+    /**
+    * Return all the offer genre.
+    *
+    * @return the list of offer genre
+    */
+    List<OfferGenre> findAllGenre(  );
 
     /**
      * List of seance dates for a show.
-     * 
+     *
      * @param showId id of the show
      * @param filter offer filter
      * @param locale the locale
@@ -129,7 +130,7 @@ public interface ISeanceService
 
     /**
      * Find seance by date and hour.
-     * 
+     *
      * @param showId the show id
      * @param dateHour date and hour
      * @return seance list

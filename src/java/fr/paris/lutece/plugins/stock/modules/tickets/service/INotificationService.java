@@ -41,12 +41,10 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.NotificationDTO;
  */
 public interface INotificationService
 {
-
     /**
      * Send a notification.
-     * 
+     *
      * @param notification the notification
      */
     void send( NotificationDTO notification );
-
 }

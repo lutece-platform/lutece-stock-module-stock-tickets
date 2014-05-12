@@ -40,12 +40,11 @@ import java.sql.Timestamp;
 
 /**
  * Search filter for seance.
- * 
+ *
  * @author abataille
  */
 public class SeanceFilter extends OfferFilter
 {
-
     /** The _date begin. */
     private Timestamp _dateBegin;
 
@@ -60,7 +59,7 @@ public class SeanceFilter extends OfferFilter
 
     /**
      * Sets the hour.
-     * 
+     *
      * @param hour the hour to set
      */
     public void setHour( Timestamp hour )
@@ -70,27 +69,27 @@ public class SeanceFilter extends OfferFilter
 
     /**
      * Gets the hour.
-     * 
+     *
      * @return the hour
      */
-    public Timestamp getHour( )
+    public Timestamp getHour(  )
     {
         return _hour;
     }
 
     /**
      * Gets the date begin.
-     * 
+     *
      * @return the date begin
      */
-    public Timestamp getDateBegin( )
+    public Timestamp getDateBegin(  )
     {
         return _dateBegin;
     }
 
     /**
      * Sets the date begin.
-     * 
+     *
      * @param dateBegin the new date begin
      */
     public void setDateBegin( Timestamp dateBegin )
@@ -100,17 +99,17 @@ public class SeanceFilter extends OfferFilter
 
     /**
      * Gets the date end.
-     * 
+     *
      * @return the date end
      */
-    public Timestamp getDateEnd( )
+    public Timestamp getDateEnd(  )
     {
         return _dateEnd;
     }
 
     /**
      * Sets the date end.
-     * 
+     *
      * @param dateEnd the new date end
      */
     public void setDateEnd( Timestamp dateEnd )
@@ -120,22 +119,21 @@ public class SeanceFilter extends OfferFilter
 
     /**
      * Gets the date or.
-     * 
+     *
      * @return the date or
      */
-    public Timestamp getDateOr( )
+    public Timestamp getDateOr(  )
     {
         return _dateOr;
     }
 
     /**
      * Sets the date or.
-     * 
+     *
      * @param dateOr the new date or
      */
     public void setDateOr( Timestamp dateOr )
     {
         _dateOr = dateOr;
     }
-
 }

@@ -39,11 +39,12 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Locale;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -53,38 +54,40 @@ import org.apache.commons.lang.StringUtils;
 public class ShowExtendableResourceService implements IExtendableResourceService
 {
     private static final String MESSAGE_RESOURCE_TYPE_DESCRIPTION = "module.stock.tickets.stockProduct.resourceTypeDescription";
-
-	@Inject
-	private IShowService _showService;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isInvoked( String strResourceType )
-	{
-		return ShowDTO.PROPERTY_RESOURCE_TYPE.equals( strResourceType );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public IExtendableResource getResource( String strIdResource, String strResourceType )
-	{
-		if ( StringUtils.isNotBlank( strIdResource ) && StringUtils.isNumeric( strIdResource ) )
-		{
-			int nIdProduct = Integer.parseInt( strIdResource );
-			return _showService.findById( nIdProduct );
-		}
-		return null;
-	}
+    @Inject
+    private IShowService _showService;
 
     /**
      * {@inheritDoc}
      */
-//    @Override
-    public String getResourceType( )
+    @Override
+    public boolean isInvoked( String strResourceType )
+    {
+        return ShowDTO.PROPERTY_RESOURCE_TYPE.equals( strResourceType );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IExtendableResource getResource( String strIdResource, String strResourceType )
+    {
+        if ( StringUtils.isNotBlank( strIdResource ) && StringUtils.isNumeric( strIdResource ) )
+        {
+            int nIdProduct = Integer.parseInt( strIdResource );
+
+            return _showService.findById( nIdProduct );
+        }
+
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+
+    //    @Override
+    public String getResourceType(  )
     {
         return ShowDTO.PROPERTY_RESOURCE_TYPE;
     }
@@ -92,15 +95,17 @@ public class ShowExtendableResourceService implements IExtendableResourceService
     /**
      * {@inheritDoc}
      */
-//    @Override
+
+    //    @Override
     public String getResourceTypeDescription( Locale locale )
     {
         return I18nService.getLocalizedString( MESSAGE_RESOURCE_TYPE_DESCRIPTION, locale );
     }
 
-	@Override
-	public String getResourceUrl(String strIdResource, String strResourceType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getResourceUrl( String strIdResource, String strResourceType )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

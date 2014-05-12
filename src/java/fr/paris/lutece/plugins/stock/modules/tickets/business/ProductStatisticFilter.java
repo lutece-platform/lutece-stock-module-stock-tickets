@@ -33,10 +33,11 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
+
 /**
- * 
+ *
  * ProductFilter
- * 
+ *
  */
 public class ProductStatisticFilter
 {
@@ -46,7 +47,7 @@ public class ProductStatisticFilter
      * Return the product id
      * @return the product id
      */
-    public Integer getIdProduct( )
+    public Integer getIdProduct(  )
     {
         return _idProduct;
     }

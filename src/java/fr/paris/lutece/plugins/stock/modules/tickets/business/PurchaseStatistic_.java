@@ -40,9 +40,9 @@ import javax.persistence.metamodel.StaticMetamodel;
 
 
 /**
- * 
+ *
  * PurchaseStatistic_ the metamodel for purchaseStatistic
- * 
+ *
  */
 @StaticMetamodel( PurchaseStatistic.class )
 public abstract class PurchaseStatistic_

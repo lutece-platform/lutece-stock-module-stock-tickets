@@ -37,7 +37,9 @@ import fr.paris.lutece.plugins.stock.commons.dao.AbstractStockDAO;
 import fr.paris.lutece.plugins.stock.modules.tickets.service.TicketsPlugin;
 
 import java.math.BigInteger;
+
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -59,11 +61,11 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
     implements IPurchaseStatisticDAO
 {
     /**
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
-    public String getPluginName( )
+    public String getPluginName(  )
     {
         return TicketsPlugin.PLUGIN_NAME;
     }
@@ -73,43 +75,46 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
      */
     public List<PurchaseStatistic> getAllByIdPurchase( Integer idPurchase )
     {
-        EntityManager em = getEM( );
-        CriteriaBuilder cb = em.getCriteriaBuilder( );
+        EntityManager em = getEM(  );
+        CriteriaBuilder cb = em.getCriteriaBuilder(  );
 
         CriteriaQuery<PurchaseStatistic> cq = cb.createQuery( PurchaseStatistic.class );
 
         Root<PurchaseStatistic> root = cq.from( PurchaseStatistic.class );
+
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
-        
+        List<Predicate> listPredicates = new ArrayList<Predicate>(  );
+
         if ( idPurchase != null )
         {
             listPredicates.add( cb.equal( root.get( PurchaseStatistic_.purchase ), idPurchase ) );
         }
 
-        if ( !listPredicates.isEmpty( ) )
+        if ( !listPredicates.isEmpty(  ) )
         {
             // add existing predicates to Where clause
             cq.where( listPredicates.toArray( new Predicate[0] ) );
         }
+
         //buildSortQuery( filter, root, cq, cb );
         cq.distinct( true );
 
         TypedQuery<PurchaseStatistic> query = em.createQuery( cq );
 
-        return query.getResultList( );
+        return query.getResultList(  );
     }
 
     /**
      * {@inheritDoc}
      */
     public List<ResultStatistic> getAllResultStatisticByParameters( String strTimesUnit, String strDateDebut,
-            String strDateFin )
+        String strDateFin )
     {
-        StringBuffer requeteSQL = new StringBuffer( );
+        StringBuffer requeteSQL = new StringBuffer(  );
 
-        requeteSQL
-                .append( "SELECT count(distinct purchase_statistic.purchase_id_purchase) AS compteur, purchase_statistic." );
+        requeteSQL.append( 
+            "SELECT count(distinct purchase_statistic.purchase_id_purchase) AS compteur, purchase_statistic." );
+
         if ( strTimesUnit.equals( "0" ) )
         {
             requeteSQL.append( "dayOfYear" );
@@ -124,13 +129,16 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
         }
 
         requeteSQL.append( ",purchase_statistic.year FROM stock_ticket_purchase_statistic AS purchase_statistic" );
+
         Boolean isFirstCondition = Boolean.TRUE;
-        if ( strDateDebut != null && !strDateDebut.equals( "" ) )
+
+        if ( ( strDateDebut != null ) && !strDateDebut.equals( "" ) )
         {
             requeteSQL.append( " WHERE purchase_statistic.date >= CAST('" + strDateDebut + " 00:00:00' AS DATETIME)" );
             isFirstCondition = Boolean.FALSE;
         }
-        if ( strDateFin != null && !strDateFin.equals( "" ) )
+
+        if ( ( strDateFin != null ) && !strDateFin.equals( "" ) )
         {
             if ( isFirstCondition )
             {
@@ -140,10 +148,12 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
             {
                 requeteSQL.append( " AND" );
             }
+
             requeteSQL.append( " purchase_statistic.date <= CAST('" + strDateFin + " 23:59:59' AS DATETIME)" );
         }
 
         requeteSQL.append( " GROUP BY purchase_statistic." );
+
         if ( strTimesUnit.equals( "0" ) )
         {
             requeteSQL.append( "dayOfYear" );
@@ -159,22 +169,24 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
 
         requeteSQL.append( ", purchase_statistic.year" );
 
-        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
+        Query query = getEM(  ).createNativeQuery( requeteSQL.toString(  ) );
 
-        List<Object> listeResultat = query.getResultList( );
+        List<Object> listeResultat = query.getResultList(  );
 
-        List<ResultStatistic> listeResultStatistic = new ArrayList<ResultStatistic>( );
+        List<ResultStatistic> listeResultStatistic = new ArrayList<ResultStatistic>(  );
 
-        if ( listeResultat.size( ) > 0 )
+        if ( listeResultat.size(  ) > 0 )
         {
             for ( Object ligneResultat : listeResultat )
             {
                 Object[] listeAttributs = (Object[]) ligneResultat;
-                if ( listeAttributs[0] != null && listeAttributs[1] != null && listeAttributs[2] != null )
+
+                if ( ( listeAttributs[0] != null ) && ( listeAttributs[1] != null ) && ( listeAttributs[2] != null ) )
                 {
-                    ResultStatistic resultStatistic = new ResultStatistic( );
-                    resultStatistic.setNumberResponse( Integer.decode( listeAttributs[0].toString( ) ) );
-                    Calendar calendar = new GregorianCalendar( );
+                    ResultStatistic resultStatistic = new ResultStatistic(  );
+                    resultStatistic.setNumberResponse( Integer.decode( listeAttributs[0].toString(  ) ) );
+
+                    Calendar calendar = new GregorianCalendar(  );
 
                     int nTimesUnit;
 
@@ -191,9 +203,9 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
                         nTimesUnit = Calendar.MONTH;
                     }
 
-                    calendar.set( nTimesUnit, Integer.decode( listeAttributs[1].toString( ) ) );
-                    calendar.set( Calendar.YEAR, Integer.decode( listeAttributs[2].toString( ) ) );
-                    resultStatistic.setStatisticDate( new Timestamp( calendar.getTimeInMillis( ) ) );
+                    calendar.set( nTimesUnit, Integer.decode( listeAttributs[1].toString(  ) ) );
+                    calendar.set( Calendar.YEAR, Integer.decode( listeAttributs[2].toString(  ) ) );
+                    resultStatistic.setStatisticDate( new Timestamp( calendar.getTimeInMillis(  ) ) );
 
                     listeResultStatistic.add( resultStatistic );
                 }
@@ -209,18 +221,20 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
     public Integer getCountPurchasesByDates( String strDateDebut, String strDateFin )
     {
         Integer result = 0;
-        StringBuffer requeteSQL = new StringBuffer( );
+        StringBuffer requeteSQL = new StringBuffer(  );
 
         requeteSQL.append( "SELECT count( distinct purchase_statistic.purchase_id_purchase)  " );
         requeteSQL.append( " FROM stock_ticket_purchase_statistic AS purchase_statistic" );
 
         Boolean isFirstCondition = Boolean.TRUE;
-        if ( strDateDebut != null && !strDateDebut.equals( "" ) )
+
+        if ( ( strDateDebut != null ) && !strDateDebut.equals( "" ) )
         {
             requeteSQL.append( " WHERE purchase_statistic.date >= CAST('" + strDateDebut + " 00:00:00' AS DATETIME)" );
             isFirstCondition = Boolean.FALSE;
         }
-        if ( strDateFin != null && !strDateFin.equals( "" ) )
+
+        if ( ( strDateFin != null ) && !strDateFin.equals( "" ) )
         {
             if ( isFirstCondition )
             {
@@ -230,21 +244,24 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
             {
                 requeteSQL.append( " AND" );
             }
+
             requeteSQL.append( " purchase_statistic.date <= CAST('" + strDateFin + " 23:59:59' AS DATETIME)" );
         }
 
-        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
-        List<Object> listeCount = query.getResultList( );
+        Query query = getEM(  ).createNativeQuery( requeteSQL.toString(  ) );
+        List<Object> listeCount = query.getResultList(  );
 
-        if ( listeCount.size( ) == 1 )
+        if ( listeCount.size(  ) == 1 )
         {
             Object obj = listeCount.get( 0 );
+
             if ( obj != null )
             {
                 BigInteger bigInt = (BigInteger) obj;
-                result = bigInt.intValue( );
+                result = bigInt.intValue(  );
             }
         }
+
         return result;
     }
 }

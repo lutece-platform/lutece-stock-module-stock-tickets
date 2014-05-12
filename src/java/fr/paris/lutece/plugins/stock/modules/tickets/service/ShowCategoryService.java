@@ -42,17 +42,17 @@ import fr.paris.lutece.plugins.stock.commons.exception.BusinessException;
 import fr.paris.lutece.plugins.stock.commons.exception.ValidationException;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowCategoryDTO;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.transaction.annotation.Transactional;
-
 
 /**
- * 
+ *
  * Class ShowCategoryService.
- * 
+ *
  */
 @Transactional
 public final class ShowCategoryService implements IShowCategoryService
@@ -60,7 +60,7 @@ public final class ShowCategoryService implements IShowCategoryService
     private static final String MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE = "module.stock.billetterie.save_category.error.name.unique";
 
     /** The _instance. */
-    private static IShowCategoryService _instance = new ShowCategoryService( );
+    private static IShowCategoryService _instance = new ShowCategoryService(  );
 
     /** The _dao category. */
     @Inject
@@ -69,16 +69,16 @@ public final class ShowCategoryService implements IShowCategoryService
     /**
      * Private constructor.
      */
-    private ShowCategoryService( )
+    private ShowCategoryService(  )
     {
     }
 
     /**
      * Get the instance of the service.
-     * 
+     *
      * @return The unique instance of the service
      */
-    public static IShowCategoryService getInstance( )
+    public static IShowCategoryService getInstance(  )
     {
         return _instance;
     }
@@ -86,7 +86,7 @@ public final class ShowCategoryService implements IShowCategoryService
     /**
      * {@inheritDoc}
      */
-    public void init( )
+    public void init(  )
     {
     }
 
@@ -105,6 +105,7 @@ public final class ShowCategoryService implements IShowCategoryService
     {
         Category entity = _daoCategory.findById( nIdCategory );
         ShowCategoryDTO foundCategory = null;
+
         if ( entity != null )
         {
             foundCategory = ShowCategoryDTO.convertEntity( _daoCategory.findById( nIdCategory ) );
@@ -116,33 +117,35 @@ public final class ShowCategoryService implements IShowCategoryService
     /**
      * {@inheritDoc}
      */
-    public void doSaveCategory( ShowCategoryDTO category ) throws ValidationException
+    public void doSaveCategory( ShowCategoryDTO category )
+        throws ValidationException
     {
-        List<ShowCategoryDTO> listeCategory = ShowCategoryDTO.convertEntityList( _daoCategory.getAllByName( category
-                .getName( ) ) );
+        List<ShowCategoryDTO> listeCategory = ShowCategoryDTO.convertEntityList( _daoCategory.getAllByName( 
+                    category.getName(  ) ) );
 
-        if ( category.getId( ) != null && category.getId( ) > 0 )
+        if ( ( category.getId(  ) != null ) && ( category.getId(  ) > 0 ) )
         {
             // Update
-            if ( listeCategory != null
-                    && ( listeCategory.size( ) > 1 || listeCategory.size( ) == 1
-                            && !listeCategory.get( 0 ).getId( ).equals( category.getId( ) ) ) )
+            if ( ( listeCategory != null ) &&
+                    ( ( listeCategory.size(  ) > 1 ) ||
+                    ( ( listeCategory.size(  ) == 1 ) &&
+                    !listeCategory.get( 0 ).getId(  ).equals( category.getId(  ) ) ) ) )
             {
                 throw new BusinessException( category, MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE );
             }
 
-            _daoCategory.update( category.convert( ) );
+            _daoCategory.update( category.convert(  ) );
         }
         else
         {
             // Create
-            if ( !listeCategory.isEmpty( ) )
+            if ( !listeCategory.isEmpty(  ) )
             {
                 throw new BusinessException( category, MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE );
             }
-            _daoCategory.create( category.convert( ) );
-        }
 
+            _daoCategory.create( category.convert(  ) );
+        }
     }
 
     /**
@@ -154,5 +157,4 @@ public final class ShowCategoryService implements IShowCategoryService
         // Remove the category
         _daoCategory.remove( nIdCategory );
     }
-
 }

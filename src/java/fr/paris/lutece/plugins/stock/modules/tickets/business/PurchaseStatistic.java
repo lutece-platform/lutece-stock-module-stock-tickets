@@ -51,9 +51,9 @@ import javax.persistence.TableGenerator;
 
 
 /**
- * 
+ *
  * PurchaseStatistic
- * 
+ *
  */
 @Entity
 @Table( name = "stock_ticket_purchase_statistic" )
@@ -61,7 +61,6 @@ public class PurchaseStatistic
 {
     public static final String ATTRIBUTE_CHILDREN_LIST = "childrenList";
     public static final String ATTRIBUTE_PARENT = "parent";
-
 
     ///** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "billeterie_purchase_statistic_sequence";
@@ -79,9 +78,9 @@ public class PurchaseStatistic
     /**
      * Constructor
      */
-    public PurchaseStatistic( )
+    public PurchaseStatistic(  )
     {
-        super( );
+        super(  );
     }
 
     /**
@@ -90,12 +89,12 @@ public class PurchaseStatistic
      */
     public PurchaseStatistic( PurchaseStatistic purchaseStatistic )
     {
-        _id = purchaseStatistic.getId( );
-        _nDayOfYear = purchaseStatistic.getDayOfYear( );
-        _nWeek = purchaseStatistic.getWeek( );
-        _nMonth = purchaseStatistic.getMonth( );
-        _nYear = purchaseStatistic.getYear( );
-        _purchase = purchaseStatistic.getPurchase( );
+        _id = purchaseStatistic.getId(  );
+        _nDayOfYear = purchaseStatistic.getDayOfYear(  );
+        _nWeek = purchaseStatistic.getWeek(  );
+        _nMonth = purchaseStatistic.getMonth(  );
+        _nYear = purchaseStatistic.getYear(  );
+        _purchase = purchaseStatistic.getPurchase(  );
     }
 
     /**
@@ -106,14 +105,14 @@ public class PurchaseStatistic
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
     @Column( name = "id_purchase_statistic" )
-    public Integer getId( )
+    public Integer getId(  )
     {
         return _id;
     }
 
     /**
      * Set the purchase_statistic id.
-     * 
+     *
      * @param idPurchaseStatistic the new id
      */
     public void setId( Integer idPurchaseStatistic )
@@ -126,7 +125,7 @@ public class PurchaseStatistic
      * @return the dayOfYear
      */
     @Column( name = "dayOfYear" )
-    public Integer getDayOfYear( )
+    public Integer getDayOfYear(  )
     {
         return _nDayOfYear;
     }
@@ -154,7 +153,7 @@ public class PurchaseStatistic
      * @return the week
      */
     @Column( name = "week" )
-    public Integer getWeek( )
+    public Integer getWeek(  )
     {
         return _nWeek;
     }
@@ -173,7 +172,7 @@ public class PurchaseStatistic
      * @return the month
      */
     @Column( name = "month" )
-    public Integer getMonth( )
+    public Integer getMonth(  )
     {
         return _nMonth;
     }
@@ -192,7 +191,7 @@ public class PurchaseStatistic
      * @return the year
      */
     @Column( name = "year" )
-    public Integer getYear( )
+    public Integer getYear(  )
     {
         return _nYear;
     }
@@ -211,7 +210,7 @@ public class PurchaseStatistic
      * @return the date
      */
     @Column( name = "date" )
-    public Timestamp getDate( )
+    public Timestamp getDate(  )
     {
         return _tDate;
     }
@@ -222,7 +221,7 @@ public class PurchaseStatistic
      */
     @OneToOne( fetch = FetchType.LAZY )
     @OrderColumn
-    public Purchase getPurchase( )
+    public Purchase getPurchase(  )
     {
         return _purchase;
     }
@@ -235,5 +234,4 @@ public class PurchaseStatistic
     {
         _purchase = purchase;
     }
-
 }

@@ -38,9 +38,9 @@ import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.PartnerDTO;
 
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -51,13 +51,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IProviderService
 {
-
-
     /**
      * Init this service
      */
     void init(  );
-
 
     /**
     * Modifies a provider
@@ -71,47 +68,44 @@ public interface IProviderService
     */
     void doDeleteProvider( int nIdProvider );
 
-
-
-
-	// /**
-	// * Find all providers with products fetched
-	// * @return the provider list
-	// */
-	//
-	// List<Provider> findAllWithProducts( );
-	//
-	    /**
-     * Find by filter.
-     * 
-     * @param filter the filter
-     * @param paginationProperties the pagination properties
-     * @return the provider list filtered
-     */
+    // /**
+    // * Find all providers with products fetched
+    // * @return the provider list
+    // */
+    //
+    // List<Provider> findAllWithProducts( );
+    //
+    /**
+    * Find by filter.
+    *
+    * @param filter the filter
+    * @param paginationProperties the pagination properties
+    * @return the provider list filtered
+    */
     ResultList<PartnerDTO> findByFilter( ProviderFilter filter, PaginationProperties paginationProperties );
 
-	/**
-	 * Find by provider id with product fetched
-	 * 
-	 * @param nId
-	 *            the provider id
-	 * @return the provider
-	 */
+    /**
+     * Find by provider id with product fetched
+     *
+     * @param nId
+     *            the provider id
+     * @return the provider
+     */
     PartnerDTO findByIdWithProducts( int nId );
 
     /**
      * Find by provider id
-     * 
+     *
      * @param nId
      *            the provider id
      * @return the provider
      */
     PartnerDTO findById( int nId );
-    
+
     /**
      * Return all provider
-     * 
+     *
      * @return the list of provider
      */
-    List<PartnerDTO> findAll( );
+    List<PartnerDTO> findAll(  );
 }

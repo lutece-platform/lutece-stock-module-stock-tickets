@@ -51,15 +51,15 @@ import javax.persistence.TableGenerator;
 
 
 /**
- * 
+ *
  * ProductStatistic
- * 
+ *
  */
 @Entity
 @Table( name = "stock_ticket_product_statistic" )
 public class ProductStatistic
 {
-    /**  
+    /**
      *
      */
     private static final long serialVersionUID = 5658942621967331856L;
@@ -80,9 +80,9 @@ public class ProductStatistic
     /**
      * Constructor
      */
-    public ProductStatistic( )
+    public ProductStatistic(  )
     {
-        super( );
+        super(  );
     }
 
     /**
@@ -91,12 +91,12 @@ public class ProductStatistic
      */
     public ProductStatistic( ProductStatistic productStatistic )
     {
-        _id = productStatistic.getId( );
-        _nDayOfYear = productStatistic.getDayOfYear( );
-        _nWeek = productStatistic.getWeek( );
-        _nMonth = productStatistic.getMonth( );
-        _nYear = productStatistic.getYear( );
-        _product = productStatistic.getProduct( );
+        _id = productStatistic.getId(  );
+        _nDayOfYear = productStatistic.getDayOfYear(  );
+        _nWeek = productStatistic.getWeek(  );
+        _nMonth = productStatistic.getMonth(  );
+        _nYear = productStatistic.getYear(  );
+        _product = productStatistic.getProduct(  );
     }
 
     /**
@@ -107,7 +107,7 @@ public class ProductStatistic
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
     @Column( name = "id_product_statistic" )
-    public Integer getId( )
+    public Integer getId(  )
     {
         return _id;
     }
@@ -126,7 +126,7 @@ public class ProductStatistic
      * @return the dayOfYear
      */
     @Column( name = "dayOfYear" )
-    public Integer getDayOfYear( )
+    public Integer getDayOfYear(  )
     {
         return _nDayOfYear;
     }
@@ -154,7 +154,7 @@ public class ProductStatistic
      * @return the week
      */
     @Column( name = "week" )
-    public Integer getWeek( )
+    public Integer getWeek(  )
     {
         return _nWeek;
     }
@@ -173,7 +173,7 @@ public class ProductStatistic
      * @return the month
      */
     @Column( name = "month" )
-    public Integer getMonth( )
+    public Integer getMonth(  )
     {
         return _nMonth;
     }
@@ -192,7 +192,7 @@ public class ProductStatistic
      * @return the year
      */
     @Column( name = "year" )
-    public Integer getYear( )
+    public Integer getYear(  )
     {
         return _nYear;
     }
@@ -211,7 +211,7 @@ public class ProductStatistic
      * @return the date
      */
     @Column( name = "date" )
-    public Timestamp getDate( )
+    public Timestamp getDate(  )
     {
         return _tDate;
     }
@@ -222,7 +222,7 @@ public class ProductStatistic
      */
     @ManyToOne( fetch = FetchType.LAZY )
     @OrderColumn
-    public Product getProduct( )
+    public Product getProduct(  )
     {
         return _product;
     }
@@ -235,5 +235,4 @@ public class ProductStatistic
     {
         _product = product;
     }
-
 }

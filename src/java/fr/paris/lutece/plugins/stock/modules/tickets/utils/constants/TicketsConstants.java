@@ -34,7 +34,6 @@
 package fr.paris.lutece.plugins.stock.modules.tickets.utils.constants;
 
 
-
 /**
  * The Class TicketsConstants.
  */
@@ -89,7 +88,5 @@ public class TicketsConstants
 
     // Attributes
     public static final String ATTR_POSTER_NAME = "posterName";
-
     public static final String FORMAT_COMBO_DATE_SEANCE = "dd MMMMM yyyy '-' HH'h'mm";
-
 }

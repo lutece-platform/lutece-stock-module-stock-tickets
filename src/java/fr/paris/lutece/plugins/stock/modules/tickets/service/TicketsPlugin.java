@@ -37,9 +37,9 @@ import fr.paris.lutece.plugins.stock.service.StockPlugin;
 
 
 /**
- * 
+ *
  * TicketsPlugin
- * 
+ *
  */
 public class TicketsPlugin extends StockPlugin
 {
@@ -51,7 +51,5 @@ public class TicketsPlugin extends StockPlugin
     public void init(  )
     {
         super.init(  );
-
     }
-
 }

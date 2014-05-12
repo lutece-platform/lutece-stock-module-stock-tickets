@@ -1,3 +1,36 @@
+/*
+ * Copyright (c) 2002-2013, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
 import org.hibernate.validator.constraints.Email;
@@ -11,6 +44,25 @@ import java.util.Comparator;
  */
 public class Contact
 {
+    /**
+     * comparator of contact, using ID parameter
+     */
+    public static final Comparator<Contact> COMPARATOR_USING_ID = new Comparator<Contact>(  )
+        {
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public int compare( Contact o1, Contact o2 )
+            {
+                int compare = 0;
+                compare = ( o1.getId(  ) < o2.getId(  ) ) ? ( -1 ) : compare;
+                compare = ( o1.getId(  ) > o2.getId(  ) ) ? 1 : compare;
+
+                return compare;
+            }
+        };
+
     /**
      * Name of the contact, firstname and surname
      */
@@ -34,24 +86,6 @@ public class Contact
     private int _id;
 
     /**
-     * comparator of contact, using ID parameter
-     */
-    public static final Comparator<Contact> COMPARATOR_USING_ID = new Comparator<Contact>( )
-    {
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int compare( Contact o1, Contact o2 )
-        {
-            int compare = 0;
-            compare = o1.getId( ) < o2.getId( ) ? -1 : compare;
-            compare = o1.getId( ) > o2.getId( ) ? 1 : compare;
-            return compare;
-        }
-    };
-
-    /**
      * Constructor of the contact
      * @param id the contact id
      * @param name the contact name
@@ -69,16 +103,15 @@ public class Contact
     /**
      * default constructor
      */
-    public Contact( )
+    public Contact(  )
     {
-
     }
 
     /**
      * get the id of the contact
      * @return the contact id
      */
-    public int getId( )
+    public int getId(  )
     {
         return _id;
     }
@@ -96,7 +129,7 @@ public class Contact
      * get the name of the contact
      * @return the name
      */
-    public String getName( )
+    public String getName(  )
     {
         return _name;
     }
@@ -114,7 +147,7 @@ public class Contact
      * get the adress mail of the contact
      * @return the adress mail
      */
-    public String getMail( )
+    public String getMail(  )
     {
         return _mail;
     }
@@ -132,7 +165,7 @@ public class Contact
      * get the phone number of the contact
      * @return the phone number
      */
-    public String getPhoneNumber( )
+    public String getPhoneNumber(  )
     {
         return _phoneNumber;
     }
@@ -154,23 +187,23 @@ public class Contact
     @Override
     public boolean equals( Object c )
     {
-        return ( (Contact) c ).getId( ) == this._id;
+        return ( (Contact) c ).getId(  ) == this._id;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int hashCode( )
+    public int hashCode(  )
     {
-        return getId( );
+        return getId(  );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String toString( )
+    public String toString(  )
     {
         return "Contact " + this._id + ":" + this._name + "," + this._mail + "," + this._phoneNumber + ";";
     }

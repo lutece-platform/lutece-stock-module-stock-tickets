@@ -33,24 +33,6 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeDate;
 import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeNum;
 import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
@@ -65,15 +47,34 @@ import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
+import org.apache.commons.lang.StringUtils;
+
+import java.math.BigDecimal;
+
+import java.sql.Timestamp;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 
 /**
  * Specific Data Access methods
- * 
+ *
  * @author abataille
  */
 public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
 {
-
     /**
      * Build the criteria query from the filter
      * @param filter the filter
@@ -82,71 +83,67 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
      * @param builder the criteria builder
      */
     protected void buildCriteriaQuery( ProductFilter filter, Root<Product> root, CriteriaQuery<Product> query,
-            CriteriaBuilder builder )
+        CriteriaBuilder builder )
     {
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<Predicate>(  );
 
-        if ( StringUtils.isNotBlank( filter.getName( ) ) )
+        if ( StringUtils.isNotBlank( filter.getName(  ) ) )
         {
             listPredicates.add( builder.like( root.get( Product_.name ),
-                    StockJPAUtils.buildCriteriaLikeString( filter.getName( ) ) ) );
+                    StockJPAUtils.buildCriteriaLikeString( filter.getName(  ) ) ) );
         }
 
-        if ( filter.getIdCategory( ) != null && filter.getIdCategory( ) > 0 )
+        if ( ( filter.getIdCategory(  ) != null ) && ( filter.getIdCategory(  ) > 0 ) )
         {
-            listPredicates.add( builder.equal( root.get( Product_.category ), filter.getIdCategory( ) ) );
+            listPredicates.add( builder.equal( root.get( Product_.category ), filter.getIdCategory(  ) ) );
         }
 
-        if ( filter.getIdProvider( ) != null && filter.getIdProvider( ) > 0 )
+        if ( ( filter.getIdProvider(  ) != null ) && ( filter.getIdProvider(  ) > 0 ) )
         {
-            listPredicates.add( builder.equal( root.get( Product_.provider ), filter.getIdProvider( ) ) );
+            listPredicates.add( builder.equal( root.get( Product_.provider ), filter.getIdProvider(  ) ) );
         }
 
-        if ( filter.getIdProduct( ) != null && filter.getIdProduct( ) > 0 )
+        if ( ( filter.getIdProduct(  ) != null ) && ( filter.getIdProduct(  ) > 0 ) )
         {
-            listPredicates.add( builder.equal( root.get( Product_.id ), filter.getIdProduct( ) ) );
+            listPredicates.add( builder.equal( root.get( Product_.id ), filter.getIdProduct(  ) ) );
         }
 
         // Date from (= date end of show <= date from)
-        if ( StringUtils.isNotEmpty( filter.getDateFrom( ) ) )
+        if ( StringUtils.isNotEmpty( filter.getDateFrom(  ) ) )
         {
-            Timestamp dateFrom = DateUtils.getDate( filter.getDateFrom( ), false );
+            Timestamp dateFrom = DateUtils.getDate( filter.getDateFrom(  ), false );
             Join<Product, ProductAttributeDate> join = root.join( Product_.attributeDateList );
-            listPredicates.add( AttributeDateUtils
-                    .greaterThanOrEqualTo( builder, join, ShowDTO.ATTR_DATE_END, dateFrom ) );
+            listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, ShowDTO.ATTR_DATE_END, dateFrom ) );
         }
+
         // Date to (=date start of show >= date to)
-        if ( StringUtils.isNotEmpty( filter.getDateTo( ) ) )
+        if ( StringUtils.isNotEmpty( filter.getDateTo(  ) ) )
         {
-            Timestamp dateEnd = DateUtils.getDate( filter.getDateTo( ), false );
+            Timestamp dateEnd = DateUtils.getDate( filter.getDateTo(  ), false );
             Join<Product, ProductAttributeDate> join = root.join( Product_.attributeDateList );
-            listPredicates
-                    .add( AttributeDateUtils.lessThanOrEqualTo( builder, join, ShowDTO.ATTR_DATE_START, dateEnd ) );
+            listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, ShowDTO.ATTR_DATE_START, dateEnd ) );
         }
 
         // Date the (=date the between date start and date end)
-        if ( StringUtils.isNotEmpty( filter.getDateThe( ) ) )
+        if ( StringUtils.isNotEmpty( filter.getDateThe(  ) ) )
         {
-            Timestamp dateThe = DateUtils.getDate( filter.getDateThe( ), false );
+            Timestamp dateThe = DateUtils.getDate( filter.getDateThe(  ), false );
             Join<Product, ProductAttributeDate> join = root.join( Product_.attributeDateList );
-            listPredicates
-                    .add( AttributeDateUtils.lessThanOrEqualTo( builder, join, ShowDTO.ATTR_DATE_START, dateThe ) );
-            listPredicates
-                    .add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, ShowDTO.ATTR_DATE_END, dateThe ) );
+            listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, ShowDTO.ATTR_DATE_START, dateThe ) );
+            listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, ShowDTO.ATTR_DATE_END, dateThe ) );
         }
 
         // En page d'accueil (à l'affiche)
-        if ( filter.getAlaffiche( ) != null && filter.getAlaffiche( ) )
+        if ( ( filter.getAlaffiche(  ) != null ) && filter.getAlaffiche(  ) )
         {
             Join<Product, ProductAttributeNum> join = root.join( "attributeNumList" );
             // Join<Product, ProductAttributeNum> join = root.join(
             // Product_.attributeNumList );
-            listPredicates
-                    .add( AttributeNumUtils.equal( builder, join, ShowDTO.ATTR_A_LAFFICHE, new BigDecimal( 1.0 ) ) );
+            listPredicates.add( AttributeNumUtils.equal( builder, join, ShowDTO.ATTR_A_LAFFICHE, new BigDecimal( 1.0 ) ) );
         }
 
-        if ( !listPredicates.isEmpty( ) )
+        if ( !listPredicates.isEmpty(  ) )
         {
             // add existing predicates to Where clause
             query.where( listPredicates.toArray( new Predicate[0] ) );
@@ -155,46 +152,47 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see fr.paris.lutece.plugins.stock.modules.tickets.business.IShowDAO#
      * getCurrentProduct(java.util.List)
      */
+
     /**
      * {@inheritDoc}
      */
     public List<Product> getCurrentProduct( List<String> orderList, PaginationProperties paginator )
     {
-        EntityManager em = getEM( );
-        CriteriaBuilder cb = em.getCriteriaBuilder( );
+        EntityManager em = getEM(  );
+        CriteriaBuilder cb = em.getCriteriaBuilder(  );
 
         CriteriaQuery<Product> cq = cb.createQuery( Product.class );
 
         Root<Product> root = cq.from( Product.class );
 
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<Predicate>(  );
 
         // date end after current date
-        Calendar calendar = new GregorianCalendar( );
+        Calendar calendar = new GregorianCalendar(  );
         calendar.set( GregorianCalendar.HOUR_OF_DAY, 23 );
         calendar.set( GregorianCalendar.MINUTE, 59 );
         calendar.set( GregorianCalendar.SECOND, 59 );
+
         Join<Product, ProductAttributeDate> join = root.join( Product_.attributeDateList );
         Join<Product, ProductAttributeDate> join1 = root.join( Product_.attributeDateList );
         listPredicates.add( AttributeDateUtils.between( cb, join, join1, "start", "end",
-                new Timestamp( calendar.getTimeInMillis( ) ) ) );
+                new Timestamp( calendar.getTimeInMillis(  ) ) ) );
 
         // add existing predicates to Where clause
-
         cq.where( listPredicates.toArray( new Predicate[0] ) );
 
-        ProductFilter filter = new ProductFilter( );
+        ProductFilter filter = new ProductFilter(  );
         filter.setOrderAsc( true );
         filter.setOrders( orderList );
         buildSortQuery( filter, root, cq, cb );
         cq.distinct( true );
 
-        return createPagedQuery( cq, paginator ).getResultList( );
+        return createPagedQuery( cq, paginator ).getResultList(  );
     }
 
     /**
@@ -203,95 +201,95 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
     @SuppressWarnings( "deprecation" )
     public List<Product> getComeProduct( List<String> orderList, PaginationProperties paginator )
     {
-        EntityManager em = getEM( );
-        CriteriaBuilder cb = em.getCriteriaBuilder( );
+        EntityManager em = getEM(  );
+        CriteriaBuilder cb = em.getCriteriaBuilder(  );
 
         CriteriaQuery<Product> cq = cb.createQuery( Product.class );
 
         Root<Product> root = cq.from( Product.class );
 
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<Predicate>(  );
 
-        Calendar calendar = new GregorianCalendar( );
+        Calendar calendar = new GregorianCalendar(  );
         calendar.set( GregorianCalendar.HOUR_OF_DAY, 23 );
         calendar.set( GregorianCalendar.MINUTE, 59 );
         calendar.set( GregorianCalendar.SECOND, 59 );
 
         Join<Product, ProductAttributeDate> join = root.join( Product_.attributeDateList );
         listPredicates.add( AttributeDateUtils.greaterThan( cb, join, "start",
-                new Timestamp( calendar.getTimeInMillis( ) ) ) );
+                new Timestamp( calendar.getTimeInMillis(  ) ) ) );
 
         // add existing predicates to Where clause
-
         cq.where( listPredicates.toArray( new Predicate[0] ) );
 
-        ProductFilter filter = new ProductFilter( );
+        ProductFilter filter = new ProductFilter(  );
         filter.setOrderAsc( true );
         filter.setOrders( orderList );
         buildSortQuery( filter, root, cq, cb );
         cq.distinct( true );
 
-        return createPagedQuery( cq, paginator ).getResultList( );
+        return createPagedQuery( cq, paginator ).getResultList(  );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see fr.paris.lutece.plugins.stock.modules.tickets.business.IShowDAO#
      * getCurrentAndComeProduct(java.util.List)
      */
+
     /**
      * {@inheritDoc}
      */
     public List<Product> getCurrentAndComeProduct( List<String> orderList )
     {
-        EntityManager em = getEM( );
-        CriteriaBuilder cb = em.getCriteriaBuilder( );
+        EntityManager em = getEM(  );
+        CriteriaBuilder cb = em.getCriteriaBuilder(  );
 
         CriteriaQuery<Product> cq = cb.createQuery( Product.class );
 
         Root<Product> root = cq.from( Product.class );
 
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<Predicate>(  );
 
         // date end after current date
-        Timestamp currentDate = DateUtils.getCurrentDate( );
+        Timestamp currentDate = DateUtils.getCurrentDate(  );
         Join<Product, ProductAttributeDate> join = root.join( Product_.attributeDateList );
         listPredicates.add( AttributeDateUtils.greaterThan( cb, join, "end", currentDate ) );
 
         // add existing predicates to Where clause
         cq.where( listPredicates.toArray( new Predicate[0] ) );
 
-        ProductFilter filter = new ProductFilter( );
+        ProductFilter filter = new ProductFilter(  );
         filter.setOrderAsc( true );
         filter.setOrders( orderList );
         buildSortQuery( filter, root, cq, cb );
         cq.distinct( true );
 
-        return createPagedQuery( cq, null ).getResultList( );
+        return createPagedQuery( cq, null ).getResultList(  );
     }
 
     /**
      * Build the sort query.
-     * 
+     *
      * @param filter the filter
      * @param root the product root
      * @param query the criteria query
      * @param builder the criteria builder
      */
     protected void buildSortQuery( ProductFilter filter, Root<Product> root, CriteriaQuery<Product> query,
-            CriteriaBuilder builder )
+        CriteriaBuilder builder )
     {
-        if ( filter.getOrders( ) != null && !filter.getOrders( ).isEmpty( ) )
+        if ( ( filter.getOrders(  ) != null ) && !filter.getOrders(  ).isEmpty(  ) )
         {
-            List<Order> orderList = new ArrayList<Order>( );
+            List<Order> orderList = new ArrayList<Order>(  );
 
             Path<Object> path = null;
 
             // get asc order
-            for ( String order : filter.getOrders( ) )
+            for ( String order : filter.getOrders(  ) )
             {
                 if ( order.equals( "dateEnd" ) )
                 {
@@ -319,7 +317,8 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
                 {
                     path = root.get( order );
                 }
-                if ( filter.isOrderAsc( ) )
+
+                if ( filter.isOrderAsc(  ) )
                 {
                     orderList.add( builder.asc( path ) );
                 }
@@ -328,6 +327,7 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
                     orderList.add( builder.desc( path ) );
                 }
             }
+
             query.orderBy( orderList );
         }
     }

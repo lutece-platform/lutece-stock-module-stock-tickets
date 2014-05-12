@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.stock.modules.tickets.business;
 import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
 
 
-
 /**
  *
  * ProductFilter
@@ -51,7 +50,7 @@ public class ShowFilter extends ProductFilter
     /**
      * @return the dateStart
      */
-    public String getDateFrom( )
+    public String getDateFrom(  )
     {
         return _dateFrom;
     }
@@ -67,7 +66,7 @@ public class ShowFilter extends ProductFilter
     /**
      * @return the dateEnd
      */
-    public String getDateTo( )
+    public String getDateTo(  )
     {
         return _dateTo;
     }
@@ -83,7 +82,7 @@ public class ShowFilter extends ProductFilter
     /**
      * @return the dateThe
      */
-    public String getDateThe( )
+    public String getDateThe(  )
     {
         return _dateThe;
     }

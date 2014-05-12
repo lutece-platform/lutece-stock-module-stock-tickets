@@ -45,93 +45,93 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class NotificationDTO
 {
-	@ListEmail
-	@NotEmpty
+    @ListEmail
+    @NotEmpty
     private String recipientsTo;
-	@NotEmpty
+    @NotEmpty
     private String subject;
-	@NotEmpty
+    @NotEmpty
     private String message;
     private String notificationAction;
     private Integer idOffer;
-	
-	/**
-	 * @param strRecipientsTo the strRecipientsTo to set
-	 */
-	public void setRecipientsTo( String strRecipientsTo )
-	{
+
+    /**
+     * @param strRecipientsTo the strRecipientsTo to set
+     */
+    public void setRecipientsTo( String strRecipientsTo )
+    {
         this.recipientsTo = strRecipientsTo;
-	}
-	
-	/**
-	 * @return the strRecipientsTo
-	 */
-	public String getRecipientsTo( )
-	{
+    }
+
+    /**
+     * @return the strRecipientsTo
+     */
+    public String getRecipientsTo(  )
+    {
         return recipientsTo;
-	}
-	
-	/**
-	 * @param strSubject the strSubject to set
-	 */
-	public void setSubject( String strSubject )
-	{
+    }
+
+    /**
+     * @param strSubject the strSubject to set
+     */
+    public void setSubject( String strSubject )
+    {
         this.subject = strSubject;
-	}
-	
-	/**
-	 * @return the strSubject
-	 */
-	public String getSubject( )
-	{
+    }
+
+    /**
+     * @return the strSubject
+     */
+    public String getSubject(  )
+    {
         return subject;
-	}
-	
-	/**
-	 * @param strMessage the strMessage to set
-	 */
-	public void setMessage( String strMessage )
-	{
+    }
+
+    /**
+     * @param strMessage the strMessage to set
+     */
+    public void setMessage( String strMessage )
+    {
         this.message = strMessage;
-	}
-	
-	/**
-	 * @return the strMessage
-	 */
-	public String getMessage( )
-	{
+    }
+
+    /**
+     * @return the strMessage
+     */
+    public String getMessage(  )
+    {
         return message;
-	}
+    }
 
-	/**
-	 * @param notificationAction the notificationAction to set
-	 */
-	public void setNotificationAction( String notificationAction )
-	{
+    /**
+     * @param notificationAction the notificationAction to set
+     */
+    public void setNotificationAction( String notificationAction )
+    {
         this.notificationAction = notificationAction;
-	}
+    }
 
-	/**
-	 * @return the notificationAction
-	 */
-	public String getNotificationAction( )
-	{
+    /**
+     * @return the notificationAction
+     */
+    public String getNotificationAction(  )
+    {
         return notificationAction;
-	}
+    }
 
-	/**
-	 * @param idOffer the idOffer to set
-	 */
-	public void setIdOffer( Integer idOffer )
-	{
+    /**
+     * @param idOffer the idOffer to set
+     */
+    public void setIdOffer( Integer idOffer )
+    {
         this.idOffer = idOffer;
-	}
+    }
 
-	/**
-	 * @return the idOffer
-	 */
-	public Integer getIdOffer( )
-	{
+    /**
+     * @return the idOffer
+     */
+    public Integer getIdOffer(  )
+    {
         return idOffer;
-	}
+    }
 }

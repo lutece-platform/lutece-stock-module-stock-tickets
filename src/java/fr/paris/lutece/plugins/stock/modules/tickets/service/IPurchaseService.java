@@ -46,16 +46,14 @@ import java.util.List;
  */
 public interface IPurchaseService
 {
-
     /**
      * Init this service.
      */
     void init(  );
 
-
     /**
      * Modifies a reservation.
-     * 
+     *
      * @param reservation The reservation to modify in database
      * @param sessionId the session id
      * @return the reservation dto
@@ -64,7 +62,7 @@ public interface IPurchaseService
 
     /**
      * Save a list of reservation.
-     * 
+     *
      * @param reservation list of reservation
      * @param sessionId the session id
      * @return the list
@@ -73,7 +71,7 @@ public interface IPurchaseService
 
     /**
      * Release a list of reservation.
-     * 
+     *
      * @param bookingList the booking list
      * @param sessionId the session id
      */
@@ -81,14 +79,14 @@ public interface IPurchaseService
 
     /**
      * Delete a reservation.
-     * 
+     *
      * @param nIdReservation the identifier of the reservation to delete
      */
     void doDeletePurchase( int nIdReservation );
 
     /**
      * Find by filter.
-     * 
+     *
      * @param filter the filter
      * @param paginationProperties the pagination properties
      * @return the purchase list filtered
@@ -97,7 +95,7 @@ public interface IPurchaseService
 
     /**
      * Find by filter without pagination properties.
-     * 
+     *
      * @param filter the filter
      * @return the purchase list filtered
      */
@@ -105,33 +103,33 @@ public interface IPurchaseService
 
     /**
      * Update.
-     * 
+     *
      * @param purchase the purchase
      */
-	void update( ReservationDTO purchase );
+    void update( ReservationDTO purchase );
 
     /**
      * Find all.
-     * 
+     *
      * @return the list
      */
-    List<ReservationDTO> findAll( );
+    List<ReservationDTO> findAll(  );
 
     /**
      * Return an purchase by his id.
-     * 
+     *
      * @param nIdPurchase purchase id
      * @return the other
      */
-	ReservationDTO findById( Integer nIdPurchase );
-	
-	    /**
-     * Return the number of reservation for an offer and an agent.
-     * 
-     * @param id offer id
-     * @param idOfferGenre the id offer genre
-     * @param userName agent userName
-     * @return number of reservation
-     */
+    ReservationDTO findById( Integer nIdPurchase );
+
+    /**
+    * Return the number of reservation for an offer and an agent.
+    *
+    * @param id offer id
+    * @param idOfferGenre the id offer genre
+    * @param userName agent userName
+    * @return number of reservation
+    */
     Integer getNumberOfReservationByIdProductAndUserName( Integer id, Integer idOfferGenre, String userName );
 }

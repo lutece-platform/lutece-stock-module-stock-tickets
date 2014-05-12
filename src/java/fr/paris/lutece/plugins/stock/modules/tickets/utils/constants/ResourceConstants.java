@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.utils.constants;
 
+
 /**
  * The Class ResourceConstants.
  */
@@ -46,9 +47,7 @@ public final class ResourceConstants
     /**
      * Instantiates a new resource constants.
      */
-    private ResourceConstants( )
+    private ResourceConstants(  )
     {
-
     }
-
 }

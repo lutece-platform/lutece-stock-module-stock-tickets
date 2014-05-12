@@ -44,55 +44,57 @@ import fr.paris.lutece.plugins.stock.service.IPurchaseRules;
 import fr.paris.lutece.plugins.stock.service.PurchaseRules;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+import org.apache.log4j.Logger;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.apache.log4j.Logger;
 
 
 /**
  * Business rules for offer type Invitation
- * 
+ *
  * @author abataille
  */
 public class PurchaseInvitationRules extends PurchaseRules implements IPurchaseRules
 {
     public static final String MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER_TYPE = "module.stock.billetterie.message.error.purchase.quantity.offer.type";
-    public static final Integer NB_PLACES_MAX_INVITATION = AppPropertiesService.getPropertyInt(
-            "stock-billetterie.nb_places_max.invitation", 2 );
+    public static final Integer NB_PLACES_MAX_INVITATION = AppPropertiesService.getPropertyInt( "stock-billetterie.nb_places_max.invitation",
+            2 );
     private static final Logger LOGGER = Logger.getLogger( PurchaseInvitationRules.class );
-
     @Inject
     private IPurchaseService _purchaseService;
-
     @Inject
     @Named( "stock-tickets.seanceService" )
     private IOfferService _offerService;
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * fr.paris.lutece.plugins.stock.service.IPurchaseRules#checkBeforePurchase
      * (fr.paris.lutece.plugins.stock.business.purchase.Purchase)
      */
+
     /**
      * {@inheritDoc}
      */
-    public void checkBeforePurchase( IPurchaseDTO purchase, String sessionId ) throws PurchaseOutOfStock,
-            PurchaseSessionExpired
+    public void checkBeforePurchase( IPurchaseDTO purchase, String sessionId )
+        throws PurchaseOutOfStock, PurchaseSessionExpired
     {
         super.checkBeforePurchase( purchase, sessionId );
 
         LOGGER.debug( "Vérification des règles de gestion pour une invitation, SID = " + sessionId );
-        Offer offer = _offerService.findById( purchase.getOfferId( ) );
-        Integer nbReservation = _purchaseService.getNumberOfReservationByIdProductAndUserName( offer.getProduct( )
-                .getId( ),
-                offer.getType( ).getId( ),
-                purchase.getUserName( ) );
-        if ( ( purchase.getQuantity( ) + nbReservation ) > NB_PLACES_MAX_INVITATION )
+
+        Offer offer = _offerService.findById( purchase.getOfferId(  ) );
+        Integer nbReservation = _purchaseService.getNumberOfReservationByIdProductAndUserName( offer.getProduct(  )
+                                                                                                    .getId(  ),
+                offer.getType(  ).getId(  ), purchase.getUserName(  ) );
+
+        if ( ( purchase.getQuantity(  ) + nbReservation ) > NB_PLACES_MAX_INVITATION )
         {
             throw new BusinessException( purchase, MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER_TYPE );
         }
+
         LOGGER.debug( "Vérification ok, SID = " + sessionId );
     }
 }

@@ -57,13 +57,13 @@ public final class TicketsExportUtils
     private static final String CACHE_CONTROL_VALUE = "must-revalidate,post-check=0,pre-check=0";
 
     /**
-     * 
+     *
      * Creates a new TicketsExportUtils.java object.
      */
-    private TicketsExportUtils( )
+    private TicketsExportUtils(  )
     {
-
     }
+
     /**
     * Writes the http header in the response
     * @param request the httpServletRequest
