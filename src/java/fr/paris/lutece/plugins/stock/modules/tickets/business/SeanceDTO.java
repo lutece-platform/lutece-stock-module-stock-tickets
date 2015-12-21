@@ -45,15 +45,12 @@ import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.dozer.Mapper;
-
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
-
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -74,6 +71,8 @@ public class SeanceDTO extends AbstractDTO<Offer>
     public static final String ATTR_HOUR = "hour";
     public static final String ATTR_INIT_QUANTITY = "initialQuantity";
     public static final String ATTR_ID_CONTACT = "idContact";
+    public static final String ATTR_MIN_TICKETS = "minTickets";
+    public static final String ATTR_MAX_TICKETS = "maxTickets";
     private Integer id;
     private String description;
     private String name;
@@ -98,6 +97,12 @@ public class SeanceDTO extends AbstractDTO<Offer>
     private String statut;
     private Date dateHour;
     private Integer[] idContact;
+    @Range( min = 1, max = 99, message = "#i18n{module.stock.tickets.validation.seanceDTO.minTickets.range}" )
+    @NotNull
+    private Integer minTickets;
+    @Range( min = 1, max = 99, message = "#i18n{module.stock.tickets.validation.seanceDTO.maxTickets.range}" )
+    @NotNull
+    private Integer maxTickets;
 
     /**
      * {@inheritDoc}
@@ -340,6 +345,16 @@ public class SeanceDTO extends AbstractDTO<Offer>
             }
 
             seance.setIdContact( arrayIdContact );
+            
+            if ( attributeNumList.get( ATTR_MIN_TICKETS ) != null )
+            {
+                seance.setMinTickets( attributeNumList.get( ATTR_MIN_TICKETS ).intValue(  ) );
+            }
+            
+            if ( attributeNumList.get( ATTR_MAX_TICKETS ) != null )
+            {
+                seance.setMaxTickets( attributeNumList.get( ATTR_MAX_TICKETS ).intValue(  ) );
+            }
         }
 
         return seance;
@@ -391,7 +406,20 @@ public class SeanceDTO extends AbstractDTO<Offer>
                 nNbContact++;
             }
         }
+        
+        if ( this.minTickets != null )
+        {
+            offer.getAttributeNumList(  )
+                 .add( new OfferAttributeNum( ATTR_MIN_TICKETS, BigDecimal.valueOf( this.getMinTickets(  ) ),
+                    offer ) );
+        }
 
+        if ( this.maxTickets != null )
+        {
+            offer.getAttributeNumList(  )
+                 .add( new OfferAttributeNum( ATTR_MAX_TICKETS, BigDecimal.valueOf( this.getMaxTickets(  ) ),
+                    offer ) );
+        }
         return offer;
     }
 
@@ -505,5 +533,41 @@ public class SeanceDTO extends AbstractDTO<Offer>
     public Integer[] getIdContact(  )
     {
         return idContact;
+    }
+
+    /**
+     * @return the minTickets
+     */
+    public Integer getMinTickets(  )
+    {
+        return minTickets;
+    }
+
+    /**
+     * Sets the minTickets.
+     *
+     * @param minTickets the minTickets to set
+     */
+    public void setMinTickets( Integer minTickets )
+    {
+        this.minTickets = minTickets;
+    }
+
+    /**
+     * @return the maxTickets
+     */
+    public Integer getMaxTickets(  )
+    {
+        return maxTickets;
+    }
+
+    /**
+     * Sets the maxTickets.
+     *
+     * @param maxTickets the maxTickets to set
+     */
+    public void setMaxTickets( Integer maxTickets )
+    {
+        this.maxTickets = maxTickets;
     }
 }

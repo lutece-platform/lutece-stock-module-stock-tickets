@@ -58,8 +58,6 @@ import javax.inject.Named;
 public class PurchaseTarifReduitRules extends PurchaseRules implements IPurchaseRules
 {
     public static final String MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER_TYPE = "module.stock.billetterie.message.error.purchase.quantity.offer.type";
-    public static final Integer NB_PLACES_MAX_TARIF_REDUIT = AppPropertiesService.getPropertyInt( "stock-billetterie.nb_places_max.tarif_reduit",
-            2 );
     private static final Logger LOGGER = Logger.getLogger( PurchaseTarifReduitRules.class );
     @Inject
     private IPurchaseService _purchaseService;
@@ -90,7 +88,7 @@ public class PurchaseTarifReduitRules extends PurchaseRules implements IPurchase
                                                                                                     .getId(  ),
                 offer.getType(  ).getId(  ), purchase.getUserName(  ) );
 
-        if ( ( purchase.getQuantity(  ) + nbReservation ) > NB_PLACES_MAX_TARIF_REDUIT )
+        if ( ( purchase.getQuantity(  ) + nbReservation ) > offer.getMaxTickets(  ) )
         {
             throw new BusinessException( purchase, MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER_TYPE );
         }

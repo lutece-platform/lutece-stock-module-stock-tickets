@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
+import fr.paris.lutece.plugins.stock.business.attribute.offer.OfferAttributeNum;
 import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttribute;
 import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeDate;
 import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeNum;
@@ -46,15 +47,14 @@ import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.dozer.Mapper;
-
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
-
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -101,6 +101,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
     /** The Constant ATTR_SUBSCRIBABLE. */
     public static final String ATTR_SUBSCRIBABLE = "subscribable";
+    
+    public static final String ATTR_ID_CONTACT = "idContact";
 
     /** The id. */
     private Integer id;
@@ -171,6 +173,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /** The subscribable */
     private boolean subscribable;
 
+    private Integer[] idContact;
     /**
      * Gets the id.
      *
@@ -529,6 +532,28 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
             {
                 show.setAlaffiche( attributeNumList.get( ATTR_A_LAFFICHE ).intValue(  ) == 1 );
             }
+            
+            int nNbContacts = 0;
+            List<Integer> listIdContact = new ArrayList<Integer>(  );
+            BigDecimal idContact = attributeNumList.get( ATTR_ID_CONTACT );
+
+            while ( idContact != null )
+            {
+                listIdContact.add( idContact.intValue(  ) );
+                nNbContacts++;
+                idContact = attributeNumList.get( ATTR_ID_CONTACT + nNbContacts );
+            }
+
+            Integer[] arrayIdContact = new Integer[nNbContacts];
+            nNbContacts = 0;
+
+            for ( Integer nIdContact : listIdContact )
+            {
+                arrayIdContact[nNbContacts] = nIdContact;
+                nNbContacts++;
+            }
+
+            show.setIdContact( arrayIdContact );
         }
 
         Set<ProductAttribute> attributeList = source.getAttributeList(  );
@@ -640,6 +665,19 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
             product.getAttributeList(  ).add( new ProductAttribute( ATTR_SUBSCRIBABLE, STRING_FALSE, product ) );
         }
 
+        if ( ( this.idContact != null ) && ( this.idContact.length > 0 ) )
+        {
+            int nNbContact = 0;
+
+            for ( Integer nIdContact : idContact )
+            {
+                product.getAttributeNumList(  )
+                     .add( new ProductAttributeNum( ( nNbContact == 0 ) ? ATTR_ID_CONTACT : ( ATTR_ID_CONTACT +
+                        nNbContact ), BigDecimal.valueOf( nIdContact ), product ) );
+                nNbContact++;
+            }
+        }
+        
         return product;
     }
 
@@ -769,5 +807,23 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     {
         // No image
         return null;
+    }
+
+    /**
+     * 
+     * @return the contact
+     */
+    public Integer[] getIdContact(  )
+    {
+        return idContact;
+    }
+
+    /**
+     * Set the contact
+     * @param idContact the new contact to set
+     */
+    public void setIdContact( Integer[] idContact )
+    {
+        this.idContact = idContact;
     }
 }
