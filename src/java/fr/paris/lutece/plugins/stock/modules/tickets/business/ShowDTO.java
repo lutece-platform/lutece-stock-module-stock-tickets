@@ -83,6 +83,9 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
     /** The Constant ATTR_DATE_END. */
     public static final String ATTR_DATE_END = "end";
+    
+    /** The Constant ATTR_DATE_UPDATE. */
+    public static final String ATTR_DATE_UPDATE = "update";
 
     /** The Constant ATTR_WITH. */
     public static final String ATTR_WITH = "with";
@@ -141,6 +144,10 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     @NotEmpty
     @AfterCurrentDate
     private String endDate;
+    
+    /** The update date. */
+    @DateFormat( format = "dd/MM/yyyy" )
+    private String updateDate;
 
     /** The website. */
     @URL
@@ -354,6 +361,26 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     {
         this.endDate = endDate;
     }
+    
+    /**
+    * Gets the update date.
+    *
+    * @return the updateDate
+    */
+   public String getUpdateDate(  )
+   {
+       return updateDate;
+   }
+
+   /**
+    * Sets the update date.
+    *
+    * @param updateDate the updateDate to set
+    */
+   public void setUpdateDate( String updateDate )
+   {
+       this.updateDate = updateDate;
+   }
 
     /**
      * Gets the website.
@@ -517,9 +544,13 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
                 {
                     show.setStartDate( DateUtils.getDateFr( attribute.getValue(  ) ) );
                 }
-                else if ( ATTR_DATE_END.equals( attribute.getKey(  ) ) )
+                if ( ATTR_DATE_END.equals( attribute.getKey(  ) ) )
                 {
                     show.setEndDate( DateUtils.getDateFr( attribute.getValue(  ) ) );
+                }
+                if ( ATTR_DATE_UPDATE.equals( attribute.getKey(  ) ) )
+                {
+                    show.setUpdateDate( DateUtils.getDateFr( attribute.getValue(  ) ) );
                 }
             }
         }
@@ -625,6 +656,13 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
         {
             product.getAttributeDateList(  )
                    .add( new ProductAttributeDate( ATTR_DATE_START, DateUtils.getDate( getStartDate(  ), false ),
+                    product ) );
+        }
+        
+        if ( StringUtils.isNotEmpty( getUpdateDate(  ) ) )
+        {
+            product.getAttributeDateList(  )
+                   .add( new ProductAttributeDate( ATTR_DATE_UPDATE, DateUtils.getDate( getUpdateDate(  ), false ),
                     product ) );
         }
 
