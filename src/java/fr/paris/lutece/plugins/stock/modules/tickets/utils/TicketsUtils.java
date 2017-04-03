@@ -61,11 +61,11 @@ public final class TicketsUtils
     */
     public static void copyParameters( UrlItem url, Map<String, Object> urlParam, HttpServletRequest request )
     {
-        Map<String, Object> mapParameters = request.getParameterMap(  );
+        Map<String, String[]> mapParameters = request.getParameterMap(  );
 
         for ( String strParamName : mapParameters.keySet(  ) )
         {
-            String[] parameterValues = (String[]) mapParameters.get( strParamName );
+            String[] parameterValues = mapParameters.get( strParamName );
 
             if ( parameterValues.length > 1 )
             {
