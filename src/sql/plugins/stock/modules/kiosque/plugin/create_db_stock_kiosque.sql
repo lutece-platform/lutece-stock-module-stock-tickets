@@ -130,7 +130,7 @@ CREATE TABLE kiosque_type_partner (
 
 DROP TABLE IF EXISTS kiosque_visitor;
 CREATE TABLE kiosque_visitor (
-  date datetime NOT NULL default '0000-00-00 00:00:00',
+  date datetime NOT NULL default '1980-01-01 00:00:00',
   id_user int default '0' NOT NULL,
   nb_visitors int default NULL,
   PRIMARY KEY  (date,id_user)
