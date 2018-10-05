@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.sql.Timestamp;
 
 import java.util.List;
 
-
 /**
  * Interface for seance dao
  *
@@ -49,18 +48,21 @@ import java.util.List;
 public interface ISeanceDAO extends IOfferDAO
 {
     /**
-     * Returns list of available seance types (not cancelled) for given date and
-     * hour.
+     * Returns list of available seance types (not cancelled) for given date and hour.
      *
-     * @param offerId the offer id
-     * @param dateHour date and hour
+     * @param offerId
+     *            the offer id
+     * @param dateHour
+     *            date and hour
      * @return seance list
      */
     List<Offer> findAvailableSeanceByDate( Integer offerId, Timestamp dateHour );
 
     /**
      * Returns list of available seance types (not cancelled) for given offer id
-     * @param offerId offer id
+     * 
+     * @param offerId
+     *            offer id
      * @return seance list
      */
     List<Offer> findAvailableSeance( Integer offerId );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.stock.modules.tickets.utils.export;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * The Class TicketsExportUtils.
  */
@@ -60,19 +59,23 @@ public final class TicketsExportUtils
      *
      * Creates a new TicketsExportUtils.java object.
      */
-    private TicketsExportUtils(  )
+    private TicketsExportUtils( )
     {
     }
 
     /**
-    * Writes the http header in the response
-    * @param request the httpServletRequest
-    * @param response the http response
-    * @param strFileName the name of the file who must insert in the response
-    * @param strFileExtension the file extension
-    */
-    public static void addHeaderResponse( HttpServletRequest request, HttpServletResponse response, String strFileName,
-        String strFileExtension )
+     * Writes the http header in the response
+     * 
+     * @param request
+     *            the httpServletRequest
+     * @param response
+     *            the http response
+     * @param strFileName
+     *            the name of the file who must insert in the response
+     * @param strFileExtension
+     *            the file extension
+     */
+    public static void addHeaderResponse( HttpServletRequest request, HttpServletResponse response, String strFileName, String strFileExtension )
     {
         response.setHeader( CONTENT_DISPOSITION, ATTACHMENT + strFileName + DOUBLE_QUOTE );
 
@@ -82,7 +85,7 @@ public final class TicketsExportUtils
         }
         else
         {
-            String strMimeType = request.getSession(  ).getServletContext(  ).getMimeType( strFileName );
+            String strMimeType = request.getSession( ).getServletContext( ).getMimeType( strFileName );
 
             if ( strMimeType != null )
             {

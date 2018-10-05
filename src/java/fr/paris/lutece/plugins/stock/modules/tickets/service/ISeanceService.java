@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,46 +45,50 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * The Interface ISeanceService.
  */
-@Transactional( rollbackFor = 
-{
-    Exception.class}
- )
+@Transactional( rollbackFor = {
+    Exception.class
+} )
 public interface ISeanceService
 {
     /**
      * Init this service.
      */
-    void init(  );
+    void init( );
 
     /**
      * Modifies a seance.
      *
-     * @param seance The seance to modify in database
+     * @param seance
+     *            The seance to modify in database
      */
     void doSaveOffer( SeanceDTO seance );
 
     /**
      * Delete a seance.
      *
-     * @param nIdSeance the identifier of the seance to delete
+     * @param nIdSeance
+     *            the identifier of the seance to delete
      */
     void doDeleteOffer( int nIdSeance );
 
     /**
      * Same action as doDeleteOffer but with many offer
-     * @param nIdsOffer the list of offer which must be delete
+     * 
+     * @param nIdsOffer
+     *            the list of offer which must be delete
      */
     void doMasseDeleteOffer( List<Integer> listOffer );
 
     /**
      * Find by filter.
      *
-     * @param filter the filter
-     * @param paginationProperties the pagination properties
+     * @param filter
+     *            the filter
+     * @param paginationProperties
+     *            the pagination properties
      * @return the offer list filtered
      */
     ResultList<SeanceDTO> findByFilter( OfferFilter filter, PaginationProperties paginationProperties );
@@ -92,7 +96,8 @@ public interface ISeanceService
     /**
      * Update.
      *
-     * @param offer the offer
+     * @param offer
+     *            the offer
      */
     void update( SeanceDTO offer );
 
@@ -101,29 +106,33 @@ public interface ISeanceService
      *
      * @return the list
      */
-    List<SeanceDTO> findAll(  );
+    List<SeanceDTO> findAll( );
 
     /**
      * Return an offer by his id.
      *
-     * @param nIdOffer offer id
+     * @param nIdOffer
+     *            offer id
      * @return the other
      */
     SeanceDTO findSeanceById( Integer nIdOffer );
 
     /**
-    * Return all the offer genre.
-    *
-    * @return the list of offer genre
-    */
-    List<OfferGenre> findAllGenre(  );
+     * Return all the offer genre.
+     *
+     * @return the list of offer genre
+     */
+    List<OfferGenre> findAllGenre( );
 
     /**
      * List of seance dates for a show.
      *
-     * @param showId id of the show
-     * @param filter offer filter
-     * @param locale the locale
+     * @param showId
+     *            id of the show
+     * @param filter
+     *            offer filter
+     * @param locale
+     *            the locale
      * @return list of date string
      */
     List<String> findSeanceByShow( Integer showId, OfferFilter filter, Locale locale );
@@ -131,8 +140,10 @@ public interface ISeanceService
     /**
      * Find seance by date and hour.
      *
-     * @param showId the show id
-     * @param dateHour date and hour
+     * @param showId
+     *            the show id
+     * @param dateHour
+     *            date and hour
      * @return seance list
      */
     List<SeanceDTO> findSeanceByDate( Integer showId, Date dateHour );

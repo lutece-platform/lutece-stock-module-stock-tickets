@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,14 +64,12 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
 /**
  * OfferService.
  */
-@Transactional( rollbackFor = 
-{
-    Exception.class}
- )
+@Transactional( rollbackFor = {
+    Exception.class
+} )
 public class SeanceService extends OfferService implements ISeanceService
 {
     /** The Constant RIGHT_MANAGE_OFFRES. */
@@ -80,7 +78,7 @@ public class SeanceService extends OfferService implements ISeanceService
     /** The Constant RESOURCE_TYPE. */
     public static final String RESOURCE_TYPE = "OFFER";
 
-    //MESSAGES
+    // MESSAGES
     /** The Constant MESSAGE_ERROR_OFFER_UNIQUE_BY_DATE_BY_SPECTACLE. */
     private static final String MESSAGE_ERROR_OFFER_UNIQUE_BY_DATE_BY_SPECTACLE = "module.stock.billetterie.save_offer.error.unique";
 
@@ -104,7 +102,7 @@ public class SeanceService extends OfferService implements ISeanceService
     /**
      * {@inheritDoc}
      */
-    public void init(  )
+    public void init( )
     {
     }
 
@@ -115,22 +113,22 @@ public class SeanceService extends OfferService implements ISeanceService
     {
         // BO-E08-RGE01 : Il ne doit y avoir qu'une seule representation par
         // spectacle, type, date, heure.
-        SeanceFilter filter = new SeanceFilter(  );
-        filter.setProductId( offer.getProduct(  ).getId(  ) );
-        filter.setIdGenre( offer.getIdGenre(  ) );
-        filter.setDateOr( DateUtils.getDate( offer.getDate(  ), false ) );
-        filter.setHour( DateUtils.getHour( offer.getHour(  ) ) );
+        SeanceFilter filter = new SeanceFilter( );
+        filter.setProductId( offer.getProduct( ).getId( ) );
+        filter.setIdGenre( offer.getIdGenre( ) );
+        filter.setDateOr( DateUtils.getDate( offer.getDate( ), false ) );
+        filter.setHour( DateUtils.getHour( offer.getHour( ) ) );
 
         ResultList<SeanceDTO> seanceList = this.findByFilter( filter, null );
 
-        if ( !seanceList.isEmpty(  ) )
+        if ( !seanceList.isEmpty( ) )
         {
             boolean otherOfferCancel = false;
 
             // Les représentations déjà existantes ne sont pas annulées
             for ( SeanceDTO seance : seanceList )
             {
-                if ( !seance.getStatut(  ).equals( TicketsConstants.OFFER_STATUT_CANCEL ) )
+                if ( !seance.getStatut( ).equals( TicketsConstants.OFFER_STATUT_CANCEL ) )
                 {
                     otherOfferCancel = true;
                 }
@@ -138,35 +136,33 @@ public class SeanceService extends OfferService implements ISeanceService
 
             // Si modification, l'id de l'offre recuperee doit etre differente
             // de celle en cours de modification
-            if ( otherOfferCancel &&
-                    ( ( offer.getId(  ) == null ) ||
-                    ( ( offer.getId(  ) != null ) && !seanceList.get( 0 ).getId(  ).equals( offer.getId(  ) ) ) ) )
+            if ( otherOfferCancel && ( ( offer.getId( ) == null ) || ( ( offer.getId( ) != null ) && !seanceList.get( 0 ).getId( ).equals( offer.getId( ) ) ) ) )
             {
                 throw new BusinessException( offer, MESSAGE_ERROR_OFFER_UNIQUE_BY_DATE_BY_SPECTACLE );
             }
         }
 
         // BO-CU04-E01-RGE15 : Le prix en tarif réduit est obligatoire si le type de la représentation est « Tarifs réduits ».
-        if ( offer.getIdGenre(  ).equals( TicketsConstants.OFFER_TYPE_REDUCT_ID ) )
+        if ( offer.getIdGenre( ).equals( TicketsConstants.OFFER_TYPE_REDUCT_ID ) )
         {
-            if ( ( offer.getReductPrice(  ) == null ) || ( offer.getReductPrice(  ) <= 0 ) )
+            if ( ( offer.getReductPrice( ) == null ) || ( offer.getReductPrice( ) <= 0 ) )
             {
                 throw new BusinessException( offer, MESSAGE_ERROR_OFFER_REDUCT_PRICE );
             }
         }
 
-        if ( offer.getInitialQuantity(  ) == null )
+        if ( offer.getInitialQuantity( ) == null )
         {
-            offer.setInitialQuantity( offer.getQuantity(  ) );
+            offer.setInitialQuantity( offer.getQuantity( ) );
         }
 
-        if ( ( offer.getId(  ) != null ) && ( offer.getId(  ) > 0 ) )
+        if ( ( offer.getId( ) != null ) && ( offer.getId( ) > 0 ) )
         {
-            _daoOffer.update( offer.convert(  ) );
+            _daoOffer.update( offer.convert( ) );
         }
         else
         {
-            _daoOffer.create( offer.convert(  ) );
+            _daoOffer.create( offer.convert( ) );
         }
     }
 
@@ -176,14 +172,14 @@ public class SeanceService extends OfferService implements ISeanceService
     public void doDeleteOffer( int nIdOffer )
     {
         // delete all purchase for this offer
-        PurchaseFilter purchaseFilter = new PurchaseFilter(  );
+        PurchaseFilter purchaseFilter = new PurchaseFilter( );
         purchaseFilter.setIdOffer( nIdOffer );
 
         List<Purchase> purchaseList = _daoPurchase.findByFilter( purchaseFilter, null );
 
         for ( Purchase purchase : purchaseList )
         {
-            this._daoPurchase.remove( purchase.getId(  ) );
+            this._daoPurchase.remove( purchase.getId( ) );
         }
 
         _daoOffer.remove( nIdOffer );
@@ -191,7 +187,9 @@ public class SeanceService extends OfferService implements ISeanceService
 
     /**
      * Same action as doDeleteOffer but with many offer
-     * @param nIdsOffer the list of offer which must be delete
+     * 
+     * @param nIdsOffer
+     *            the list of offer which must be delete
      */
     public void doMasseDeleteOffer( List<Integer> nIdsOffer )
     {
@@ -203,10 +201,8 @@ public class SeanceService extends OfferService implements ISeanceService
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * fr.paris.lutece.plugins.stock.modules.tickets.service.ISeanceService#
-     * update(fr.paris.lutece.plugins.stock.modules.tickets.business.SeanceDTO)
+     * 
+     * @see fr.paris.lutece.plugins.stock.modules.tickets.service.ISeanceService# update(fr.paris.lutece.plugins.stock.modules.tickets.business.SeanceDTO)
      */
 
     /**
@@ -214,7 +210,7 @@ public class SeanceService extends OfferService implements ISeanceService
      */
     public void update( SeanceDTO offer )
     {
-        _daoOffer.update( offer.convert(  ) );
+        _daoOffer.update( offer.convert( ) );
     }
 
     /**
@@ -227,18 +223,16 @@ public class SeanceService extends OfferService implements ISeanceService
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * fr.paris.lutece.plugins.stock.modules.tickets.service.ISeanceService#
-     * findAll()
+     * 
+     * @see fr.paris.lutece.plugins.stock.modules.tickets.service.ISeanceService# findAll()
      */
 
     /**
      * {@inheritDoc}
      */
-    public List<SeanceDTO> findAll(  )
+    public List<SeanceDTO> findAll( )
     {
-        return SeanceDTO.convertEntityList( _daoOffer.findAll(  ) );
+        return SeanceDTO.convertEntityList( _daoOffer.findAll( ) );
     }
 
     /**
@@ -252,9 +246,9 @@ public class SeanceService extends OfferService implements ISeanceService
     /**
      * {@inheritDoc}
      */
-    public List<OfferGenre> findAllGenre(  )
+    public List<OfferGenre> findAllGenre( )
     {
-        return _daoOfferGenre.findAll(  );
+        return _daoOfferGenre.findAll( );
     }
 
     /**
@@ -265,19 +259,18 @@ public class SeanceService extends OfferService implements ISeanceService
         List<SeanceDTO> offerList = SeanceDTO.convertEntityList( _daoOffer.findByProduct( showId, filter ) );
         final DateFormat sdfComboSeance = new SimpleDateFormat( TicketsConstants.FORMAT_COMBO_DATE_SEANCE, locale );
 
-        List<String> dateList = new ArrayList<String>(  );
-        Date today = new Date(  );
+        List<String> dateList = new ArrayList<String>( );
+        Date today = new Date( );
 
         for ( SeanceDTO seance : offerList )
         {
-            String sDateHour = sdfComboSeance.format( seance.getDateHour(  ) );
+            String sDateHour = sdfComboSeance.format( seance.getDateHour( ) );
 
-            if ( seance.getStatut(  ).equals( TicketsConstants.OFFER_STATUT_OPEN ) &&
-                    seance.getDateHour(  ).after( today ) )
+            if ( seance.getStatut( ).equals( TicketsConstants.OFFER_STATUT_OPEN ) && seance.getDateHour( ).after( today ) )
             {
                 if ( !dateList.contains( sDateHour ) )// Pas de type de séance non complète ajoutée pour cette date
                 {
-                    if ( seance.getQuantity(  ) == 0 )
+                    if ( seance.getQuantity( ) == 0 )
                     {
                         if ( !dateList.contains( sDateHour + " - COMPLET" ) )
                         {
@@ -301,7 +294,7 @@ public class SeanceService extends OfferService implements ISeanceService
      */
     public List<SeanceDTO> findSeanceByDate( Integer showId, Date dateHour )
     {
-        Timestamp dateHourTs = new Timestamp( dateHour.getTime(  ) );
+        Timestamp dateHourTs = new Timestamp( dateHour.getTime( ) );
 
         List<SeanceDTO> offerList = SeanceDTO.convertEntityList( _daoOffer.findAvailableSeanceByDate( showId, dateHourTs ) );
 
@@ -311,8 +304,10 @@ public class SeanceService extends OfferService implements ISeanceService
     /**
      * Check availability.
      *
-     * @param offerId the offer id
-     * @param userName the user name
+     * @param offerId
+     *            the offer id
+     * @param userName
+     *            the user name
      */
     public void checkAvailability( Integer offerId, String userName )
     {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2013, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowCategoryDTO;
 
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  *
  * interface IShowCategoryService
@@ -52,13 +51,15 @@ public interface IShowCategoryService
     /**
      * Init the object.
      */
-    void init(  );
+    void init( );
 
     /**
      * Finds by filter.
      *
-     * @param filter the filter
-     * @param paginationProperties the pagination properties
+     * @param filter
+     *            the filter
+     * @param paginationProperties
+     *            the pagination properties
      * @return the category list
      */
     ResultList<ShowCategoryDTO> findByFilter( CategoryFilter filter, PaginationProperties paginationProperties );
@@ -66,7 +67,8 @@ public interface IShowCategoryService
     /**
      * Find by id.
      *
-     * @param nIdCategory the id to look for
+     * @param nIdCategory
+     *            the id to look for
      * @return the found ShowCategoryDTO, <code>null</code> otherwise
      */
     ShowCategoryDTO findById( Integer nIdCategory );
@@ -74,8 +76,10 @@ public interface IShowCategoryService
     /**
      * Modify a category.
      *
-     * @param category the category to save
-     * @throws ValidationException if category is inconsistent
+     * @param category
+     *            the category to save
+     * @throws ValidationException
+     *             if category is inconsistent
      */
     void doSaveCategory( ShowCategoryDTO category ) throws ValidationException;
 

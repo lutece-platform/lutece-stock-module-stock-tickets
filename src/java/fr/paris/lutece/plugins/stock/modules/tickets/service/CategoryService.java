@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-
 /**
  * CategoryService.
  */
@@ -61,7 +60,7 @@ public final class CategoryService implements ICategoryService
     private static final String MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE = "module.stock.billetterie.save_category.error.name.unique";
 
     /** The _instance. */
-    private static CategoryService _instance = new CategoryService(  );
+    private static CategoryService _instance = new CategoryService( );
 
     /** The _dao category. */
     @Inject
@@ -70,7 +69,7 @@ public final class CategoryService implements ICategoryService
     /**
      * Private constructor.
      */
-    private CategoryService(  )
+    private CategoryService( )
     {
     }
 
@@ -79,7 +78,7 @@ public final class CategoryService implements ICategoryService
      *
      * @return An instance of {@link CategoryService}
      */
-    public static CategoryService getInstance(  )
+    public static CategoryService getInstance( )
     {
         return _instance;
     }
@@ -87,7 +86,7 @@ public final class CategoryService implements ICategoryService
     /**
      * {@inheritDoc}
      */
-    public void init(  )
+    public void init( )
     {
     }
 
@@ -99,15 +98,15 @@ public final class CategoryService implements ICategoryService
     {
         _daoCategory.create( category );
 
-        Category parent = category.getParent(  );
+        Category parent = category.getParent( );
 
         if ( parent != null )
         {
-            Category trueParent = _daoCategory.findById( parent.getId(  ) );
+            Category trueParent = _daoCategory.findById( parent.getId( ) );
 
             if ( trueParent != null )
             {
-                trueParent.getChildrenList(  ).add( category );
+                trueParent.getChildrenList( ).add( category );
                 _daoCategory.update( trueParent );
             }
             else
@@ -169,9 +168,9 @@ public final class CategoryService implements ICategoryService
      *
      * {@inheritDoc}
      */
-    public List<Category> findAllFirstLevelWithChildren(  )
+    public List<Category> findAllFirstLevelWithChildren( )
     {
-        return _daoCategory.selectAllFirstLevelWithChildrenWithProduct(  );
+        return _daoCategory.selectAllFirstLevelWithChildrenWithProduct( );
     }
 
     /**
@@ -213,7 +212,8 @@ public final class CategoryService implements ICategoryService
     /**
      * Finds by filter and fetch children.
      *
-     * @param filter the filter
+     * @param filter
+     *            the filter
      * @return the category list
      */
     public List<Category> findByFilterWithChildren( CategoryFilter filter )
@@ -224,8 +224,10 @@ public final class CategoryService implements ICategoryService
     /**
      * Finds by filter.
      *
-     * @param filter the filter
-     * @param paginationProperties the pagination properties
+     * @param filter
+     *            the filter
+     * @param paginationProperties
+     *            the pagination properties
      * @return the category list
      */
     public ResultList<Category> findByFilter( CategoryFilter filter, PaginationProperties paginationProperties )
@@ -235,26 +237,22 @@ public final class CategoryService implements ICategoryService
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * fr.paris.lutece.plugins.stock.modules.tickets.service.ICategoryService
-     * #findAll()
+     * 
+     * @see fr.paris.lutece.plugins.stock.modules.tickets.service.ICategoryService #findAll()
      */
 
     /**
      * {@inheritDoc}
      */
-    public List<Category> findAll(  )
+    public List<Category> findAll( )
     {
-        return _daoCategory.findAll(  );
+        return _daoCategory.findAll( );
     }
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * fr.paris.lutece.plugins.stock.modules.tickets.service.ICategoryService
-     * #findById(java.lang.Integer)
+     * 
+     * @see fr.paris.lutece.plugins.stock.modules.tickets.service.ICategoryService #findById(java.lang.Integer)
      */
 
     /**
@@ -267,10 +265,8 @@ public final class CategoryService implements ICategoryService
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * fr.paris.lutece.plugins.stock.modules.tickets.service.ICategoryService
-     * #update(fr.paris.lutece.plugins.stock.business.category.Category)
+     * 
+     * @see fr.paris.lutece.plugins.stock.modules.tickets.service.ICategoryService #update(fr.paris.lutece.plugins.stock.business.category.Category)
      */
 
     /**
@@ -283,19 +279,18 @@ public final class CategoryService implements ICategoryService
 
     /**
      * {@inheritDoc}
+     * 
      * @throws ValidationException
      */
     public void doSaveCategory( Category category ) throws ValidationException
     {
-        List<Category> listeCategory = _daoCategory.getAllByName( category.getName(  ) );
+        List<Category> listeCategory = _daoCategory.getAllByName( category.getName( ) );
 
-        if ( ( category.getId(  ) != null ) && ( category.getId(  ) > 0 ) )
+        if ( ( category.getId( ) != null ) && ( category.getId( ) > 0 ) )
         {
             // Update
-            if ( ( listeCategory != null ) &&
-                    ( ( listeCategory.size(  ) > 1 ) ||
-                    ( ( listeCategory.size(  ) == 1 ) &&
-                    !listeCategory.get( 0 ).getId(  ).equals( category.getId(  ) ) ) ) )
+            if ( ( listeCategory != null )
+                    && ( ( listeCategory.size( ) > 1 ) || ( ( listeCategory.size( ) == 1 ) && !listeCategory.get( 0 ).getId( ).equals( category.getId( ) ) ) ) )
             {
                 throw new BusinessException( category, MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE );
             }
@@ -305,7 +300,7 @@ public final class CategoryService implements ICategoryService
         else
         {
             // Create
-            if ( ( listeCategory != null ) && ( listeCategory.size(  ) > 0 ) )
+            if ( ( listeCategory != null ) && ( listeCategory.size( ) > 0 ) )
             {
                 throw new BusinessException( category, MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE );
             }

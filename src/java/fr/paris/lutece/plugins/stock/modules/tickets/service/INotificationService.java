@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.stock.modules.tickets.service;
 
 import fr.paris.lutece.plugins.stock.modules.tickets.business.NotificationDTO;
 
-
 /**
  * The Interface INotificationService.
  */
@@ -44,7 +43,8 @@ public interface INotificationService
     /**
      * Send a notification.
      *
-     * @param notification the notification
+     * @param notification
+     *            the notification
      */
     void send( NotificationDTO notification );
 }

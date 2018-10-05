@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2013, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
 
 import java.util.List;
 
-
 /**
  * The Interface for show dao.
  */
@@ -50,8 +49,10 @@ public interface IShowDAO extends IProductDAO
     /**
      * Gets the come product.
      *
-     * @param orderList the order list
-     * @param paginator the paginator
+     * @param orderList
+     *            the order list
+     * @param paginator
+     *            the paginator
      * @return the come product
      */
     List<Product> getComeProduct( List<String> orderList, PaginationProperties paginator );
@@ -59,7 +60,8 @@ public interface IShowDAO extends IProductDAO
     /**
      * Return a list of product with date_end after the current date.
      *
-     * @param orderList the order list
+     * @param orderList
+     *            the order list
      * @return list of product
      */
     List<Product> getCurrentAndComeProduct( List<String> orderList );

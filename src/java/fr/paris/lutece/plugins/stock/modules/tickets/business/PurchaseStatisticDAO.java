@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,19 +53,17 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-
 /**
  * This class provides Data Access methods for Person objects
  */
-public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, PurchaseStatistic>
-    implements IPurchaseStatisticDAO
+public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, PurchaseStatistic> implements IPurchaseStatisticDAO
 {
     /**
      *
      * {@inheritDoc}
      */
     @Override
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return TicketsPlugin.PLUGIN_NAME;
     }
@@ -75,58 +73,57 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
      */
     public List<PurchaseStatistic> getAllByIdPurchase( Integer idPurchase )
     {
-        EntityManager em = getEM(  );
-        CriteriaBuilder cb = em.getCriteriaBuilder(  );
+        EntityManager em = getEM( );
+        CriteriaBuilder cb = em.getCriteriaBuilder( );
 
         CriteriaQuery<PurchaseStatistic> cq = cb.createQuery( PurchaseStatistic.class );
 
         Root<PurchaseStatistic> root = cq.from( PurchaseStatistic.class );
 
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>(  );
+        List<Predicate> listPredicates = new ArrayList<Predicate>( );
 
         if ( idPurchase != null )
         {
             listPredicates.add( cb.equal( root.get( PurchaseStatistic_.purchase ), idPurchase ) );
         }
 
-        if ( !listPredicates.isEmpty(  ) )
+        if ( !listPredicates.isEmpty( ) )
         {
             // add existing predicates to Where clause
-            cq.where( listPredicates.toArray( new Predicate[0] ) );
+            cq.where( listPredicates.toArray( new Predicate [ 0] ) );
         }
 
-        //buildSortQuery( filter, root, cq, cb );
+        // buildSortQuery( filter, root, cq, cb );
         cq.distinct( true );
 
         TypedQuery<PurchaseStatistic> query = em.createQuery( cq );
 
-        return query.getResultList(  );
+        return query.getResultList( );
     }
 
     /**
      * {@inheritDoc}
      */
-    public List<ResultStatistic> getAllResultStatisticByParameters( String strTimesUnit, String strDateDebut,
-        String strDateFin )
+    public List<ResultStatistic> getAllResultStatisticByParameters( String strTimesUnit, String strDateDebut, String strDateFin )
     {
-        StringBuffer requeteSQL = new StringBuffer(  );
+        StringBuffer requeteSQL = new StringBuffer( );
 
-        requeteSQL.append( 
-            "SELECT count(distinct purchase_statistic.purchase_id_purchase) AS compteur, purchase_statistic." );
+        requeteSQL.append( "SELECT count(distinct purchase_statistic.purchase_id_purchase) AS compteur, purchase_statistic." );
 
         if ( strTimesUnit.equals( "0" ) )
         {
             requeteSQL.append( "dayOfYear" );
         }
-        else if ( strTimesUnit.equals( "1" ) )
-        {
-            requeteSQL.append( "week" );
-        }
         else
-        {
-            requeteSQL.append( "month" );
-        }
+            if ( strTimesUnit.equals( "1" ) )
+            {
+                requeteSQL.append( "week" );
+            }
+            else
+            {
+                requeteSQL.append( "month" );
+            }
 
         requeteSQL.append( ",purchase_statistic.year FROM stock_ticket_purchase_statistic AS purchase_statistic" );
 
@@ -158,35 +155,36 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
         {
             requeteSQL.append( "dayOfYear" );
         }
-        else if ( strTimesUnit.equals( "1" ) )
-        {
-            requeteSQL.append( "week" );
-        }
         else
-        {
-            requeteSQL.append( "month" );
-        }
+            if ( strTimesUnit.equals( "1" ) )
+            {
+                requeteSQL.append( "week" );
+            }
+            else
+            {
+                requeteSQL.append( "month" );
+            }
 
         requeteSQL.append( ", purchase_statistic.year" );
 
-        Query query = getEM(  ).createNativeQuery( requeteSQL.toString(  ) );
+        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
 
-        List<Object> listeResultat = query.getResultList(  );
+        List<Object> listeResultat = query.getResultList( );
 
-        List<ResultStatistic> listeResultStatistic = new ArrayList<ResultStatistic>(  );
+        List<ResultStatistic> listeResultStatistic = new ArrayList<ResultStatistic>( );
 
-        if ( listeResultat.size(  ) > 0 )
+        if ( listeResultat.size( ) > 0 )
         {
             for ( Object ligneResultat : listeResultat )
             {
-                Object[] listeAttributs = (Object[]) ligneResultat;
+                Object [ ] listeAttributs = (Object [ ]) ligneResultat;
 
-                if ( ( listeAttributs[0] != null ) && ( listeAttributs[1] != null ) && ( listeAttributs[2] != null ) )
+                if ( ( listeAttributs [0] != null ) && ( listeAttributs [1] != null ) && ( listeAttributs [2] != null ) )
                 {
-                    ResultStatistic resultStatistic = new ResultStatistic(  );
-                    resultStatistic.setNumberResponse( Integer.decode( listeAttributs[0].toString(  ) ) );
+                    ResultStatistic resultStatistic = new ResultStatistic( );
+                    resultStatistic.setNumberResponse( Integer.decode( listeAttributs [0].toString( ) ) );
 
-                    Calendar calendar = new GregorianCalendar(  );
+                    Calendar calendar = new GregorianCalendar( );
 
                     int nTimesUnit;
 
@@ -194,18 +192,19 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
                     {
                         nTimesUnit = Calendar.DAY_OF_YEAR;
                     }
-                    else if ( strTimesUnit.equals( "1" ) )
-                    {
-                        nTimesUnit = Calendar.WEEK_OF_YEAR;
-                    }
                     else
-                    {
-                        nTimesUnit = Calendar.MONTH;
-                    }
+                        if ( strTimesUnit.equals( "1" ) )
+                        {
+                            nTimesUnit = Calendar.WEEK_OF_YEAR;
+                        }
+                        else
+                        {
+                            nTimesUnit = Calendar.MONTH;
+                        }
 
-                    calendar.set( nTimesUnit, Integer.decode( listeAttributs[1].toString(  ) ) );
-                    calendar.set( Calendar.YEAR, Integer.decode( listeAttributs[2].toString(  ) ) );
-                    resultStatistic.setStatisticDate( new Timestamp( calendar.getTimeInMillis(  ) ) );
+                    calendar.set( nTimesUnit, Integer.decode( listeAttributs [1].toString( ) ) );
+                    calendar.set( Calendar.YEAR, Integer.decode( listeAttributs [2].toString( ) ) );
+                    resultStatistic.setStatisticDate( new Timestamp( calendar.getTimeInMillis( ) ) );
 
                     listeResultStatistic.add( resultStatistic );
                 }
@@ -221,7 +220,7 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
     public Integer getCountPurchasesByDates( String strDateDebut, String strDateFin )
     {
         Integer result = 0;
-        StringBuffer requeteSQL = new StringBuffer(  );
+        StringBuffer requeteSQL = new StringBuffer( );
 
         requeteSQL.append( "SELECT count( distinct purchase_statistic.purchase_id_purchase)  " );
         requeteSQL.append( " FROM stock_ticket_purchase_statistic AS purchase_statistic" );
@@ -248,17 +247,17 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
             requeteSQL.append( " purchase_statistic.date <= CAST('" + strDateFin + " 23:59:59' AS DATETIME)" );
         }
 
-        Query query = getEM(  ).createNativeQuery( requeteSQL.toString(  ) );
-        List<Object> listeCount = query.getResultList(  );
+        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
+        List<Object> listeCount = query.getResultList( );
 
-        if ( listeCount.size(  ) == 1 )
+        if ( listeCount.size( ) == 1 )
         {
             Object obj = listeCount.get( 0 );
 
             if ( obj != null )
             {
                 BigInteger bigInt = (BigInteger) obj;
-                result = bigInt.intValue(  );
+                result = bigInt.intValue( );
             }
         }
 

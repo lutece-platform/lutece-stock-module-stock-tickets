@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.util.jpa.IGenericDAO;
 
 import java.util.List;
 
-
 /**
  * IPersonDAO Interface
  */
@@ -45,24 +44,33 @@ public interface IProductStatisticDAO extends IGenericDAO<Integer, ProductStatis
 {
     /**
      * get all ProductStatistic by the product identifier
-     * @param idProduct the identifier of product
+     * 
+     * @param idProduct
+     *            the identifier of product
      * @return a list of ProductStatistic instance
      */
     List<ProductStatistic> getAllByIdProduct( Integer idProduct );
 
     /**
      * get all association of date and products count by parameters
-     * @param strTimesUnit the times unit
-     * @param strDateDebut the begin date
-     * @param strDateFin the end date
+     * 
+     * @param strTimesUnit
+     *            the times unit
+     * @param strDateDebut
+     *            the begin date
+     * @param strDateFin
+     *            the end date
      * @return a list of ResultStatistic
      */
     List<ResultStatistic> getAllResultStatisticByParameters( String strTimesUnit, String strDateDebut, String strDateFin );
 
     /**
      * get the purchase count by dates parameters
-     * @param strDateDebut the date begin
-     * @param strDateFin the date end
+     * 
+     * @param strDateDebut
+     *            the date begin
+     * @param strDateFin
+     *            the date end
      * @return the purchase count
      */
     Integer getCountProductsByDates( String strDateDebut, String strDateFin );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
 import java.sql.Timestamp;
 
-
 /**
  *
  * class ResultStatistic
@@ -48,16 +47,19 @@ public class ResultStatistic
 
     /**
      * return the number of response
+     * 
      * @return the number of response
      */
-    public int getNumberResponse(  )
+    public int getNumberResponse( )
     {
         return _nNumberResponse;
     }
 
     /**
      * set the number of response
-     * @param numberResponse the number of response
+     * 
+     * @param numberResponse
+     *            the number of response
      */
     public void setNumberResponse( int numberResponse )
     {
@@ -68,14 +70,16 @@ public class ResultStatistic
      *
      * @return the statistic date
      */
-    public Timestamp getStatisticDate(  )
+    public Timestamp getStatisticDate( )
     {
         return _tStatisticDate;
     }
 
     /**
      * set the statistic date
-     * @param statisticDate the statistic date
+     * 
+     * @param statisticDate
+     *            the statistic date
      */
     public void setStatisticDate( Timestamp statisticDate )
     {

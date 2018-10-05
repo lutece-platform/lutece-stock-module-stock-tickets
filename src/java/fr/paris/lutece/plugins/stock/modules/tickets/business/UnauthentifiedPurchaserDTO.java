@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.stock.modules.tickets.business;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-
 /**
  *
  * DTO for unauthentified agent
@@ -55,13 +54,14 @@ public class UnauthentifiedPurchaserDTO
     /**
      * @return the emailAgent
      */
-    public String getEmailAgent(  )
+    public String getEmailAgent( )
     {
         return emailAgent;
     }
 
     /**
-     * @param emailAgent the emailAgent to set
+     * @param emailAgent
+     *            the emailAgent to set
      */
     public void setEmailAgent( String emailAgent )
     {
@@ -71,13 +71,14 @@ public class UnauthentifiedPurchaserDTO
     /**
      * @return the nameAgent
      */
-    public String getNameAgent(  )
+    public String getNameAgent( )
     {
         return nameAgent;
     }
 
     /**
-     * @param nameAgent the nameAgent to set
+     * @param nameAgent
+     *            the nameAgent to set
      */
     public void setNameAgent( String nameAgent )
     {
@@ -87,13 +88,14 @@ public class UnauthentifiedPurchaserDTO
     /**
      * @return the firstNameAgent
      */
-    public String getFirstNameAgent(  )
+    public String getFirstNameAgent( )
     {
         return firstNameAgent;
     }
 
     /**
-     * @param firstNameAgent the firstNameAgent to set
+     * @param firstNameAgent
+     *            the firstNameAgent to set
      */
     public void setFirstNameAgent( String firstNameAgent )
     {

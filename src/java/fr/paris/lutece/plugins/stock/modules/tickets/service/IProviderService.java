@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 /**
  *
  * IProviderService
@@ -54,18 +53,22 @@ public interface IProviderService
     /**
      * Init this service
      */
-    void init(  );
+    void init( );
 
     /**
-    * Modifies a provider
-    * @param provider The provider to modify in database
-    */
+     * Modifies a provider
+     * 
+     * @param provider
+     *            The provider to modify in database
+     */
     void doSaveProvider( PartnerDTO provider );
 
     /**
-    * Delete a provider
-    * @param nIdProvider the identifier of the provider to delete
-    */
+     * Delete a provider
+     * 
+     * @param nIdProvider
+     *            the identifier of the provider to delete
+     */
     void doDeleteProvider( int nIdProvider );
 
     // /**
@@ -76,12 +79,14 @@ public interface IProviderService
     // List<Provider> findAllWithProducts( );
     //
     /**
-    * Find by filter.
-    *
-    * @param filter the filter
-    * @param paginationProperties the pagination properties
-    * @return the provider list filtered
-    */
+     * Find by filter.
+     *
+     * @param filter
+     *            the filter
+     * @param paginationProperties
+     *            the pagination properties
+     * @return the provider list filtered
+     */
     ResultList<PartnerDTO> findByFilter( ProviderFilter filter, PaginationProperties paginationProperties );
 
     /**
@@ -107,5 +112,5 @@ public interface IProviderService
      *
      * @return the list of provider
      */
-    List<PartnerDTO> findAll(  );
+    List<PartnerDTO> findAll( );
 }

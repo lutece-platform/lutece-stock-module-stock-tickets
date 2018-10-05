@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,6 @@ import java.util.Set;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-
 /**
  * DOCUMENT ME!.
  *
@@ -83,7 +82,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
     /** The Constant ATTR_DATE_END. */
     public static final String ATTR_DATE_END = "end";
-    
+
     /** The Constant ATTR_DATE_UPDATE. */
     public static final String ATTR_DATE_UPDATE = "update";
 
@@ -104,7 +103,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
     /** The Constant ATTR_SUBSCRIBABLE. */
     public static final String ATTR_SUBSCRIBABLE = "subscribable";
-    
+
     public static final String ATTR_ID_CONTACT = "idContact";
 
     /** The id. */
@@ -144,7 +143,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     @NotEmpty
     @AfterCurrentDate
     private String endDate;
-    
+
     /** The update date. */
     @DateFormat( format = "dd/MM/yyyy" )
     private String updateDate;
@@ -180,14 +179,15 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /** The subscribable */
     private boolean subscribable;
 
-    private Integer[] idContact;
+    private Integer [ ] idContact;
+
     /**
      * Gets the id.
      *
      * @return the id
      */
     @Override
-    public Integer getId(  )
+    public Integer getId( )
     {
         return id;
     }
@@ -195,7 +195,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the id.
      *
-     * @param idProduct the new id
+     * @param idProduct
+     *            the new id
      */
     public void setId( Integer idProduct )
     {
@@ -207,7 +208,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return description;
     }
@@ -215,7 +216,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the description.
      *
-     * @param description the description to set
+     * @param description
+     *            the description to set
      */
     public void setDescription( String description )
     {
@@ -227,7 +229,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the name
      */
-    public String getName(  )
+    public String getName( )
     {
         return name;
     }
@@ -235,7 +237,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the name.
      *
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName( String name )
     {
@@ -247,7 +250,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the price
      */
-    public Float getPrice(  )
+    public Float getPrice( )
     {
         return price;
     }
@@ -255,7 +258,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the price.
      *
-     * @param price the price to set
+     * @param price
+     *            the price to set
      */
     public void setPrice( Float price )
     {
@@ -267,7 +271,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the idCategory
      */
-    public Integer getIdCategory(  )
+    public Integer getIdCategory( )
     {
         return idCategory;
     }
@@ -275,7 +279,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the id category.
      *
-     * @param idCategory the idCategory to set
+     * @param idCategory
+     *            the idCategory to set
      */
     public void setIdCategory( Integer idCategory )
     {
@@ -287,7 +292,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the idProvider
      */
-    public Integer getIdProvider(  )
+    public Integer getIdProvider( )
     {
         return idProvider;
     }
@@ -295,7 +300,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the id provider.
      *
-     * @param idProvider the idProvider to set
+     * @param idProvider
+     *            the idProvider to set
      */
     public void setIdProvider( Integer idProvider )
     {
@@ -307,7 +313,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the with
      */
-    public String getWith(  )
+    public String getWith( )
     {
         return with;
     }
@@ -315,7 +321,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the with.
      *
-     * @param with the with to set
+     * @param with
+     *            the with to set
      */
     public void setWith( String with )
     {
@@ -327,7 +334,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the startDate
      */
-    public String getStartDate(  )
+    public String getStartDate( )
     {
         return startDate;
     }
@@ -335,7 +342,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the start date.
      *
-     * @param startDate the startDate to set
+     * @param startDate
+     *            the startDate to set
      */
     public void setStartDate( String startDate )
     {
@@ -347,7 +355,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the endDate
      */
-    public String getEndDate(  )
+    public String getEndDate( )
     {
         return endDate;
     }
@@ -355,39 +363,41 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the end date.
      *
-     * @param endDate the endDate to set
+     * @param endDate
+     *            the endDate to set
      */
     public void setEndDate( String endDate )
     {
         this.endDate = endDate;
     }
-    
-    /**
-    * Gets the update date.
-    *
-    * @return the updateDate
-    */
-   public String getUpdateDate(  )
-   {
-       return updateDate;
-   }
 
-   /**
-    * Sets the update date.
-    *
-    * @param updateDate the updateDate to set
-    */
-   public void setUpdateDate( String updateDate )
-   {
-       this.updateDate = updateDate;
-   }
+    /**
+     * Gets the update date.
+     *
+     * @return the updateDate
+     */
+    public String getUpdateDate( )
+    {
+        return updateDate;
+    }
+
+    /**
+     * Sets the update date.
+     *
+     * @param updateDate
+     *            the updateDate to set
+     */
+    public void setUpdateDate( String updateDate )
+    {
+        this.updateDate = updateDate;
+    }
 
     /**
      * Gets the website.
      *
      * @return the website
      */
-    public String getWebsite(  )
+    public String getWebsite( )
     {
         return website;
     }
@@ -395,7 +405,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the website.
      *
-     * @param website the website to set
+     * @param website
+     *            the website to set
      */
     public void setWebsite( String website )
     {
@@ -407,7 +418,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the posterName
      */
-    public String getPosterName(  )
+    public String getPosterName( )
     {
         return posterName;
     }
@@ -415,7 +426,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the poster name.
      *
-     * @param posterName the posterName to set
+     * @param posterName
+     *            the posterName to set
      */
     public void setPosterName( String posterName )
     {
@@ -427,7 +439,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the providerName
      */
-    public String getProviderName(  )
+    public String getProviderName( )
     {
         return providerName;
     }
@@ -435,7 +447,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the provider name.
      *
-     * @param providerName the providerName to set
+     * @param providerName
+     *            the providerName to set
      */
     public void setProviderName( String providerName )
     {
@@ -447,7 +460,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the providerAddress
      */
-    public String getProviderAddress(  )
+    public String getProviderAddress( )
     {
         return providerAddress;
     }
@@ -455,7 +468,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the provider Address.
      *
-     * @param providerAddress the providerAddress to set
+     * @param providerAddress
+     *            the providerAddress to set
      */
     public void setProviderAddress( String providerAddress )
     {
@@ -467,7 +481,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the categoryrName
      */
-    public String getCategoryName(  )
+    public String getCategoryName( )
     {
         return categoryName;
     }
@@ -475,7 +489,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the category name.
      *
-     * @param categoryName the new category name
+     * @param categoryName
+     *            the new category name
      */
     public void setCategoryName( String categoryName )
     {
@@ -484,15 +499,17 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
     /**
      * Get the subscribable
+     * 
      * @return subscribable
      */
-    public boolean isSubscribable(  )
+    public boolean isSubscribable( )
     {
         return subscribable;
     }
 
     /**
      * Set the subscribable
+     * 
      * @param subscribable
      */
     public void setSubscribable( boolean subscribable )
@@ -503,16 +520,17 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Convert entity list.
      *
-     * @param listSource the list source
+     * @param listSource
+     *            the list source
      * @return the result list
      */
     public static ResultList<ShowDTO> convertEntityList( Collection<Product> listSource )
     {
-        ResultList<ShowDTO> listDest = new ResultList<ShowDTO>(  );
+        ResultList<ShowDTO> listDest = new ResultList<ShowDTO>( );
 
         if ( listSource instanceof ResultList )
         {
-            listDest.setTotalResult( ( (ResultList<Product>) listSource ).getTotalResult(  ) );
+            listDest.setTotalResult( ( (ResultList<Product>) listSource ).getTotalResult( ) );
         }
 
         for ( Product source : listSource )
@@ -526,7 +544,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Convert entity.
      *
-     * @param source the source
+     * @param source
+     *            the source
      * @return the show dto
      */
     public static ShowDTO convertEntity( Product source )
@@ -534,89 +553,89 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
         Mapper mapper = (Mapper) SpringContextService.getBean( "mapper" );
         ShowDTO show = mapper.map( source, ShowDTO.class );
 
-        Set<ProductAttributeDate> attributeDateList = source.getAttributeDateList(  );
+        Set<ProductAttributeDate> attributeDateList = source.getAttributeDateList( );
 
         if ( attributeDateList != null )
         {
             for ( ProductAttributeDate attribute : attributeDateList )
             {
-                if ( ATTR_DATE_START.equals( attribute.getKey(  ) ) )
+                if ( ATTR_DATE_START.equals( attribute.getKey( ) ) )
                 {
-                    show.setStartDate( DateUtils.getDateFr( attribute.getValue(  ) ) );
+                    show.setStartDate( DateUtils.getDateFr( attribute.getValue( ) ) );
                 }
-                if ( ATTR_DATE_END.equals( attribute.getKey(  ) ) )
+                if ( ATTR_DATE_END.equals( attribute.getKey( ) ) )
                 {
-                    show.setEndDate( DateUtils.getDateFr( attribute.getValue(  ) ) );
+                    show.setEndDate( DateUtils.getDateFr( attribute.getValue( ) ) );
                 }
-                if ( ATTR_DATE_UPDATE.equals( attribute.getKey(  ) ) )
+                if ( ATTR_DATE_UPDATE.equals( attribute.getKey( ) ) )
                 {
-                    show.setUpdateDate( DateUtils.getDateFr( attribute.getValue(  ) ) );
+                    show.setUpdateDate( DateUtils.getDateFr( attribute.getValue( ) ) );
                 }
             }
         }
 
-        Map<String, BigDecimal> attributeNumList = source.getAttributeNumMap(  );
+        Map<String, BigDecimal> attributeNumList = source.getAttributeNumMap( );
 
         if ( attributeNumList != null )
         {
             if ( attributeNumList.get( ATTR_A_LAFFICHE ) != null )
             {
-                show.setAlaffiche( attributeNumList.get( ATTR_A_LAFFICHE ).intValue(  ) == 1 );
+                show.setAlaffiche( attributeNumList.get( ATTR_A_LAFFICHE ).intValue( ) == 1 );
             }
-            
+
             int nNbContacts = 0;
-            List<Integer> listIdContact = new ArrayList<Integer>(  );
+            List<Integer> listIdContact = new ArrayList<Integer>( );
             BigDecimal idContact = attributeNumList.get( ATTR_ID_CONTACT );
 
             while ( idContact != null )
             {
-                listIdContact.add( idContact.intValue(  ) );
+                listIdContact.add( idContact.intValue( ) );
                 nNbContacts++;
                 idContact = attributeNumList.get( ATTR_ID_CONTACT + nNbContacts );
             }
 
-            Integer[] arrayIdContact = new Integer[nNbContacts];
+            Integer [ ] arrayIdContact = new Integer [ nNbContacts];
             nNbContacts = 0;
 
             for ( Integer nIdContact : listIdContact )
             {
-                arrayIdContact[nNbContacts] = nIdContact;
+                arrayIdContact [nNbContacts] = nIdContact;
                 nNbContacts++;
             }
 
             show.setIdContact( arrayIdContact );
         }
 
-        Set<ProductAttribute> attributeList = source.getAttributeList(  );
+        Set<ProductAttribute> attributeList = source.getAttributeList( );
 
         if ( attributeList != null )
         {
             for ( ProductAttribute attribute : attributeList )
             {
-                if ( ATTR_WITH.equals( attribute.getKey(  ) ) )
+                if ( ATTR_WITH.equals( attribute.getKey( ) ) )
                 {
-                    show.setWith( attribute.getValue(  ) );
+                    show.setWith( attribute.getValue( ) );
                 }
 
-                if ( ATTR_WEBSITE.equals( attribute.getKey(  ) ) )
+                if ( ATTR_WEBSITE.equals( attribute.getKey( ) ) )
                 {
-                    show.setWebsite( attribute.getValue(  ) );
+                    show.setWebsite( attribute.getValue( ) );
                 }
 
-                if ( ATTR_POSTER.equals( attribute.getKey(  ) ) )
+                if ( ATTR_POSTER.equals( attribute.getKey( ) ) )
                 {
-                    show.setPosterName( attribute.getValue(  ) );
+                    show.setPosterName( attribute.getValue( ) );
                 }
 
-                if ( ATTR_PUBLIC.equals( attribute.getKey(  ) ) )
+                if ( ATTR_PUBLIC.equals( attribute.getKey( ) ) )
                 {
-                    show.setTargetPublic( attribute.getValue(  ) );
+                    show.setTargetPublic( attribute.getValue( ) );
                 }
 
-                //Subscription for users
-                if ( ATTR_SUBSCRIBABLE.equals( attribute.getKey(  ) ) )
+                // Subscription for users
+                if ( ATTR_SUBSCRIBABLE.equals( attribute.getKey( ) ) )
                 {
-                    if ( attribute.getValue(  ).equals( STRING_TRUE ) )
+                    if ( attribute.getValue( ).equals( STRING_TRUE ) )
                     {
                         show.setSubscribable( true );
                     }
@@ -630,9 +649,9 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
         String categoryColor = null;
 
-        if ( source.getCategory(  ) != null )
+        if ( source.getCategory( ) != null )
         {
-            categoryColor = ShowCategoryDTO.convertEntity( source.getCategory(  ) ).getColor(  );
+            categoryColor = ShowCategoryDTO.convertEntity( source.getCategory( ) ).getColor( );
         }
 
         show.setCategoryColor( StringUtils.defaultString( categoryColor ) );
@@ -642,65 +661,58 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
     /** {@inheritDoc} */
     @Override
-    public Product convert(  )
+    public Product convert( )
     {
         Product product = mapper.map( this, Product.class );
 
-        if ( StringUtils.isNotEmpty( getEndDate(  ) ) )
+        if ( StringUtils.isNotEmpty( getEndDate( ) ) )
         {
-            product.getAttributeDateList(  )
-                   .add( new ProductAttributeDate( ATTR_DATE_END, DateUtils.getDate( getEndDate(  ), false ), product ) );
+            product.getAttributeDateList( ).add( new ProductAttributeDate( ATTR_DATE_END, DateUtils.getDate( getEndDate( ), false ), product ) );
         }
 
-        if ( StringUtils.isNotEmpty( getStartDate(  ) ) )
+        if ( StringUtils.isNotEmpty( getStartDate( ) ) )
         {
-            product.getAttributeDateList(  )
-                   .add( new ProductAttributeDate( ATTR_DATE_START, DateUtils.getDate( getStartDate(  ), false ),
-                    product ) );
-        }
-        
-        if ( StringUtils.isNotEmpty( getUpdateDate(  ) ) )
-        {
-            product.getAttributeDateList(  )
-                   .add( new ProductAttributeDate( ATTR_DATE_UPDATE, DateUtils.getDate( getUpdateDate(  ), false ),
-                    product ) );
+            product.getAttributeDateList( ).add( new ProductAttributeDate( ATTR_DATE_START, DateUtils.getDate( getStartDate( ), false ), product ) );
         }
 
-        if ( StringUtils.isNotEmpty( getWith(  ) ) )
+        if ( StringUtils.isNotEmpty( getUpdateDate( ) ) )
         {
-            product.getAttributeList(  ).add( new ProductAttribute( ATTR_WITH, getWith(  ), product ) );
+            product.getAttributeDateList( ).add( new ProductAttributeDate( ATTR_DATE_UPDATE, DateUtils.getDate( getUpdateDate( ), false ), product ) );
         }
 
-        if ( StringUtils.isNotEmpty( getWebsite(  ) ) )
+        if ( StringUtils.isNotEmpty( getWith( ) ) )
         {
-            product.getAttributeList(  ).add( new ProductAttribute( ATTR_WEBSITE, getWebsite(  ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_WITH, getWith( ), product ) );
         }
 
-        if ( StringUtils.isNotEmpty( getPosterName(  ) ) )
+        if ( StringUtils.isNotEmpty( getWebsite( ) ) )
         {
-            product.getAttributeList(  ).add( new ProductAttribute( ATTR_POSTER, getPosterName(  ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_WEBSITE, getWebsite( ), product ) );
         }
 
-        if ( StringUtils.isNotEmpty( getTargetPublic(  ) ) )
+        if ( StringUtils.isNotEmpty( getPosterName( ) ) )
         {
-            product.getAttributeList(  ).add( new ProductAttribute( ATTR_PUBLIC, getTargetPublic(  ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_POSTER, getPosterName( ), product ) );
         }
 
-        if ( getAlaffiche(  ) != null )
+        if ( StringUtils.isNotEmpty( getTargetPublic( ) ) )
         {
-            product.getAttributeNumList(  )
-                   .add( new ProductAttributeNum( ATTR_A_LAFFICHE,
-                    ( getAlaffiche(  ) ? BigDecimal.ONE : BigDecimal.ZERO ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_PUBLIC, getTargetPublic( ), product ) );
         }
 
-        //Subscription to the show (send an email)
-        if ( this.isSubscribable(  ) )
+        if ( getAlaffiche( ) != null )
         {
-            product.getAttributeList(  ).add( new ProductAttribute( ATTR_SUBSCRIBABLE, STRING_TRUE, product ) );
+            product.getAttributeNumList( ).add( new ProductAttributeNum( ATTR_A_LAFFICHE, ( getAlaffiche( ) ? BigDecimal.ONE : BigDecimal.ZERO ), product ) );
+        }
+
+        // Subscription to the show (send an email)
+        if ( this.isSubscribable( ) )
+        {
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_SUBSCRIBABLE, STRING_TRUE, product ) );
         }
         else
         {
-            product.getAttributeList(  ).add( new ProductAttribute( ATTR_SUBSCRIBABLE, STRING_FALSE, product ) );
+            product.getAttributeList( ).add( new ProductAttribute( ATTR_SUBSCRIBABLE, STRING_FALSE, product ) );
         }
 
         if ( ( this.idContact != null ) && ( this.idContact.length > 0 ) )
@@ -709,32 +721,33 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
             for ( Integer nIdContact : idContact )
             {
-                product.getAttributeNumList(  )
-                     .add( new ProductAttributeNum( ( nNbContact == 0 ) ? ATTR_ID_CONTACT : ( ATTR_ID_CONTACT +
-                        nNbContact ), BigDecimal.valueOf( nIdContact ), product ) );
+                product.getAttributeNumList( ).add(
+                        new ProductAttributeNum( ( nNbContact == 0 ) ? ATTR_ID_CONTACT : ( ATTR_ID_CONTACT + nNbContact ), BigDecimal.valueOf( nIdContact ),
+                                product ) );
                 nNbContact++;
             }
         }
-        
+
         return product;
     }
 
     /**
-    * Sets the provider mail.
-    *
-    * @param providerMail the providerMail to set
-    */
+     * Sets the provider mail.
+     *
+     * @param providerMail
+     *            the providerMail to set
+     */
     public void setProviderMail( String providerMail )
     {
         this.providerMail = providerMail;
     }
 
     /**
-    * Gets the provider mail.
-    *
-    * @return the providerMail
-    */
-    public String getProviderMail(  )
+     * Gets the provider mail.
+     *
+     * @return the providerMail
+     */
+    public String getProviderMail( )
     {
         return providerMail;
     }
@@ -744,7 +757,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the targetPublic
      */
-    public String getTargetPublic(  )
+    public String getTargetPublic( )
     {
         return targetPublic;
     }
@@ -752,7 +765,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the target public.
      *
-     * @param targetPublic the targetPublic to set
+     * @param targetPublic
+     *            the targetPublic to set
      */
     public void setTargetPublic( String targetPublic )
     {
@@ -764,7 +778,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the aLaffiche
      */
-    public Boolean getAlaffiche(  )
+    public Boolean getAlaffiche( )
     {
         return alaffiche;
     }
@@ -772,7 +786,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Sets the alaffiche.
      *
-     * @param aLaffiche the aLaffiche to set
+     * @param aLaffiche
+     *            the aLaffiche to set
      */
     public void setAlaffiche( Boolean aLaffiche )
     {
@@ -784,7 +799,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      *
      * @return the categoryColor, or an empty string if empty
      */
-    public String getCategoryColor(  )
+    public String getCategoryColor( )
     {
         return categoryColor;
     }
@@ -792,7 +807,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     /**
      * Set the category color.
      *
-     * @param categoryColor the categoryColor to set
+     * @param categoryColor
+     *            the categoryColor to set
      */
     public void setCategoryColor( String categoryColor )
     {
@@ -800,10 +816,10 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     }
 
     /**
-         * {@inheritDoc}
-         */
+     * {@inheritDoc}
+     */
     @Override
-    public String getIdExtendableResource(  )
+    public String getIdExtendableResource( )
     {
         return Integer.toString( id );
     }
@@ -812,7 +828,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceType(  )
+    public String getExtendableResourceType( )
     {
         return PROPERTY_RESOURCE_TYPE;
     }
@@ -821,7 +837,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceName(  )
+    public String getExtendableResourceName( )
     {
         return name;
     }
@@ -830,8 +846,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      * {@inheritDoc}
      */
 
-    //    @Override
-    public String getExtendableResourceDescription(  )
+    // @Override
+    public String getExtendableResourceDescription( )
     {
         return description;
     }
@@ -840,8 +856,8 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      * {@inheritDoc}
      */
 
-    //    @Override
-    public String getExtendableResourceImageUrl(  )
+    // @Override
+    public String getExtendableResourceImageUrl( )
     {
         // No image
         return null;
@@ -851,16 +867,18 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      * 
      * @return the contact
      */
-    public Integer[] getIdContact(  )
+    public Integer [ ] getIdContact( )
     {
         return idContact;
     }
 
     /**
      * Set the contact
-     * @param idContact the new contact to set
+     * 
+     * @param idContact
+     *            the new contact to set
      */
-    public void setIdContact( Integer[] idContact )
+    public void setIdContact( Integer [ ] idContact )
     {
         this.idContact = idContact;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.Set;
 
-
 /**
  *
  * Class ShowCategoryDTO
@@ -76,7 +75,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
 
     /** {inheritDoc} */
     @Override
-    public Integer getId(  )
+    public Integer getId( )
     {
         return id;
     }
@@ -84,7 +83,8 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
     /**
      * Set the id.
      *
-     * @param id the category id
+     * @param id
+     *            the category id
      */
     public void setId( Integer id )
     {
@@ -96,7 +96,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      *
      * @return the description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return description;
     }
@@ -104,7 +104,8 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
     /**
      * Set the category description.
      *
-     * @param description the category description
+     * @param description
+     *            the category description
      */
     public void setDescription( String description )
     {
@@ -116,7 +117,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      *
      * @return the name
      */
-    public String getName(  )
+    public String getName( )
     {
         return name;
     }
@@ -124,7 +125,8 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
     /**
      * Set the category name.
      *
-     * @param name the category name
+     * @param name
+     *            the category name
      */
     public void setName( String name )
     {
@@ -136,7 +138,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      *
      * @return the color
      */
-    public String getColor(  )
+    public String getColor( )
     {
         return color;
     }
@@ -144,7 +146,8 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
     /**
      * Set the category color.
      *
-     * @param color the category color
+     * @param color
+     *            the category color
      */
     public void setColor( String color )
     {
@@ -153,16 +156,18 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
 
     /**
      * Convert a list of Category into a list of ShowCategoryDTO
-     * @param listSource list of categories to convert
+     * 
+     * @param listSource
+     *            list of categories to convert
      * @return list of converted categories
      */
     public static ResultList<ShowCategoryDTO> convertEntityList( Collection<Category> listSource )
     {
-        ResultList<ShowCategoryDTO> listDest = new ResultList<ShowCategoryDTO>(  );
+        ResultList<ShowCategoryDTO> listDest = new ResultList<ShowCategoryDTO>( );
 
         if ( listSource instanceof ResultList )
         {
-            listDest.setTotalResult( ( (ResultList<Category>) listSource ).getTotalResult(  ) );
+            listDest.setTotalResult( ( (ResultList<Category>) listSource ).getTotalResult( ) );
         }
 
         for ( Category source : listSource )
@@ -176,7 +181,8 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
     /**
      * Convert a category into a ShowCategory
      *
-     * @param source the Category object to convert
+     * @param source
+     *            the Category object to convert
      * @return the converted category
      */
     public static ShowCategoryDTO convertEntity( Category source )
@@ -184,15 +190,15 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
         Mapper mapper = (Mapper) SpringContextService.getBean( "mapper" );
         ShowCategoryDTO showCategory = mapper.map( source, ShowCategoryDTO.class );
 
-        Set<CategoryAttribute> attributeList = source.getAttributeList(  );
+        Set<CategoryAttribute> attributeList = source.getAttributeList( );
 
         if ( attributeList != null )
         {
             for ( CategoryAttribute attribute : attributeList )
             {
-                if ( ATTR_COLOR.equals( attribute.getKey(  ) ) )
+                if ( ATTR_COLOR.equals( attribute.getKey( ) ) )
                 {
-                    showCategory.setColor( attribute.getValue(  ) );
+                    showCategory.setColor( attribute.getValue( ) );
                 }
             }
         }
@@ -202,13 +208,13 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
 
     /** {inheritDoc} */
     @Override
-    public Category convert(  )
+    public Category convert( )
     {
         Category category = mapper.map( this, Category.class );
 
-        if ( StringUtils.isNotEmpty( this.getColor(  ) ) )
+        if ( StringUtils.isNotEmpty( this.getColor( ) ) )
         {
-            category.getAttributeList(  ).add( new CategoryAttribute( ATTR_COLOR, this.getColor(  ), category ) );
+            category.getAttributeList( ).add( new CategoryAttribute( ATTR_COLOR, this.getColor( ), category ) );
         }
 
         return category;

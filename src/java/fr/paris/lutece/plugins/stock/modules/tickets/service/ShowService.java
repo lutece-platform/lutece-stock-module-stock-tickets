@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,6 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
 /**
  *
  * ProductService
@@ -83,7 +82,7 @@ public class ShowService extends ProductService implements IShowService
      *
      * {@inheritDoc}
      */
-    public void init(  )
+    public void init( )
     {
     }
 
@@ -123,13 +122,16 @@ public class ShowService extends ProductService implements IShowService
     @Transactional( readOnly = false, propagation = Propagation.REQUIRES_NEW )
     public void updateProduct( ShowDTO product )
     {
-        _daoProduct.update( product.convert(  ) );
+        _daoProduct.update( product.convert( ) );
     }
 
     /**
      * Return a filtered list of product
-     * @param filter the product filter
-     * @param paginationProperties the pagination properties
+     * 
+     * @param filter
+     *            the product filter
+     * @param paginationProperties
+     *            the pagination properties
      * @return list of product
      */
     public ResultList<ShowDTO> findByFilter( ProductFilter filter, PaginationProperties paginationProperties )
@@ -139,29 +141,27 @@ public class ShowService extends ProductService implements IShowService
 
     /**
      * {@inheritDoc}
+     * 
      * @throws ValidationException
      */
     @Transactional( readOnly = false, propagation = Propagation.REQUIRES_NEW )
-    public ShowDTO doSaveProduct( ShowDTO product, File[] filePosterArray )
-        throws ValidationException
+    public ShowDTO doSaveProduct( ShowDTO product, File [ ] filePosterArray ) throws ValidationException
     {
         // Start date must be before end date
-        if ( DateUtils.getDate( product.getStartDate(  ), false )
-                          .after( DateUtils.getDate( product.getEndDate(  ), false ) ) )
+        if ( DateUtils.getDate( product.getStartDate( ), false ).after( DateUtils.getDate( product.getEndDate( ), false ) ) )
         {
             throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_DATE_CHEVAUCHE );
         }
 
-        Product productEntity = product.convert(  );
+        Product productEntity = product.convert( );
 
-        List<Product> listeProduct = _daoProduct.getAllByName( product.getName(  ) );
+        List<Product> listeProduct = _daoProduct.getAllByName( product.getName( ) );
 
-        if ( ( product.getId(  ) != null ) && ( product.getId(  ) > 0 ) )
+        if ( ( product.getId( ) != null ) && ( product.getId( ) > 0 ) )
         {
-            //Update
-            if ( ( listeProduct != null ) &&
-                    ( ( listeProduct.size(  ) > 1 ) ||
-                    ( ( listeProduct.size(  ) == 1 ) && !listeProduct.get( 0 ).getId(  ).equals( product.getId(  ) ) ) ) )
+            // Update
+            if ( ( listeProduct != null )
+                    && ( ( listeProduct.size( ) > 1 ) || ( ( listeProduct.size( ) == 1 ) && !listeProduct.get( 0 ).getId( ).equals( product.getId( ) ) ) ) )
             {
                 throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_NAME_MUST_BE_UNIQUE );
             }
@@ -170,8 +170,8 @@ public class ShowService extends ProductService implements IShowService
         }
         else
         {
-            //Create
-            if ( ( listeProduct != null ) && ( listeProduct.size(  ) > 0 ) )
+            // Create
+            if ( ( listeProduct != null ) && ( listeProduct.size( ) > 0 ) )
             {
                 throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_NAME_MUST_BE_UNIQUE );
             }
@@ -184,7 +184,7 @@ public class ShowService extends ProductService implements IShowService
         {
             // try
             // {
-            _daoProductImage.saveImage( productEntity.getId(  ), filePosterArray[0], filePosterArray[1] );
+            _daoProductImage.saveImage( productEntity.getId( ), filePosterArray [0], filePosterArray [1] );
 
             // }
             // catch ( FileNotFoundException e )
@@ -200,10 +200,8 @@ public class ShowService extends ProductService implements IShowService
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * fr.paris.lutece.plugins.stock.modules.tickets.service.IShowService#findById
-     * (java.lang.Integer)
+     * 
+     * @see fr.paris.lutece.plugins.stock.modules.tickets.service.IShowService#findById (java.lang.Integer)
      */
 
     /**
@@ -216,7 +214,9 @@ public class ShowService extends ProductService implements IShowService
 
     /**
      * Return a list of products
-     * @param paginationProperties the pagination properties
+     * 
+     * @param paginationProperties
+     *            the pagination properties
      * @return list of product
      */
     public ResultList<ShowDTO> getAllProduct( PaginationProperties paginationProperties )
@@ -227,9 +227,9 @@ public class ShowService extends ProductService implements IShowService
     /**
      * {@inheritDoc}
      */
-    public List<ShowDTO> findAll(  )
+    public List<ShowDTO> findAll( )
     {
-        return ShowDTO.convertEntityList( _daoProduct.findAll(  ) );
+        return ShowDTO.convertEntityList( _daoProduct.findAll( ) );
     }
 
     /**
@@ -259,7 +259,7 @@ public class ShowService extends ProductService implements IShowService
     /**
      * {@inheritDoc}
      */
-    public byte[] getImage( Integer idProduct )
+    public byte [ ] getImage( Integer idProduct )
     {
         return _daoProductImage.getImage( idProduct );
     }
@@ -267,7 +267,7 @@ public class ShowService extends ProductService implements IShowService
     /**
      * {@inheritDoc}
      */
-    public byte[] getTbImage( Integer idProduct )
+    public byte [ ] getTbImage( Integer idProduct )
     {
         return _daoProductImage.getTbImage( idProduct );
     }
@@ -280,14 +280,16 @@ public class ShowService extends ProductService implements IShowService
 
     /**
      * Uncheck the alaffiche value if the end start is past
-     * @param product the product to check
+     * 
+     * @param product
+     *            the product to check
      */
     private void uncheckShowForHomePage( ShowDTO product )
     {
-        if ( StringUtils.isNotBlank( product.getEndDate(  ) ) )
+        if ( StringUtils.isNotBlank( product.getEndDate( ) ) )
         {
-            Date endDate = DateUtil.formatDate( product.getEndDate(  ), Locale.FRENCH );
-            Date currentDate = new Date(  );
+            Date endDate = DateUtil.formatDate( product.getEndDate( ), Locale.FRENCH );
+            Date currentDate = new Date( );
 
             if ( currentDate.after( endDate ) )
             {

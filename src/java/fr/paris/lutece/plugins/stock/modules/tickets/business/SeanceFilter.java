@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.plugins.stock.business.offer.OfferFilter;
 
 import java.sql.Timestamp;
 
-
 /**
  * Search filter for seance.
  *
@@ -60,7 +59,8 @@ public class SeanceFilter extends OfferFilter
     /**
      * Sets the hour.
      *
-     * @param hour the hour to set
+     * @param hour
+     *            the hour to set
      */
     public void setHour( Timestamp hour )
     {
@@ -72,7 +72,7 @@ public class SeanceFilter extends OfferFilter
      *
      * @return the hour
      */
-    public Timestamp getHour(  )
+    public Timestamp getHour( )
     {
         return _hour;
     }
@@ -82,7 +82,7 @@ public class SeanceFilter extends OfferFilter
      *
      * @return the date begin
      */
-    public Timestamp getDateBegin(  )
+    public Timestamp getDateBegin( )
     {
         return _dateBegin;
     }
@@ -90,7 +90,8 @@ public class SeanceFilter extends OfferFilter
     /**
      * Sets the date begin.
      *
-     * @param dateBegin the new date begin
+     * @param dateBegin
+     *            the new date begin
      */
     public void setDateBegin( Timestamp dateBegin )
     {
@@ -102,7 +103,7 @@ public class SeanceFilter extends OfferFilter
      *
      * @return the date end
      */
-    public Timestamp getDateEnd(  )
+    public Timestamp getDateEnd( )
     {
         return _dateEnd;
     }
@@ -110,7 +111,8 @@ public class SeanceFilter extends OfferFilter
     /**
      * Sets the date end.
      *
-     * @param dateEnd the new date end
+     * @param dateEnd
+     *            the new date end
      */
     public void setDateEnd( Timestamp dateEnd )
     {
@@ -122,7 +124,7 @@ public class SeanceFilter extends OfferFilter
      *
      * @return the date or
      */
-    public Timestamp getDateOr(  )
+    public Timestamp getDateOr( )
     {
         return _dateOr;
     }
@@ -130,7 +132,8 @@ public class SeanceFilter extends OfferFilter
     /**
      * Sets the date or.
      *
-     * @param dateOr the new date or
+     * @param dateOr
+     *            the new date or
      */
     public void setDateOr( Timestamp dateOr )
     {

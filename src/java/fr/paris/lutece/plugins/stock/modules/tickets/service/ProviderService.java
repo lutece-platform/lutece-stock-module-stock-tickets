@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-
 /**
  *
  * ProviderService
@@ -59,22 +58,23 @@ public final class ProviderService extends AbstractService implements IProviderS
 {
     // MESSAGE
     private static final String MESSAGE_ERROR_PARTNER_UNIQUE_BY_NAME = "module.stock.billetterie.save_partner.name.unique";
-    private static ProviderService _instance = new ProviderService(  );
+    private static ProviderService _instance = new ProviderService( );
     @Inject
     private IProviderDAO _daoProvider;
 
     /**
      * Constructor
      */
-    private ProviderService(  )
+    private ProviderService( )
     {
     }
 
     /**
      * Return the provider service instance
+     * 
      * @return the provider service instance
      */
-    public static ProviderService getInstance(  )
+    public static ProviderService getInstance( )
     {
         return _instance;
     }
@@ -82,7 +82,7 @@ public final class ProviderService extends AbstractService implements IProviderS
     /**
      * {@inheritDoc}
      */
-    public void init(  )
+    public void init( )
     {
     }
 
@@ -93,27 +93,26 @@ public final class ProviderService extends AbstractService implements IProviderS
     public void doSaveProvider( PartnerDTO provider )
     {
         // BO-CU01-E01-RGE04 : Le nom doit etre unique
-        ProviderFilter providerFilter = new ProviderFilter(  );
-        providerFilter.setName( provider.getName(  ) );
+        ProviderFilter providerFilter = new ProviderFilter( );
+        providerFilter.setName( provider.getName( ) );
 
         ResultList<Provider> listPartner = this._daoProvider.findByFilter( providerFilter, null );
 
-        if ( ( listPartner != null ) && !listPartner.isEmpty(  ) )
+        if ( ( listPartner != null ) && !listPartner.isEmpty( ) )
         {
-            if ( ( ( provider.getId(  ) == null ) || ( provider.getId(  ) < 0 ) ||
-                    !listPartner.get( 0 ).getId(  ).equals( provider.getId(  ) ) ) )
+            if ( ( ( provider.getId( ) == null ) || ( provider.getId( ) < 0 ) || !listPartner.get( 0 ).getId( ).equals( provider.getId( ) ) ) )
             {
                 throw new BusinessException( provider, MESSAGE_ERROR_PARTNER_UNIQUE_BY_NAME );
             }
         }
 
-        if ( ( provider.getId(  ) != null ) && ( provider.getId(  ) > 0 ) )
+        if ( ( provider.getId( ) != null ) && ( provider.getId( ) > 0 ) )
         {
-            _daoProvider.update( provider.convert(  ) );
+            _daoProvider.update( provider.convert( ) );
         }
         else
         {
-            _daoProvider.create( provider.convert(  ) );
+            _daoProvider.create( provider.convert( ) );
         }
     }
 
@@ -153,8 +152,8 @@ public final class ProviderService extends AbstractService implements IProviderS
     /**
      * {@inheritDoc}
      */
-    public List<PartnerDTO> findAll(  )
+    public List<PartnerDTO> findAll( )
     {
-        return PartnerDTO.convertEntityList( _daoProvider.findAll(  ) );
+        return PartnerDTO.convertEntityList( _daoProvider.findAll( ) );
     }
 }

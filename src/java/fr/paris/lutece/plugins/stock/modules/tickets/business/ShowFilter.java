@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
 import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
 
-
 /**
  *
  * ProductFilter
@@ -50,13 +49,14 @@ public class ShowFilter extends ProductFilter
     /**
      * @return the dateStart
      */
-    public String getDateFrom(  )
+    public String getDateFrom( )
     {
         return _dateFrom;
     }
 
     /**
-     * @param dateStart the dateStart to set
+     * @param dateStart
+     *            the dateStart to set
      */
     public void setDateFrom( String dateStart )
     {
@@ -66,13 +66,14 @@ public class ShowFilter extends ProductFilter
     /**
      * @return the dateEnd
      */
-    public String getDateTo(  )
+    public String getDateTo( )
     {
         return _dateTo;
     }
 
     /**
-     * @param dateEnd the dateEnd to set
+     * @param dateEnd
+     *            the dateEnd to set
      */
     public void setDateTo( String dateEnd )
     {
@@ -82,13 +83,14 @@ public class ShowFilter extends ProductFilter
     /**
      * @return the dateThe
      */
-    public String getDateThe(  )
+    public String getDateThe( )
     {
         return _dateThe;
     }
 
     /**
-     * @param dateThe the dateThe to set
+     * @param dateThe
+     *            the dateThe to set
      */
     public void setDateThe( String dateThe )
     {

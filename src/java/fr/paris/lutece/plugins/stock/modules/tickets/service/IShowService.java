@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.io.File;
 
 import java.util.List;
 
-
 /**
  * IProductService.
  */
@@ -55,19 +54,21 @@ public interface IShowService
     /**
      * Init the product service and register it in the global product service.
      */
-    void init(  );
+    void init( );
 
     /**
      * Delete the product.
      *
-     * @param nIdProduct the id of the product to delete
+     * @param nIdProduct
+     *            the id of the product to delete
      */
     void doDeleteProduct( int nIdProduct );
 
     /**
      * Return the product object.
      *
-     * @param nIdProduct the product id
+     * @param nIdProduct
+     *            the product id
      * @return the product
      */
     ShowDTO getProduct( int nIdProduct );
@@ -75,7 +76,8 @@ public interface IShowService
     /**
      * Return a filtered list of product.
      *
-     * @param filter the product filter
+     * @param filter
+     *            the product filter
      * @return list of product
      */
     List<ShowDTO> findByFilter( ProductFilter filter );
@@ -83,8 +85,10 @@ public interface IShowService
     /**
      * Return a filtered list of product.
      *
-     * @param filter the product filter
-     * @param paginationProperties the pagination properties
+     * @param filter
+     *            the product filter
+     * @param paginationProperties
+     *            the pagination properties
      * @return list of product
      */
     ResultList<ShowDTO> findByFilter( ProductFilter filter, PaginationProperties paginationProperties );
@@ -92,18 +96,21 @@ public interface IShowService
     /**
      * Modifies a product.
      *
-     * @param product The product to modify in database
-     * @param filePosterArray files poster
+     * @param product
+     *            The product to modify in database
+     * @param filePosterArray
+     *            files poster
      * @return the product
-     * @throws ValidationException the validation exception
+     * @throws ValidationException
+     *             the validation exception
      */
-    ShowDTO doSaveProduct( ShowDTO product, File[] filePosterArray )
-        throws ValidationException;
+    ShowDTO doSaveProduct( ShowDTO product, File [ ] filePosterArray ) throws ValidationException;
 
     /**
      * Find by id.
      *
-     * @param nIdProduct the n id product
+     * @param nIdProduct
+     *            the n id product
      * @return the show dto
      */
     ShowDTO findById( Integer nIdProduct );
@@ -111,7 +118,8 @@ public interface IShowService
     /**
      * Return a list of all products.
      *
-     * @param paginationProperties the pagination properties
+     * @param paginationProperties
+     *            the pagination properties
      * @return list of product
      */
     ResultList<ShowDTO> getAllProduct( PaginationProperties paginationProperties );
@@ -121,13 +129,15 @@ public interface IShowService
      *
      * @return list of product
      */
-    List<ShowDTO> findAll(  );
+    List<ShowDTO> findAll( );
 
     /**
      * Return a list of products with date_end after the current date.
      *
-     * @param orderList the list of orders
-     * @param paginator the paginator
+     * @param orderList
+     *            the list of orders
+     * @param paginator
+     *            the paginator
      * @return list of product
      */
     List<ShowDTO> getCurrentProduct( List<String> orderList, PaginationProperties paginator );
@@ -135,8 +145,10 @@ public interface IShowService
     /**
      * Return a list of product with date_start after the current date.
      *
-     * @param orderList the order list
-     * @param paginator the paginator
+     * @param orderList
+     *            the order list
+     * @param paginator
+     *            the paginator
      * @return list of product
      */
     List<ShowDTO> getComeProduct( List<String> orderList, PaginationProperties paginator );
@@ -144,7 +156,8 @@ public interface IShowService
     /**
      * Return a list of product with date_end after the current date.
      *
-     * @param orderList the order list
+     * @param orderList
+     *            the order list
      * @return list of product
      */
     List<ShowDTO> getCurrentAndComeProduct( List<String> orderList );
@@ -152,22 +165,26 @@ public interface IShowService
     /**
      * Gets the image data.
      *
-     * @param idProduct the id product
+     * @param idProduct
+     *            the id product
      * @return the image
      */
-    byte[] getImage( Integer idProduct );
+    byte [ ] getImage( Integer idProduct );
 
     /**
      * Gets the thumbnail image.
      *
-     * @param idProduct the id product
+     * @param idProduct
+     *            the id product
      * @return the tb image
      */
-    byte[] getTbImage( Integer idProduct );
+    byte [ ] getTbImage( Integer idProduct );
 
     /**
      * Check if rules should be apply to the product
-     * @param product the product to check
+     * 
+     * @param product
+     *            the product to check
      */
     void correctProduct( ShowDTO product );
 }

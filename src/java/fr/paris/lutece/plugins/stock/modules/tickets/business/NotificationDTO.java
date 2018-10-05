@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.plugins.stock.commons.validator.annotation.ListEmail;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-
 /**
  * DTO for Notification
  *
@@ -56,7 +55,8 @@ public class NotificationDTO
     private Integer idOffer;
 
     /**
-     * @param strRecipientsTo the strRecipientsTo to set
+     * @param strRecipientsTo
+     *            the strRecipientsTo to set
      */
     public void setRecipientsTo( String strRecipientsTo )
     {
@@ -66,13 +66,14 @@ public class NotificationDTO
     /**
      * @return the strRecipientsTo
      */
-    public String getRecipientsTo(  )
+    public String getRecipientsTo( )
     {
         return recipientsTo;
     }
 
     /**
-     * @param strSubject the strSubject to set
+     * @param strSubject
+     *            the strSubject to set
      */
     public void setSubject( String strSubject )
     {
@@ -82,13 +83,14 @@ public class NotificationDTO
     /**
      * @return the strSubject
      */
-    public String getSubject(  )
+    public String getSubject( )
     {
         return subject;
     }
 
     /**
-     * @param strMessage the strMessage to set
+     * @param strMessage
+     *            the strMessage to set
      */
     public void setMessage( String strMessage )
     {
@@ -98,13 +100,14 @@ public class NotificationDTO
     /**
      * @return the strMessage
      */
-    public String getMessage(  )
+    public String getMessage( )
     {
         return message;
     }
 
     /**
-     * @param notificationAction the notificationAction to set
+     * @param notificationAction
+     *            the notificationAction to set
      */
     public void setNotificationAction( String notificationAction )
     {
@@ -114,13 +117,14 @@ public class NotificationDTO
     /**
      * @return the notificationAction
      */
-    public String getNotificationAction(  )
+    public String getNotificationAction( )
     {
         return notificationAction;
     }
 
     /**
-     * @param idOffer the idOffer to set
+     * @param idOffer
+     *            the idOffer to set
      */
     public void setIdOffer( Integer idOffer )
     {
@@ -130,7 +134,7 @@ public class NotificationDTO
     /**
      * @return the idOffer
      */
-    public Integer getIdOffer(  )
+    public Integer getIdOffer( )
     {
         return idOffer;
     }

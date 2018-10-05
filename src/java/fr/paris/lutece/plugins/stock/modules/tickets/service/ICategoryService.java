@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 /**
  * ICategoryService.
  */
@@ -53,12 +52,13 @@ public interface ICategoryService
     /**
      * Init the object.
      */
-    void init(  );
+    void init( );
 
     /**
      * Creates a category.
      *
-     * @param category The category to create in database
+     * @param category
+     *            The category to create in database
      * @return error if occurs
      */
     String doCreateCategory( Category category );
@@ -66,7 +66,8 @@ public interface ICategoryService
     /**
      * Modifies a category.
      *
-     * @param category The category to modify in database
+     * @param category
+     *            The category to modify in database
      * @return error if occurs
      */
     String doModifyCategory( Category category );
@@ -74,14 +75,16 @@ public interface ICategoryService
     /**
      * Deletes a category.
      *
-     * @param nIdCategory The category id to delete in database
+     * @param nIdCategory
+     *            The category id to delete in database
      */
     void doDeleteCategory( int nIdCategory );
 
     /**
      * Get the category with the given id.
      *
-     * @param nIdCategory The category id
+     * @param nIdCategory
+     *            The category id
      * @return The category with the given id
      */
     Category getCategory( int nIdCategory );
@@ -89,7 +92,8 @@ public interface ICategoryService
     /**
      * Finds a category and fetch parent.
      *
-     * @param nIdCategory the id of the searched category
+     * @param nIdCategory
+     *            the id of the searched category
      * @return the category
      */
     Category getCategoryWithParent( int nIdCategory );
@@ -97,7 +101,8 @@ public interface ICategoryService
     /**
      * Finds a category and all his subcategories and fetch children.
      *
-     * @param nIdCategory the id of upper category
+     * @param nIdCategory
+     *            the id of upper category
      * @return the category
      */
     Category getCategoryWithChildren( Integer nIdCategory );
@@ -105,23 +110,26 @@ public interface ICategoryService
     /**
      * Finds all categories which match the given filter.
      *
-     * @param filter The filter
-     * @param paginationProperties the pagination properties
+     * @param filter
+     *            The filter
+     * @param paginationProperties
+     *            the pagination properties
      * @return A list of categories which match the given filter
      */
     ResultList<Category> findByFilter( CategoryFilter filter, PaginationProperties paginationProperties );
 
     /**
-    * Finds all categories (first level) and fetch children.
-    *
-    * @return all first level categories
-    */
-    List<Category> findAllFirstLevelWithChildren(  );
+     * Finds all categories (first level) and fetch children.
+     *
+     * @return all first level categories
+     */
+    List<Category> findAllFirstLevelWithChildren( );
 
     /**
      * Finds all category's children and fetch children.
      *
-     * @param idCategory the id of upper category
+     * @param idCategory
+     *            the id of upper category
      * @return all category's children
      */
     List<Category> findAllChildrenWithChildren( Integer idCategory );
@@ -129,7 +137,8 @@ public interface ICategoryService
     /**
      * Finds a category and all his subcategories and fetch children.
      *
-     * @param nIdCategory the id of upper category
+     * @param nIdCategory
+     *            the id of upper category
      * @return the category
      */
     Category findByPrimarykeyWithChildren( Integer nIdCategory );
@@ -137,7 +146,8 @@ public interface ICategoryService
     /**
      * Finds a category and fetch parent.
      *
-     * @param nIdCategory the id of the searched category
+     * @param nIdCategory
+     *            the id of the searched category
      * @return the category
      */
     Category findByIdWithParent( Integer nIdCategory );
@@ -145,7 +155,8 @@ public interface ICategoryService
     /**
      * Finds a category and fetch product.
      *
-     * @param nIdCategory the id of the searched category
+     * @param nIdCategory
+     *            the id of the searched category
      * @return the category
      */
     Category findByIdWithProduct( Integer nIdCategory );
@@ -153,7 +164,8 @@ public interface ICategoryService
     /**
      * Finds by filter and fetch children.
      *
-     * @param filter the filter
+     * @param filter
+     *            the filter
      * @return the category list
      */
     List<Category> findByFilterWithChildren( CategoryFilter filter );
@@ -163,12 +175,13 @@ public interface ICategoryService
      *
      * @return the list
      */
-    List<Category> findAll(  );
+    List<Category> findAll( );
 
     /**
      * Find by id.
      *
-     * @param nIdCategory the n id category
+     * @param nIdCategory
+     *            the n id category
      * @return the category
      */
     Category findById( Integer nIdCategory );
@@ -176,22 +189,26 @@ public interface ICategoryService
     /**
      * Update the category.
      *
-     * @param category the category
+     * @param category
+     *            the category
      */
     void update( Category category );
 
     /**
      * Modifies a category.
      *
-     * @param category The category to modify in database
-     * @throws ValidationException the validation exception
+     * @param category
+     *            The category to modify in database
+     * @throws ValidationException
+     *             the validation exception
      */
     void doSaveCategory( Category category ) throws ValidationException;
 
     /**
      * Return all category.
      *
-     * @param orderList list of order
+     * @param orderList
+     *            list of order
      * @return the list of provider
      */
     List<Category> findAll( List<String> orderList );

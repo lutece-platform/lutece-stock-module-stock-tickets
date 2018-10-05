@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,6 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-
 /**
  *
  * ProductStatistic
@@ -64,7 +63,7 @@ public class ProductStatistic
      */
     private static final long serialVersionUID = 5658942621967331856L;
 
-    ///** Sequence name */
+    // /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "billeterie_product_statistic_sequence";
 
     /** Unique value */
@@ -80,41 +79,46 @@ public class ProductStatistic
     /**
      * Constructor
      */
-    public ProductStatistic(  )
+    public ProductStatistic( )
     {
-        super(  );
+        super( );
     }
 
     /**
      * Build a new productStatistic from a productStatistic object
-     * @param productStatistic the productStatistic
+     * 
+     * @param productStatistic
+     *            the productStatistic
      */
     public ProductStatistic( ProductStatistic productStatistic )
     {
-        _id = productStatistic.getId(  );
-        _nDayOfYear = productStatistic.getDayOfYear(  );
-        _nWeek = productStatistic.getWeek(  );
-        _nMonth = productStatistic.getMonth(  );
-        _nYear = productStatistic.getYear(  );
-        _product = productStatistic.getProduct(  );
+        _id = productStatistic.getId( );
+        _nDayOfYear = productStatistic.getDayOfYear( );
+        _nWeek = productStatistic.getWeek( );
+        _nMonth = productStatistic.getMonth( );
+        _nYear = productStatistic.getYear( );
+        _product = productStatistic.getProduct( );
     }
 
     /**
      * Return product_statistic id
+     * 
      * @return product_statistic id
      */
     @TableGenerator( table = StockJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
     @Column( name = "id_product_statistic" )
-    public Integer getId(  )
+    public Integer getId( )
     {
         return _id;
     }
 
     /**
      * Set the product_statistic id
-     * @param idProductStatistic the product_statistic id
+     * 
+     * @param idProductStatistic
+     *            the product_statistic id
      */
     public void setId( Integer idProductStatistic )
     {
@@ -123,17 +127,20 @@ public class ProductStatistic
 
     /**
      * Return the product_statistic dayOfYear
+     * 
      * @return the dayOfYear
      */
     @Column( name = "dayOfYear" )
-    public Integer getDayOfYear(  )
+    public Integer getDayOfYear( )
     {
         return _nDayOfYear;
     }
 
     /**
      * Set the product_statistic dayOfYear
-     * @param dayOfYear the product_statistic dayOfYear
+     * 
+     * @param dayOfYear
+     *            the product_statistic dayOfYear
      */
     public void setDayOfYear( Integer dayOfYear )
     {
@@ -142,7 +149,9 @@ public class ProductStatistic
 
     /**
      * Set the product_statistic week
-     * @param week the product_statistic week
+     * 
+     * @param week
+     *            the product_statistic week
      */
     public void setWeek( Integer week )
     {
@@ -151,17 +160,20 @@ public class ProductStatistic
 
     /**
      * Return the product_statistic week
+     * 
      * @return the week
      */
     @Column( name = "week" )
-    public Integer getWeek(  )
+    public Integer getWeek( )
     {
         return _nWeek;
     }
 
     /**
      * Set the product_statistic month
-     * @param month the product_statistic month
+     * 
+     * @param month
+     *            the product_statistic month
      */
     public void setMonth( Integer month )
     {
@@ -170,17 +182,20 @@ public class ProductStatistic
 
     /**
      * Return the product_statistic month
+     * 
      * @return the month
      */
     @Column( name = "month" )
-    public Integer getMonth(  )
+    public Integer getMonth( )
     {
         return _nMonth;
     }
 
     /**
      * Set the product_statistic year
-     * @param year the product_statistic year
+     * 
+     * @param year
+     *            the product_statistic year
      */
     public void setYear( Integer year )
     {
@@ -189,17 +204,20 @@ public class ProductStatistic
 
     /**
      * Return the product_statistic year
+     * 
      * @return the year
      */
     @Column( name = "year" )
-    public Integer getYear(  )
+    public Integer getYear( )
     {
         return _nYear;
     }
 
     /**
      * Set the product_statistic date
-     * @param date the product_statistic date
+     * 
+     * @param date
+     *            the product_statistic date
      */
     public void setDate( Timestamp date )
     {
@@ -208,28 +226,32 @@ public class ProductStatistic
 
     /**
      * Return the product_statistic date
+     * 
      * @return the date
      */
     @Column( name = "date" )
-    public Timestamp getDate(  )
+    public Timestamp getDate( )
     {
         return _tDate;
     }
 
     /**
      * Return the product
+     * 
      * @return the product
      */
     @ManyToOne( fetch = FetchType.LAZY )
     @OrderColumn
-    public Product getProduct(  )
+    public Product getProduct( )
     {
         return _product;
     }
 
     /**
      * Set the product
-     * @param product the product
+     * 
+     * @param product
+     *            the product
      */
     public void setProduct( Product product )
     {

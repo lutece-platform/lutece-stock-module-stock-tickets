@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 /**
  * The Interface IStatisticService.
  */
@@ -50,42 +49,53 @@ public interface IStatisticService
 {
     /**
      * Modifies a productStatistic
+     * 
      * @param product
      *            The product of the productStatistic to modify in database
      */
     void doManageProductSaving( ShowDTO product );
 
     /**
-     * get a list of ResultStatistic containing all associations of date and
-     * number of product by parameters
-     * @param strTimesUnit the time unit
-     * @param strDateDebut the date begin
-     * @param strDateFin teh date end
+     * get a list of ResultStatistic containing all associations of date and number of product by parameters
+     * 
+     * @param strTimesUnit
+     *            the time unit
+     * @param strDateDebut
+     *            the date begin
+     * @param strDateFin
+     *            teh date end
      * @return the list of ResultStatistic
      */
     List<ResultStatistic> getProductStatistic( String strTimesUnit, String strDateDebut, String strDateFin );
 
     /**
      * get the products count by dates parameters
-     * @param strDateDebut the date begin
-     * @param strDateFin teh date end
+     * 
+     * @param strDateDebut
+     *            the date begin
+     * @param strDateFin
+     *            teh date end
      * @return the product count
      */
     Integer getCountProductsByDates( String strDateDebut, String strDateFin );
 
     /**
      * Modifies a purchaseStatistic
+     * 
      * @param purchaseDTO
      *            The purchase of the purchaseStatistic to modify in database
      */
     void doManagePurchaseSaving( ReservationDTO purchaseDTO );
 
     /**
-     * get a list of ResultStatistic containing all associations of date and
-     * number of purchase by parameters
-     * @param strTimesUnit the time unit
-     * @param strDateDebut the date begin
-     * @param strDateFin teh date end
+     * get a list of ResultStatistic containing all associations of date and number of purchase by parameters
+     * 
+     * @param strTimesUnit
+     *            the time unit
+     * @param strDateDebut
+     *            the date begin
+     * @param strDateFin
+     *            teh date end
      * @return the list of ResultStatistic
      */
     List<ResultStatistic> getPurchaseStatistic( String strTimesUnit, String strDateDebut, String strDateFin );
@@ -93,45 +103,55 @@ public interface IStatisticService
     /**
      * get the purchase count by dates parameters.
      *
-     * @param strDateDebut the date begin
-     * @param strDateFin the date end
+     * @param strDateDebut
+     *            the date begin
+     * @param strDateFin
+     *            the date end
      * @return the count purchases by dates
      */
     Integer getCountPurchasesByDates( String strDateDebut, String strDateFin );
 
     /**
      * get the product showing count
+     * 
      * @return the product count
      */
-    Integer getCountProductALAffiche(  );
+    Integer getCountProductALAffiche( );
 
     /**
      * get the product forthcoming count
+     * 
      * @return the product count
      */
-    Integer getCountProductAVenir(  );
+    Integer getCountProductAVenir( );
 
     /**
      * get the purchase day count
+     * 
      * @return the purchase count
      */
-    Integer getCountPurchaseOfDay(  );
+    Integer getCountPurchaseOfDay( );
 
     /**
      * get the purchase month count
+     * 
      * @return the purchase count
      */
-    Integer getCountPurchaseOfMonth(  );
+    Integer getCountPurchaseOfMonth( );
 
     /**
      * remove all product statistic associated to the product identifier
-     * @param nIdProduct the identifier of the product
+     * 
+     * @param nIdProduct
+     *            the identifier of the product
      */
     void doRemoveProductStatisticByIdProduct( Integer nIdProduct );
 
     /**
      * remove all purchase statistic associated to the purchase identifier
-     * @param nIdPurchase the identifier of the product
+     * 
+     * @param nIdPurchase
+     *            the identifier of the product
      */
     void doRemovePurchaseStatisticByIdPurchase( Integer nIdPurchase );
 }

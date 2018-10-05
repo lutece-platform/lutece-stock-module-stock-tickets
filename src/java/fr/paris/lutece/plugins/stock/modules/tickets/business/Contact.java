@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2013, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Comparator;
 
-
 /**
  * This object store informations about a partner's contact
  */
@@ -47,21 +46,21 @@ public class Contact
     /**
      * comparator of contact, using ID parameter
      */
-    public static final Comparator<Contact> COMPARATOR_USING_ID = new Comparator<Contact>(  )
+    public static final Comparator<Contact> COMPARATOR_USING_ID = new Comparator<Contact>( )
+    {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int compare( Contact o1, Contact o2 )
         {
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public int compare( Contact o1, Contact o2 )
-            {
-                int compare = 0;
-                compare = ( o1.getId(  ) < o2.getId(  ) ) ? ( -1 ) : compare;
-                compare = ( o1.getId(  ) > o2.getId(  ) ) ? 1 : compare;
+            int compare = 0;
+            compare = ( o1.getId( ) < o2.getId( ) ) ? ( -1 ) : compare;
+            compare = ( o1.getId( ) > o2.getId( ) ) ? 1 : compare;
 
-                return compare;
-            }
-        };
+            return compare;
+        }
+    };
 
     /**
      * Name of the contact, firstname and surname
@@ -87,10 +86,15 @@ public class Contact
 
     /**
      * Constructor of the contact
-     * @param id the contact id
-     * @param name the contact name
-     * @param phoneNumber the contact phone number
-     * @param mail the contact mail
+     * 
+     * @param id
+     *            the contact id
+     * @param name
+     *            the contact name
+     * @param phoneNumber
+     *            the contact phone number
+     * @param mail
+     *            the contact mail
      */
     public Contact( int id, String name, String phoneNumber, String mail )
     {
@@ -103,22 +107,25 @@ public class Contact
     /**
      * default constructor
      */
-    public Contact(  )
+    public Contact( )
     {
     }
 
     /**
      * get the id of the contact
+     * 
      * @return the contact id
      */
-    public int getId(  )
+    public int getId( )
     {
         return _id;
     }
 
     /**
      * Set the id
-     * @param id The id
+     * 
+     * @param id
+     *            The id
      */
     public void setId( int id )
     {
@@ -127,16 +134,19 @@ public class Contact
 
     /**
      * get the name of the contact
+     * 
      * @return the name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _name;
     }
 
     /**
      * Set the phone number
-     * @param name the contact name
+     * 
+     * @param name
+     *            the contact name
      */
     public void setName( String name )
     {
@@ -145,16 +155,19 @@ public class Contact
 
     /**
      * get the adress mail of the contact
+     * 
      * @return the adress mail
      */
-    public String getMail(  )
+    public String getMail( )
     {
         return _mail;
     }
 
     /**
      * Set the phone number
-     * @param mail the contact adress mail
+     * 
+     * @param mail
+     *            the contact adress mail
      */
     public void setMail( String mail )
     {
@@ -163,16 +176,19 @@ public class Contact
 
     /**
      * get the phone number of the contact
+     * 
      * @return the phone number
      */
-    public String getPhoneNumber(  )
+    public String getPhoneNumber( )
     {
         return _phoneNumber;
     }
 
     /**
      * Set the phone number
-     * @param phoneNumber the contact phone number
+     * 
+     * @param phoneNumber
+     *            the contact phone number
      */
     public void setPhoneNumber( String phoneNumber )
     {
@@ -181,29 +197,31 @@ public class Contact
 
     /**
      * To know if two contact are the same
-     * @param c the other contact
+     * 
+     * @param c
+     *            the other contact
      * @return true if they are the same, false otherwise
      */
     @Override
     public boolean equals( Object c )
     {
-        return ( (Contact) c ).getId(  ) == this._id;
+        return ( (Contact) c ).getId( ) == this._id;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int hashCode(  )
+    public int hashCode( )
     {
-        return getId(  );
+        return getId( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String toString(  )
+    public String toString( )
     {
         return "Contact " + this._id + ":" + this._name + "," + this._mail + "," + this._phoneNumber + ";";
     }

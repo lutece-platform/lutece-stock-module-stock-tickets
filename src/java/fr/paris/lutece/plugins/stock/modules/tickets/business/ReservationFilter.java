@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.plugins.stock.business.purchase.PurchaseFilter;
 
 import java.sql.Timestamp;
 
-
 /**
  * DOCUMENT ME!
  *
@@ -51,7 +50,8 @@ public class ReservationFilter extends PurchaseFilter
     private Timestamp _hour;
 
     /**
-     * @param hour the hour to set
+     * @param hour
+     *            the hour to set
      */
     public void setHour( Timestamp hour )
     {
@@ -61,7 +61,7 @@ public class ReservationFilter extends PurchaseFilter
     /**
      * @return the hour
      */
-    public Timestamp getHour(  )
+    public Timestamp getHour( )
     {
         return _hour;
     }
@@ -71,7 +71,7 @@ public class ReservationFilter extends PurchaseFilter
      *
      * @return the date begin
      */
-    public Timestamp getDateBegin(  )
+    public Timestamp getDateBegin( )
     {
         return _dateBegin;
     }
@@ -79,7 +79,8 @@ public class ReservationFilter extends PurchaseFilter
     /**
      * Sets the date begin.
      *
-     * @param dateBegin the new date begin
+     * @param dateBegin
+     *            the new date begin
      */
     public void setDateBegin( Timestamp dateBegin )
     {
@@ -91,7 +92,7 @@ public class ReservationFilter extends PurchaseFilter
      *
      * @return the date end
      */
-    public Timestamp getDateEnd(  )
+    public Timestamp getDateEnd( )
     {
         return _dateEnd;
     }
@@ -99,7 +100,8 @@ public class ReservationFilter extends PurchaseFilter
     /**
      * Sets the date end.
      *
-     * @param dateEnd the new date end
+     * @param dateEnd
+     *            the new date end
      */
     public void setDateEnd( Timestamp dateEnd )
     {
@@ -111,7 +113,7 @@ public class ReservationFilter extends PurchaseFilter
      *
      * @return the date or
      */
-    public Timestamp getDateOr(  )
+    public Timestamp getDateOr( )
     {
         return _dateOr;
     }
@@ -119,7 +121,8 @@ public class ReservationFilter extends PurchaseFilter
     /**
      * Sets the date or.
      *
-     * @param dateOr the new date or
+     * @param dateOr
+     *            the new date or
      */
     public void setDateOr( Timestamp dateOr )
     {

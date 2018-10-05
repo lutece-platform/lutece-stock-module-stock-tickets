@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,6 @@ import org.apache.log4j.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
 /**
  * Business rules for offer type Tarif Réduit
  *
@@ -67,28 +66,24 @@ public class PurchaseTarifReduitRules extends PurchaseRules implements IPurchase
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * fr.paris.lutece.plugins.stock.service.IPurchaseRules#checkBeforePurchase
-     * (fr.paris.lutece.plugins.stock.business.purchase.Purchase)
+     * 
+     * @see fr.paris.lutece.plugins.stock.service.IPurchaseRules#checkBeforePurchase (fr.paris.lutece.plugins.stock.business.purchase.Purchase)
      */
 
     /**
      * {@inheritDoc}
      */
-    public void checkBeforePurchase( IPurchaseDTO purchase, String sessionId )
-        throws PurchaseOutOfStock, PurchaseSessionExpired
+    public void checkBeforePurchase( IPurchaseDTO purchase, String sessionId ) throws PurchaseOutOfStock, PurchaseSessionExpired
     {
         super.checkBeforePurchase( purchase, sessionId );
 
         LOGGER.debug( "Vérification des règles de gestion pour un tarif réduit, SID = " + sessionId );
 
-        Offer offer = _offerService.findById( purchase.getOfferId(  ) );
-        Integer nbReservation = _purchaseService.getNumberOfReservationByIdProductAndUserName( offer.getProduct(  )
-                                                                                                    .getId(  ),
-                offer.getType(  ).getId(  ), purchase.getUserName(  ) );
+        Offer offer = _offerService.findById( purchase.getOfferId( ) );
+        Integer nbReservation = _purchaseService.getNumberOfReservationByIdProductAndUserName( offer.getProduct( ).getId( ), offer.getType( ).getId( ),
+                purchase.getUserName( ) );
 
-        if ( ( purchase.getQuantity(  ) + nbReservation ) > offer.getMaxTickets(  ) )
+        if ( ( purchase.getQuantity( ) + nbReservation ) > offer.getMaxTickets( ) )
         {
             throw new BusinessException( purchase, MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER_TYPE );
         }

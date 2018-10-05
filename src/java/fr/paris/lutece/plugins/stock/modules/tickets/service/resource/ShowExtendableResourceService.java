@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-
 /**
  *
  * ShowExtendableResourceService
@@ -86,8 +85,8 @@ public class ShowExtendableResourceService implements IExtendableResourceService
      * {@inheritDoc}
      */
 
-    //    @Override
-    public String getResourceType(  )
+    // @Override
+    public String getResourceType( )
     {
         return ShowDTO.PROPERTY_RESOURCE_TYPE;
     }
@@ -96,7 +95,7 @@ public class ShowExtendableResourceService implements IExtendableResourceService
      * {@inheritDoc}
      */
 
-    //    @Override
+    // @Override
     public String getResourceTypeDescription( Locale locale )
     {
         return I18nService.getLocalizedString( MESSAGE_RESOURCE_TYPE_DESCRIPTION, locale );

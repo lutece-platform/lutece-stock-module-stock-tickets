@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -81,7 +81,6 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
 /**
  * The service Statistic.
  */
@@ -135,15 +134,15 @@ public class StatisticService implements IStatisticService
     private IPurchaseDAO _daoPurchase;
 
     /**
-     * return a timestamp Object which correspond to the timestamp
-     * in parameter add with a number of times unit (day,week,month)specify in
-     * strTimesUnit .
-     * @param timestamp date
-     * @param strTimesUnit (day,week,month)
-     * @param nDecal the number of timesUnit
-     * @return a timestamp Object which correspond with the string specified in
-     *         parameter
-     *         add with a number of times unit (day,week,month)specify in
+     * return a timestamp Object which correspond to the timestamp in parameter add with a number of times unit (day,week,month)specify in strTimesUnit .
+     * 
+     * @param timestamp
+     *            date
+     * @param strTimesUnit
+     *            (day,week,month)
+     * @param nDecal
+     *            the number of timesUnit
+     * @return a timestamp Object which correspond with the string specified in parameter add with a number of times unit (day,week,month)specify in
      *         strTimesUnit.
      */
     public static Timestamp addStatisticInterval( Timestamp timestamp, String strTimesUnit, int nDecal )
@@ -154,12 +153,13 @@ public class StatisticService implements IStatisticService
         {
             nTimesUnit = Calendar.WEEK_OF_MONTH;
         }
-        else if ( strTimesUnit.equals( CONSTANT_GROUP_BY_MONTH ) )
-        {
-            nTimesUnit = Calendar.MONTH;
-        }
+        else
+            if ( strTimesUnit.equals( CONSTANT_GROUP_BY_MONTH ) )
+            {
+                nTimesUnit = Calendar.MONTH;
+            }
 
-        Calendar caldate = new GregorianCalendar(  );
+        Calendar caldate = new GregorianCalendar( );
         caldate.setTime( timestamp );
         caldate.set( Calendar.MILLISECOND, 0 );
         caldate.set( Calendar.SECOND, 0 );
@@ -167,47 +167,47 @@ public class StatisticService implements IStatisticService
         caldate.set( Calendar.MINUTE, caldate.getActualMaximum( Calendar.MINUTE ) );
         caldate.add( nTimesUnit, nDecal );
 
-        Timestamp timeStamp1 = new Timestamp( caldate.getTimeInMillis(  ) );
+        Timestamp timeStamp1 = new Timestamp( caldate.getTimeInMillis( ) );
 
         return timeStamp1;
     }
 
     /**
-     * Compare two timestamp and return true if they have the same times
-     * unit(Day,week,month).
+     * Compare two timestamp and return true if they have the same times unit(Day,week,month).
      *
-     * @param timestamp1 timestamp1
-     * @param timestamp2 timestamp2
-     * @param strTimesUnit (day,week,month)
-     * @return Compare two timestamp and return true if they have the same times
-     *         unit(Day,week,month)
+     * @param timestamp1
+     *            timestamp1
+     * @param timestamp2
+     *            timestamp2
+     * @param strTimesUnit
+     *            (day,week,month)
+     * @return Compare two timestamp and return true if they have the same times unit(Day,week,month)
      */
     public static boolean sameDate( Timestamp timestamp1, Timestamp timestamp2, String strTimesUnit )
     {
-        Calendar caldate1 = new GregorianCalendar(  );
+        Calendar caldate1 = new GregorianCalendar( );
         caldate1.setTime( timestamp1 );
 
-        Calendar caldate2 = new GregorianCalendar(  );
+        Calendar caldate2 = new GregorianCalendar( );
         caldate2.setTime( timestamp2 );
 
-        if ( strTimesUnit.equals( CONSTANT_GROUP_BY_DAY ) &&
-                ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) ) &&
-                ( caldate1.get( Calendar.DAY_OF_YEAR ) == caldate2.get( Calendar.DAY_OF_YEAR ) ) )
+        if ( strTimesUnit.equals( CONSTANT_GROUP_BY_DAY ) && ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) )
+                && ( caldate1.get( Calendar.DAY_OF_YEAR ) == caldate2.get( Calendar.DAY_OF_YEAR ) ) )
         {
             return true;
         }
-        else if ( strTimesUnit.equals( CONSTANT_GROUP_BY_WEEK ) &&
-                ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) ) &&
-                ( caldate1.get( Calendar.WEEK_OF_YEAR ) == caldate2.get( Calendar.WEEK_OF_YEAR ) ) )
-        {
-            return true;
-        }
-        else if ( strTimesUnit.equals( CONSTANT_GROUP_BY_MONTH ) &&
-                ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) ) &&
-                ( caldate1.get( Calendar.MONTH ) == caldate2.get( Calendar.MONTH ) ) )
-        {
-            return true;
-        }
+        else
+            if ( strTimesUnit.equals( CONSTANT_GROUP_BY_WEEK ) && ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) )
+                    && ( caldate1.get( Calendar.WEEK_OF_YEAR ) == caldate2.get( Calendar.WEEK_OF_YEAR ) ) )
+            {
+                return true;
+            }
+            else
+                if ( strTimesUnit.equals( CONSTANT_GROUP_BY_MONTH ) && ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) )
+                        && ( caldate1.get( Calendar.MONTH ) == caldate2.get( Calendar.MONTH ) ) )
+                {
+                    return true;
+                }
 
         return false;
     }
@@ -217,32 +217,32 @@ public class StatisticService implements IStatisticService
      */
     public void doManageProductSaving( ShowDTO productDTO )
     {
-        //ProductStatistic productStatistic = _daoProductStatistic.getByIdProduct( productDTO.getId( ) );
+        // ProductStatistic productStatistic = _daoProductStatistic.getByIdProduct( productDTO.getId( ) );
 
-        //On supprime tous les objets ProductStatistic
-        doRemoveProductStatisticByIdProduct( productDTO.getId(  ) );
+        // On supprime tous les objets ProductStatistic
+        doRemoveProductStatisticByIdProduct( productDTO.getId( ) );
 
-        //Le produit vient d'etre insere en base. On insere des produitStatistic
+        // Le produit vient d'etre insere en base. On insere des produitStatistic
         SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy" );
 
         try
         {
-            Calendar calendarDebut = new GregorianCalendar(  );
-            Calendar calendarFin = new GregorianCalendar(  );
-            calendarDebut.setTime( formatter.parse( productDTO.getStartDate(  ) ) );
-            calendarFin.setTime( formatter.parse( productDTO.getEndDate(  ) ) );
+            Calendar calendarDebut = new GregorianCalendar( );
+            Calendar calendarFin = new GregorianCalendar( );
+            calendarDebut.setTime( formatter.parse( productDTO.getStartDate( ) ) );
+            calendarFin.setTime( formatter.parse( productDTO.getEndDate( ) ) );
 
             do
             {
-                ProductStatistic productStatistic = new ProductStatistic(  );
+                ProductStatistic productStatistic = new ProductStatistic( );
                 productStatistic.setDayOfYear( calendarDebut.get( Calendar.DAY_OF_YEAR ) );
                 productStatistic.setWeek( calendarDebut.get( Calendar.WEEK_OF_YEAR ) );
                 productStatistic.setMonth( ( calendarDebut.get( Calendar.MONTH ) + 1 ) );
                 productStatistic.setYear( calendarDebut.get( Calendar.YEAR ) );
-                productStatistic.setDate( new Timestamp( calendarDebut.getTime(  ).getTime(  ) ) );
+                productStatistic.setDate( new Timestamp( calendarDebut.getTime( ).getTime( ) ) );
 
-                Product product = new Product(  );
-                product.setId( productDTO.getId(  ) );
+                Product product = new Product( );
+                product.setId( productDTO.getId( ) );
                 productStatistic.setProduct( product );
 
                 _daoProductStatistic.create( productStatistic );
@@ -251,7 +251,7 @@ public class StatisticService implements IStatisticService
             }
             while ( calendarDebut.before( calendarFin ) || calendarDebut.equals( calendarFin ) );
         }
-        catch ( ParseException e )
+        catch( ParseException e )
         {
             LOGGER.warn( "Erreur lors du parsing de la date de début ou de fin du produit", e );
         }
@@ -262,35 +262,36 @@ public class StatisticService implements IStatisticService
      */
     public List<ResultStatistic> getProductStatistic( String strTimesUnit, String strDateDebut, String strDateFin )
     {
-        return _daoProductStatistic.getAllResultStatisticByParameters( strTimesUnit,
-            doChangeDateFormat( strDateDebut ), doChangeDateFormat( strDateFin ) );
+        return _daoProductStatistic.getAllResultStatisticByParameters( strTimesUnit, doChangeDateFormat( strDateDebut ), doChangeDateFormat( strDateFin ) );
     }
 
     /**
      * create a JFreeChart Graph function of the statistic form submit.
      *
-     * @param listStatistic the list of statistic of form submit
-     * @param strLabelX the label of axis x
-     * @param strLableY the label of axis x
-     * @param strTimesUnit the times unit of axis x(Day,Week,Month)
+     * @param listStatistic
+     *            the list of statistic of form submit
+     * @param strLabelX
+     *            the label of axis x
+     * @param strLableY
+     *            the label of axis x
+     * @param strTimesUnit
+     *            the times unit of axis x(Day,Week,Month)
      * @return a JFreeChart Graph function of the statistic form submit
      */
-    public static JFreeChart createXYGraph( List<ResultStatistic> listStatistic, String strLabelX, String strLableY,
-        String strTimesUnit )
+    public static JFreeChart createXYGraph( List<ResultStatistic> listStatistic, String strLabelX, String strLableY, String strTimesUnit )
     {
         XYDataset xyDataset = createDataset( listStatistic, strTimesUnit );
-        JFreeChart jfreechart = ChartFactory.createTimeSeriesChart( EMPTY_STRING, strLabelX, strLableY, xyDataset,
-                false, false, false );
+        JFreeChart jfreechart = ChartFactory.createTimeSeriesChart( EMPTY_STRING, strLabelX, strLableY, xyDataset, false, false, false );
         jfreechart.setBackgroundPaint( Color.white );
 
-        XYPlot xyplot = jfreechart.getXYPlot(  );
+        XYPlot xyplot = jfreechart.getXYPlot( );
 
         xyplot.setBackgroundPaint( Color.white );
         xyplot.setBackgroundPaint( Color.lightGray );
         xyplot.setDomainGridlinePaint( Color.white );
         xyplot.setRangeGridlinePaint( Color.white );
 
-        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) xyplot.getRenderer(  );
+        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) xyplot.getRenderer( );
         renderer.setBaseShapesVisible( true );
         renderer.setSeriesFillPaint( 0, Color.RED );
         renderer.setUseFillPaint( true );
@@ -301,8 +302,10 @@ public class StatisticService implements IStatisticService
     /**
      * create graph dataset function of the statistic form submit.
      *
-     * @param listStatistic the list of statistic of form submit
-     * @param strTimesUnit the times unit of axis x(Day,Week,Month)
+     * @param listStatistic
+     *            the list of statistic of form submit
+     * @param strTimesUnit
+     *            the times unit of axis x(Day,Week,Month)
      * @return create graph dataset function of the statistic form submit
      */
     private static XYDataset createDataset( List<ResultStatistic> listStatistic, String strTimesUnit )
@@ -315,30 +318,32 @@ public class StatisticService implements IStatisticService
 
             for ( ResultStatistic statistic : listStatistic )
             {
-                series.add( new Day( (Date) statistic.getStatisticDate(  ) ), statistic.getNumberResponse(  ) );
+                series.add( new Day( (Date) statistic.getStatisticDate( ) ), statistic.getNumberResponse( ) );
             }
         }
-        else if ( strTimesUnit.equals( CONSTANT_GROUP_BY_WEEK ) )
-        {
-            series = new TimeSeries( EMPTY_STRING, Week.class );
-
-            for ( ResultStatistic statistic : listStatistic )
+        else
+            if ( strTimesUnit.equals( CONSTANT_GROUP_BY_WEEK ) )
             {
-                series.add( new Week( (Date) statistic.getStatisticDate(  ) ), statistic.getNumberResponse(  ) );
+                series = new TimeSeries( EMPTY_STRING, Week.class );
+
+                for ( ResultStatistic statistic : listStatistic )
+                {
+                    series.add( new Week( (Date) statistic.getStatisticDate( ) ), statistic.getNumberResponse( ) );
+                }
             }
-        }
 
-        else if ( strTimesUnit.equals( CONSTANT_GROUP_BY_MONTH ) )
-        {
-            series = new TimeSeries( EMPTY_STRING, Month.class );
+            else
+                if ( strTimesUnit.equals( CONSTANT_GROUP_BY_MONTH ) )
+                {
+                    series = new TimeSeries( EMPTY_STRING, Month.class );
 
-            for ( ResultStatistic statistic : listStatistic )
-            {
-                series.add( new Month( (Date) statistic.getStatisticDate(  ) ), statistic.getNumberResponse(  ) );
-            }
-        }
+                    for ( ResultStatistic statistic : listStatistic )
+                    {
+                        series.add( new Month( (Date) statistic.getStatisticDate( ) ), statistic.getNumberResponse( ) );
+                    }
+                }
 
-        TimeSeriesCollection dataset = new TimeSeriesCollection(  );
+        TimeSeriesCollection dataset = new TimeSeriesCollection( );
         dataset.addSeries( series );
 
         return dataset;
@@ -349,13 +354,14 @@ public class StatisticService implements IStatisticService
      */
     public Integer getCountProductsByDates( String strDateDebut, String strDateFin )
     {
-        return _daoProductStatistic.getCountProductsByDates( doChangeDateFormat( strDateDebut ),
-            doChangeDateFormat( strDateFin ) );
+        return _daoProductStatistic.getCountProductsByDates( doChangeDateFormat( strDateDebut ), doChangeDateFormat( strDateFin ) );
     }
 
     /**
      * Change the format of data date. User format to database format
-     * @param dateEntree the user format date
+     * 
+     * @param dateEntree
+     *            the user format date
      * @return the database date format
      */
     private String doChangeDateFormat( String dateEntree )
@@ -370,7 +376,7 @@ public class StatisticService implements IStatisticService
 
                 return dfBdd.format( dateDebut );
             }
-            catch ( Exception ex )
+            catch( Exception ex )
             {
                 return null;
             }
@@ -384,21 +390,22 @@ public class StatisticService implements IStatisticService
     /**
      * Converts the informations to export into a list of String[].
      *
-     * @param listData The list data to convert
-     * @param strTimesUnit the str times unit
-     * @param locale the locale
-     * @return a list of String[] corresponding to listData or null if there is
-     *         no data to convert
+     * @param listData
+     *            The list data to convert
+     * @param strTimesUnit
+     *            the str times unit
+     * @param locale
+     *            the locale
+     * @return a list of String[] corresponding to listData or null if there is no data to convert
      */
-    public static List<String[]> buildListToCSVWriter( Collection<ResultStatistic> listData, String strTimesUnit,
-        Locale locale )
+    public static List<String [ ]> buildListToCSVWriter( Collection<ResultStatistic> listData, String strTimesUnit, Locale locale )
     {
-        if ( ( listData == null ) || listData.isEmpty(  ) )
+        if ( ( listData == null ) || listData.isEmpty( ) )
         {
             return null;
         }
 
-        List<String[]> returnList = new ArrayList<String[]>(  );
+        List<String [ ]> returnList = new ArrayList<String [ ]>( );
 
         // Build the header
         String strTimesHeader = EXPORT_HEADER_GROUPE_MONTH;
@@ -407,27 +414,26 @@ public class StatisticService implements IStatisticService
         {
             strTimesHeader = EXPORT_HEADER_GROUPE_DAY;
         }
-        else if ( strTimesUnit.equals( CONSTANT_GROUP_BY_WEEK ) )
-        {
-            strTimesHeader = EXPORT_HEADER_GROUPE_WEEK;
-        }
-
-        String[] header = 
+        else
+            if ( strTimesUnit.equals( CONSTANT_GROUP_BY_WEEK ) )
             {
+                strTimesHeader = EXPORT_HEADER_GROUPE_WEEK;
+            }
+
+        String [ ] header = {
                 I18nService.getLocalizedString( EXPORT_HEADER_DATE, locale ),
-                
-                I18nService.getLocalizedString( EXPORT_HEADER_NB_PRODUCTS, locale ) + " " +
-                I18nService.getLocalizedString( strTimesHeader, locale ),
-            };
+
+                I18nService.getLocalizedString( EXPORT_HEADER_NB_PRODUCTS, locale ) + " " + I18nService.getLocalizedString( strTimesHeader, locale ),
+        };
         returnList.add( header );
 
         // Build lines
         for ( ResultStatistic currentResultStatistic : listData )
         {
-            String[] line = new String[header.length];
+            String [ ] line = new String [ header.length];
             int i = 0;
-            line[i++] = DateUtil.getDateString( currentResultStatistic.getStatisticDate(  ), locale );
-            line[i++] = String.valueOf( currentResultStatistic.getNumberResponse(  ) );
+            line [i++] = DateUtil.getDateString( currentResultStatistic.getStatisticDate( ), locale );
+            line [i++] = String.valueOf( currentResultStatistic.getNumberResponse( ) );
             returnList.add( line );
         }
 
@@ -439,32 +445,32 @@ public class StatisticService implements IStatisticService
      */
     public void doManagePurchaseSaving( ReservationDTO purchaseDTO )
     {
-        //On supprime tous les objets ProductStatistic
-        doRemovePurchaseStatisticByIdPurchase( purchaseDTO.getId(  ) );
+        // On supprime tous les objets ProductStatistic
+        doRemovePurchaseStatisticByIdPurchase( purchaseDTO.getId( ) );
 
-        //La reservation vient d'etre insere en base. On insere un purchaseStatistic
+        // La reservation vient d'etre insere en base. On insere un purchaseStatistic
         SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy" );
 
         try
         {
-            Calendar calendar = new GregorianCalendar(  );
-            calendar.setTime( formatter.parse( purchaseDTO.getDate(  ) ) );
+            Calendar calendar = new GregorianCalendar( );
+            calendar.setTime( formatter.parse( purchaseDTO.getDate( ) ) );
 
-            PurchaseStatistic purchaseStatistic = new PurchaseStatistic(  );
+            PurchaseStatistic purchaseStatistic = new PurchaseStatistic( );
             purchaseStatistic.setDayOfYear( calendar.get( Calendar.DAY_OF_YEAR ) );
             purchaseStatistic.setWeek( calendar.get( Calendar.WEEK_OF_YEAR ) );
             purchaseStatistic.setMonth( ( calendar.get( Calendar.MONTH ) + 1 ) );
             purchaseStatistic.setYear( calendar.get( Calendar.YEAR ) );
-            purchaseStatistic.setDate( new Timestamp( calendar.getTime(  ).getTime(  ) ) );
+            purchaseStatistic.setDate( new Timestamp( calendar.getTime( ).getTime( ) ) );
 
-            Purchase purchase = new Purchase(  );
-            purchase.setId( purchaseDTO.getId(  ) );
+            Purchase purchase = new Purchase( );
+            purchase.setId( purchaseDTO.getId( ) );
 
             purchaseStatistic.setPurchase( purchase );
 
             _daoPurchaseStatistic.create( purchaseStatistic );
         }
-        catch ( ParseException e )
+        catch( ParseException e )
         {
             LOGGER.warn( "Erreur lors du parsing de la date de début ou de fin du produit", e );
         }
@@ -475,8 +481,7 @@ public class StatisticService implements IStatisticService
      */
     public List<ResultStatistic> getPurchaseStatistic( String strTimesUnit, String strDateDebut, String strDateFin )
     {
-        return _daoPurchaseStatistic.getAllResultStatisticByParameters( strTimesUnit,
-            doChangeDateFormat( strDateDebut ), doChangeDateFormat( strDateFin ) );
+        return _daoPurchaseStatistic.getAllResultStatisticByParameters( strTimesUnit, doChangeDateFormat( strDateDebut ), doChangeDateFormat( strDateFin ) );
     }
 
     /**
@@ -484,19 +489,18 @@ public class StatisticService implements IStatisticService
      */
     public Integer getCountPurchasesByDates( String strDateDebut, String strDateFin )
     {
-        return _daoPurchaseStatistic.getCountPurchasesByDates( doChangeDateFormat( strDateDebut ),
-            doChangeDateFormat( strDateFin ) );
+        return _daoPurchaseStatistic.getCountPurchasesByDates( doChangeDateFormat( strDateDebut ), doChangeDateFormat( strDateFin ) );
     }
 
     /**
      * {@inheritDoc}
      */
-    public Integer getCountProductALAffiche(  )
+    public Integer getCountProductALAffiche( )
     {
-        Calendar currentCalendar = new GregorianCalendar(  );
+        Calendar currentCalendar = new GregorianCalendar( );
 
-        String strCurrentDate = currentCalendar.get( Calendar.YEAR ) + "-" +
-            ( currentCalendar.get( Calendar.MONTH ) + 1 ) + "-" + currentCalendar.get( Calendar.DAY_OF_MONTH );
+        String strCurrentDate = currentCalendar.get( Calendar.YEAR ) + "-" + ( currentCalendar.get( Calendar.MONTH ) + 1 ) + "-"
+                + currentCalendar.get( Calendar.DAY_OF_MONTH );
 
         return _daoProduct.getCountProductALAfficheByDate( strCurrentDate );
     }
@@ -504,12 +508,12 @@ public class StatisticService implements IStatisticService
     /**
      * {@inheritDoc}
      */
-    public Integer getCountProductAVenir(  )
+    public Integer getCountProductAVenir( )
     {
-        Calendar currentCalendar = new GregorianCalendar(  );
+        Calendar currentCalendar = new GregorianCalendar( );
 
-        String strCurrentDate = currentCalendar.get( Calendar.YEAR ) + "-" +
-            ( currentCalendar.get( Calendar.MONTH ) + 1 ) + "-" + currentCalendar.get( Calendar.DAY_OF_MONTH );
+        String strCurrentDate = currentCalendar.get( Calendar.YEAR ) + "-" + ( currentCalendar.get( Calendar.MONTH ) + 1 ) + "-"
+                + currentCalendar.get( Calendar.DAY_OF_MONTH );
 
         return _daoProduct.getCountProductAVenirByDate( strCurrentDate );
     }
@@ -517,12 +521,12 @@ public class StatisticService implements IStatisticService
     /**
      * {@inheritDoc}
      */
-    public Integer getCountPurchaseOfDay(  )
+    public Integer getCountPurchaseOfDay( )
     {
-        Calendar currentCalendar = new GregorianCalendar(  );
+        Calendar currentCalendar = new GregorianCalendar( );
 
-        String strCurrentDate = currentCalendar.get( Calendar.YEAR ) + "-" +
-            ( currentCalendar.get( Calendar.MONTH ) + 1 ) + "-" + currentCalendar.get( Calendar.DAY_OF_MONTH );
+        String strCurrentDate = currentCalendar.get( Calendar.YEAR ) + "-" + ( currentCalendar.get( Calendar.MONTH ) + 1 ) + "-"
+                + currentCalendar.get( Calendar.DAY_OF_MONTH );
 
         return _daoPurchase.getCountPurchaseByBeginDateAndLastDate( strCurrentDate, strCurrentDate );
     }
@@ -530,15 +534,14 @@ public class StatisticService implements IStatisticService
     /**
      * {@inheritDoc}
      */
-    public Integer getCountPurchaseOfMonth(  )
+    public Integer getCountPurchaseOfMonth( )
     {
-        Calendar currentCalendar = new GregorianCalendar(  );
+        Calendar currentCalendar = new GregorianCalendar( );
 
-        String strDateDebut = currentCalendar.get( Calendar.YEAR ) + "-" + ( currentCalendar.get( Calendar.MONTH ) + 1 ) +
-            "-01";
+        String strDateDebut = currentCalendar.get( Calendar.YEAR ) + "-" + ( currentCalendar.get( Calendar.MONTH ) + 1 ) + "-01";
 
-        String strDateFin = currentCalendar.get( Calendar.YEAR ) + "-" + ( currentCalendar.get( Calendar.MONTH ) + 1 ) +
-            "-" + currentCalendar.getActualMaximum( Calendar.DAY_OF_MONTH );
+        String strDateFin = currentCalendar.get( Calendar.YEAR ) + "-" + ( currentCalendar.get( Calendar.MONTH ) + 1 ) + "-"
+                + currentCalendar.getActualMaximum( Calendar.DAY_OF_MONTH );
 
         return _daoPurchase.getCountPurchaseByBeginDateAndLastDate( strDateDebut, strDateFin );
     }
@@ -552,7 +555,7 @@ public class StatisticService implements IStatisticService
 
         for ( ProductStatistic productStatistic : listeProductStatistic )
         {
-            _daoProductStatistic.remove( productStatistic.getId(  ) );
+            _daoProductStatistic.remove( productStatistic.getId( ) );
         }
     }
 
@@ -565,7 +568,7 @@ public class StatisticService implements IStatisticService
 
         for ( PurchaseStatistic purchaseStatistic : listePurchaseStatistic )
         {
-            _daoPurchaseStatistic.remove( purchaseStatistic.getId(  ) );
+            _daoPurchaseStatistic.remove( purchaseStatistic.getId( ) );
         }
     }
 }

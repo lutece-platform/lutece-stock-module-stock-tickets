@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,6 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
-
 /**
  * DTO for provider
  *
@@ -63,7 +62,7 @@ import javax.validation.Valid;
  */
 public class PartnerDTO extends AbstractDTO<Provider>
 {
-    //CONSTANTS
+    // CONSTANTS
     public static final String STRING_TRUE = "true";
     public static final String STRING_FALSE = "false";
     public static final String ATTR_CONTACT_NAME = "contactName";
@@ -87,11 +86,13 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * List of the contact of this partner
      */
-    private List<Contact> contactList = new ArrayList<Contact>(  );
+    private List<Contact> contactList = new ArrayList<Contact>( );
 
     /**
      * Methode use to find a contact with it's id
-     * @param id the contact id
+     * 
+     * @param id
+     *            the contact id
      * @return the contact or null if he doesn't exist
      */
     private Contact findContactById( int id )
@@ -100,9 +101,9 @@ public class PartnerDTO extends AbstractDTO<Provider>
         int i = 0;
         Contact res = null;
 
-        while ( !trouve && ( i < contactList.size(  ) ) )
+        while ( !trouve && ( i < contactList.size( ) ) )
         {
-            if ( contactList.get( i ).getId(  ) == id )
+            if ( contactList.get( i ).getId( ) == id )
             {
                 res = contactList.get( i );
                 trouve = true;
@@ -117,15 +118,15 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * Add an empty contact to the partner
      */
-    public void addEmptyContact(  )
+    public void addEmptyContact( )
     {
         int i = 0;
 
         for ( Contact c : contactList )
         {
-            if ( c.getId(  ) >= i )
+            if ( c.getId( ) >= i )
             {
-                i = c.getId(  ) + 1;
+                i = c.getId( ) + 1;
             }
         }
 
@@ -135,13 +136,14 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * @return the idProvider
      */
-    public Integer getId(  )
+    public Integer getId( )
     {
         return id;
     }
 
     /**
-     * @param idProvider the idProvider to set
+     * @param idProvider
+     *            the idProvider to set
      */
     public void setId( Integer idProvider )
     {
@@ -151,13 +153,14 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * @return the name
      */
-    public String getName(  )
+    public String getName( )
     {
         return name;
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName( String name )
     {
@@ -167,13 +170,14 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * @return the address
      */
-    public String getAddress(  )
+    public String getAddress( )
     {
         return address;
     }
 
     /**
-     * @param address the address to set
+     * @param address
+     *            the address to set
      */
     public void setAddress( String address )
     {
@@ -185,11 +189,12 @@ public class PartnerDTO extends AbstractDTO<Provider>
      */
     public String getContactName( int idContact )
     {
-        return contactList.get( idContact ).getName(  );
+        return contactList.get( idContact ).getName( );
     }
 
     /**
-     * @param contactName the contactName to set
+     * @param contactName
+     *            the contactName to set
      */
     public void setContactName( int idContact, String contactName )
     {
@@ -206,11 +211,12 @@ public class PartnerDTO extends AbstractDTO<Provider>
      */
     public String getContactPhoneNumber( int idContact )
     {
-        return findContactById( idContact ).getPhoneNumber(  );
+        return findContactById( idContact ).getPhoneNumber( );
     }
 
     /**
-     * @param phoneNumber the phoneNumber to set
+     * @param phoneNumber
+     *            the phoneNumber to set
      */
     public void setContactPhoneNumber( int idContact, String phoneNumber )
     {
@@ -232,14 +238,15 @@ public class PartnerDTO extends AbstractDTO<Provider>
 
         if ( contact != null )
         {
-            mail = contact.getMail(  );
+            mail = contact.getMail( );
         }
 
         return mail;
     }
 
     /**
-     * @param mail the mail to set
+     * @param mail
+     *            the mail to set
      */
     public void setContactMail( int idContact, String mail )
     {
@@ -256,11 +263,12 @@ public class PartnerDTO extends AbstractDTO<Provider>
      */
     public int getContactId( int idContact )
     {
-        return findContactById( idContact ).getId(  );
+        return findContactById( idContact ).getId( );
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setContactId( int idContact, int id )
     {
@@ -277,7 +285,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
      *
      * @return the comment
      */
-    public String getComment(  )
+    public String getComment( )
     {
         return comment;
     }
@@ -285,7 +293,8 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * Sets the comment.
      *
-     * @param comment the comment to set
+     * @param comment
+     *            the comment to set
      */
     public void setComment( String comment )
     {
@@ -295,13 +304,14 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * @return boolean is Accessible
      */
-    public boolean isAccessible(  )
+    public boolean isAccessible( )
     {
         return accessible;
     }
 
     /**
-     * @param accessible true or false
+     * @param accessible
+     *            true or false
      */
     public void setAccessible( boolean accessible )
     {
@@ -311,13 +321,14 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * @return accessibleComment
      */
-    public String getAccessibleComment(  )
+    public String getAccessibleComment( )
     {
         return accessibleComment;
     }
 
     /**
-     * @param accessibleComment the new comment for accessibility
+     * @param accessibleComment
+     *            the new comment for accessibility
      */
     public void setAccessibleComment( String accessibleComment )
     {
@@ -327,7 +338,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * @return metro comment
      */
-    public String getMetroComment(  )
+    public String getMetroComment( )
     {
         return metroComment;
     }
@@ -344,50 +355,43 @@ public class PartnerDTO extends AbstractDTO<Provider>
      * {@inheritDoc}
      */
     @Override
-    public Provider convert(  )
+    public Provider convert( )
     {
         Provider provider = mapper.map( this, Provider.class );
 
-        //Accessibility
-        if ( this.isAccessible(  ) )
+        // Accessibility
+        if ( this.isAccessible( ) )
         {
-            provider.getAttributeList(  ).add( new ProviderAttribute( ATTR_IS_ACCESSIBLE, STRING_TRUE, provider ) );
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_IS_ACCESSIBLE, STRING_TRUE, provider ) );
         }
         else
         {
-            provider.getAttributeList(  ).add( new ProviderAttribute( ATTR_IS_ACCESSIBLE, STRING_FALSE, provider ) );
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_IS_ACCESSIBLE, STRING_FALSE, provider ) );
         }
 
         if ( ( district != null ) && ( district > 0 ) )
         {
-            provider.getAttributeNumList(  )
-                    .add( new ProviderAttributeNum( ATTR_DISTRICT, new BigDecimal( district ), provider ) );
+            provider.getAttributeNumList( ).add( new ProviderAttributeNum( ATTR_DISTRICT, new BigDecimal( district ), provider ) );
         }
 
-        if ( StringUtils.isNotEmpty( this.getAccessibleComment(  ) ) )
+        if ( StringUtils.isNotEmpty( this.getAccessibleComment( ) ) )
         {
-            provider.getAttributeList(  )
-                    .add( new ProviderAttribute( ATTR_ACCESSIBLE_COMMENT, this.getAccessibleComment(  ), provider ) );
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_ACCESSIBLE_COMMENT, this.getAccessibleComment( ), provider ) );
         }
 
-        //Metro comment
-        if ( StringUtils.isNotEmpty( this.getMetroComment(  ) ) )
+        // Metro comment
+        if ( StringUtils.isNotEmpty( this.getMetroComment( ) ) )
         {
-            provider.getAttributeList(  )
-                    .add( new ProviderAttribute( ATTR_METRO_COMMENT, this.getMetroComment(  ), provider ) );
+            provider.getAttributeList( ).add( new ProviderAttribute( ATTR_METRO_COMMENT, this.getMetroComment( ), provider ) );
         }
 
         for ( Contact contact : contactList )
         {
-            provider.getAttributeList(  )
-                    .add( new ProviderAttribute( "contactId" + String.valueOf( contact.getId(  ) ),
-                    String.valueOf( contact.getId(  ) ), provider ) );
-            provider.getAttributeList(  )
-                    .add( new ProviderAttribute( "contactName" + contact.getId(  ), contact.getName(  ), provider ) );
-            provider.getAttributeList(  )
-                    .add( new ProviderAttribute( "phoneNumber" + contact.getId(  ), contact.getPhoneNumber(  ), provider ) );
-            provider.getAttributeList(  )
-                    .add( new ProviderAttribute( "mail" + contact.getId(  ), contact.getMail(  ), provider ) );
+            provider.getAttributeList( ).add(
+                    new ProviderAttribute( "contactId" + String.valueOf( contact.getId( ) ), String.valueOf( contact.getId( ) ), provider ) );
+            provider.getAttributeList( ).add( new ProviderAttribute( "contactName" + contact.getId( ), contact.getName( ), provider ) );
+            provider.getAttributeList( ).add( new ProviderAttribute( "phoneNumber" + contact.getId( ), contact.getPhoneNumber( ), provider ) );
+            provider.getAttributeList( ).add( new ProviderAttribute( "mail" + contact.getId( ), contact.getMail( ), provider ) );
         }
 
         return provider;
@@ -395,7 +399,9 @@ public class PartnerDTO extends AbstractDTO<Provider>
 
     /**
      * Return DTO converted from entity bean
-     * @param source entity bean
+     * 
+     * @param source
+     *            entity bean
      * @return dto
      */
     public static PartnerDTO convertEntity( Provider source )
@@ -403,29 +409,29 @@ public class PartnerDTO extends AbstractDTO<Provider>
         Mapper mapper = (Mapper) SpringContextService.getBean( "mapper" );
         PartnerDTO partnerDTO = mapper.map( source, PartnerDTO.class );
 
-        Set<ProviderAttributeNum> attributeNumList = source.getAttributeNumList(  );
+        Set<ProviderAttributeNum> attributeNumList = source.getAttributeNumList( );
 
         if ( attributeNumList != null )
         {
             for ( ProviderAttributeNum attribute : attributeNumList )
             {
-                if ( ATTR_DISTRICT.equals( attribute.getKey(  ) ) )
+                if ( ATTR_DISTRICT.equals( attribute.getKey( ) ) )
                 {
-                    partnerDTO.setDistrict( attribute.getValue(  ).intValue(  ) );
+                    partnerDTO.setDistrict( attribute.getValue( ).intValue( ) );
                 }
             }
         }
 
-        Set<ProviderAttribute> attributeList = source.getAttributeList(  );
+        Set<ProviderAttribute> attributeList = source.getAttributeList( );
 
         if ( attributeList != null )
         {
             for ( ProviderAttribute attribute : attributeList )
             {
-                //Accessibility
-                if ( ATTR_IS_ACCESSIBLE.equals( attribute.getKey(  ) ) )
+                // Accessibility
+                if ( ATTR_IS_ACCESSIBLE.equals( attribute.getKey( ) ) )
                 {
-                    if ( attribute.getValue(  ).equals( STRING_TRUE ) )
+                    if ( attribute.getValue( ).equals( STRING_TRUE ) )
                     {
                         partnerDTO.setAccessible( true );
                     }
@@ -435,38 +441,44 @@ public class PartnerDTO extends AbstractDTO<Provider>
                     }
                 }
 
-                else if ( ATTR_ACCESSIBLE_COMMENT.equals( attribute.getKey(  ) ) )
-                {
-                    partnerDTO.setAccessibleComment( attribute.getValue(  ) );
-                }
+                else
+                    if ( ATTR_ACCESSIBLE_COMMENT.equals( attribute.getKey( ) ) )
+                    {
+                        partnerDTO.setAccessibleComment( attribute.getValue( ) );
+                    }
 
-                //Metro comment
-                else if ( ATTR_METRO_COMMENT.equals( attribute.getKey(  ) ) )
-                {
-                    partnerDTO.setMetroComment( attribute.getValue(  ) );
-                }
+                    // Metro comment
+                    else
+                        if ( ATTR_METRO_COMMENT.equals( attribute.getKey( ) ) )
+                        {
+                            partnerDTO.setMetroComment( attribute.getValue( ) );
+                        }
 
-                //Contacts
-                else if ( attribute.getKey(  ).startsWith( ATTR_CONTACT_NAME ) )
-                {
-                    int id = Integer.valueOf( attribute.getKey(  ).substring( ATTR_CONTACT_NAME.length(  ) ) );
-                    partnerDTO.setContactName( id, attribute.getValue(  ) );
-                }
-                else if ( attribute.getKey(  ).startsWith( ATTR_CONTACT_PHONE ) )
-                {
-                    int id = Integer.valueOf( attribute.getKey(  ).substring( ATTR_CONTACT_PHONE.length(  ) ) );
-                    partnerDTO.setContactPhoneNumber( id, attribute.getValue(  ) );
-                }
-                else if ( attribute.getKey(  ).startsWith( ATTR_CONTACT_MAIL ) )
-                {
-                    int id = Integer.valueOf( attribute.getKey(  ).substring( ATTR_CONTACT_MAIL.length(  ) ) );
-                    partnerDTO.setContactMail( id, attribute.getValue(  ) );
-                }
-                else if ( attribute.getKey(  ).startsWith( ATTR_CONTACT_ID ) )
-                {
-                    int id = Integer.valueOf( attribute.getKey(  ).substring( ATTR_CONTACT_ID.length(  ) ) );
-                    partnerDTO.setContactId( id, Integer.valueOf( attribute.getValue(  ) ) );
-                }
+                        // Contacts
+                        else
+                            if ( attribute.getKey( ).startsWith( ATTR_CONTACT_NAME ) )
+                            {
+                                int id = Integer.valueOf( attribute.getKey( ).substring( ATTR_CONTACT_NAME.length( ) ) );
+                                partnerDTO.setContactName( id, attribute.getValue( ) );
+                            }
+                            else
+                                if ( attribute.getKey( ).startsWith( ATTR_CONTACT_PHONE ) )
+                                {
+                                    int id = Integer.valueOf( attribute.getKey( ).substring( ATTR_CONTACT_PHONE.length( ) ) );
+                                    partnerDTO.setContactPhoneNumber( id, attribute.getValue( ) );
+                                }
+                                else
+                                    if ( attribute.getKey( ).startsWith( ATTR_CONTACT_MAIL ) )
+                                    {
+                                        int id = Integer.valueOf( attribute.getKey( ).substring( ATTR_CONTACT_MAIL.length( ) ) );
+                                        partnerDTO.setContactMail( id, attribute.getValue( ) );
+                                    }
+                                    else
+                                        if ( attribute.getKey( ).startsWith( ATTR_CONTACT_ID ) )
+                                        {
+                                            int id = Integer.valueOf( attribute.getKey( ).substring( ATTR_CONTACT_ID.length( ) ) );
+                                            partnerDTO.setContactId( id, Integer.valueOf( attribute.getValue( ) ) );
+                                        }
             }
         }
 
@@ -476,16 +488,17 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * Convert entity list to dto list.
      *
-     * @param listSource the list source
+     * @param listSource
+     *            the list source
      * @return the result list
      */
     public static ResultList<PartnerDTO> convertEntityList( Collection<Provider> listSource )
     {
-        ResultList<PartnerDTO> listDest = new ResultList<PartnerDTO>(  );
+        ResultList<PartnerDTO> listDest = new ResultList<PartnerDTO>( );
 
         if ( listSource instanceof ResultList )
         {
-            listDest.setTotalResult( ( (ResultList<?>) listSource ).getTotalResult(  ) );
+            listDest.setTotalResult( ( (ResultList<?>) listSource ).getTotalResult( ) );
         }
 
         for ( Provider source : listSource )
@@ -500,13 +513,14 @@ public class PartnerDTO extends AbstractDTO<Provider>
      * @return the classeList
      */
     @Valid
-    public List<Contact> getContactList(  )
+    public List<Contact> getContactList( )
     {
         return contactList;
     }
 
     /**
-     * @param classeList the classeList to set
+     * @param classeList
+     *            the classeList to set
      */
     public void setContactList( List<Contact> classeList )
     {
@@ -515,15 +529,18 @@ public class PartnerDTO extends AbstractDTO<Provider>
 
     /**
      * Setter prestation pour le form
-     * @param index index
-     * @param classe classe
+     * 
+     * @param index
+     *            index
+     * @param classe
+     *            classe
      */
     @Valid
     public void setContactForm( int index, Contact contact )
     {
-        while ( index >= contactList.size(  ) )
+        while ( index >= contactList.size( ) )
         {
-            this.contactList.add( new Contact(  ) );
+            this.contactList.add( new Contact( ) );
         }
 
         this.contactList.set( index, contact );
@@ -531,14 +548,16 @@ public class PartnerDTO extends AbstractDTO<Provider>
 
     /**
      * Prestation form
-     * @param index index
+     * 
+     * @param index
+     *            index
      * @return prestation
      */
     public Contact getContactForm( int index )
     {
-        while ( index >= contactList.size(  ) )
+        while ( index >= contactList.size( ) )
         {
-            this.contactList.add( new Contact(  ) );
+            this.contactList.add( new Contact( ) );
         }
 
         return contactList.get( index );
@@ -546,7 +565,9 @@ public class PartnerDTO extends AbstractDTO<Provider>
 
     /**
      * Remove contact from partner with id
-     * @param idContact the id of the contact which will be deleted
+     * 
+     * @param idContact
+     *            the id of the contact which will be deleted
      */
     public void removeContact( int idContact )
     {
@@ -556,13 +577,14 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * @return the district
      */
-    public Integer getDistrict(  )
+    public Integer getDistrict( )
     {
         return district;
     }
 
     /**
-     * @param district the district to set
+     * @param district
+     *            the district to set
      */
     public void setDistrict( Integer district )
     {

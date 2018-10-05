@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-
 /**
  *
  * PurchaseFilter
@@ -45,16 +44,19 @@ public class PurchaseStatisticFilter
 
     /**
      * Return the purchase id
+     * 
      * @return the purchase id
      */
-    public Integer getIdPurchase(  )
+    public Integer getIdPurchase( )
     {
         return _idPurchase;
     }
 
     /**
      * Set the purchase id
-     * @param idPurchase the purchase id
+     * 
+     * @param idPurchase
+     *            the purchase id
      */
     public void setIdPurchase( Integer idPurchase )
     {
