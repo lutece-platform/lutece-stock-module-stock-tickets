@@ -1,5 +1,5 @@
 ![](http://dev.lutece.paris.fr/jenkins/buildStatus/icon?job=stock-module-stock-tickets-deploy)
-# Plugin stock tickets
+# Module stock tickets
 
 
 [Maven documentation and reports](http://dev.lutece.paris.fr/plugins/module-stock-tickets/)
