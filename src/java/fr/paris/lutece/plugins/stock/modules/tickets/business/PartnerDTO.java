@@ -535,7 +535,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
      * @param classe
      *            classe
      */
-    @Valid
+
     public void setContactForm( int index, Contact contact )
     {
         while ( index >= contactList.size( ) )
