@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
     <body>
-        <section name="Module stock tickets">
+        <section name="Module stock billeterie">
+            <subsection name="Introduction">
+                <p>
+                    Ce module permet de créer un site de vente de tickets.
+                    Il gère les réservations, les séances, les notifications ...
+                </p>
+            </subsection>
         </section>
     </body>
 </document>

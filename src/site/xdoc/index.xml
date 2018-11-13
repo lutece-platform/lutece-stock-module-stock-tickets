@@ -2,6 +2,12 @@
 <document>
     <body>
         <section name="Module stock tickets">
+            <subsection name="Introduction">
+                <p>
+                    This module is a foundation for creating ticket sales applications.
+                    It manages bookings, shows, notifications ...
+                </p>
+            </subsection>
         </section>
     </body>
 </document>
