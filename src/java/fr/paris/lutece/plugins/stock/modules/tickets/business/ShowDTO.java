@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-import fr.paris.lutece.plugins.stock.business.attribute.offer.OfferAttributeNum;
 import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttribute;
 import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeDate;
 import fr.paris.lutece.plugins.stock.business.attribute.product.ProductAttributeNum;
@@ -180,6 +179,12 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     private boolean subscribable;
 
     private Integer [ ] idContact;
+    
+    private boolean availableInvitation = false;
+    
+    private boolean availableChildInvitation = false;
+    
+    private boolean availableReducedPrice = false;
 
     /**
      * Gets the id.
@@ -882,4 +887,46 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     {
         this.idContact = idContact;
     }
+    
+    /**
+	 * @return the availableInvitation
+	 */
+	public boolean isAvailableInvitation() {
+		return availableInvitation;
+	}
+
+	/**
+	 * @param availableInvitation the availableInvitation to set
+	 */
+	public void setAvailableInvitation(boolean availableInvitation) {
+		this.availableInvitation = availableInvitation;
+	}
+
+	/**
+	 * @return the availableChildInvitation
+	 */
+	public boolean isAvailableChildInvitation() {
+		return availableChildInvitation;
+	}
+
+	/**
+	 * @param availableChildInvitation the availableChildInvitation to set
+	 */
+	public void setAvailableChildInvitation(boolean availableChildInvitation) {
+		this.availableChildInvitation = availableChildInvitation;
+	}
+
+	/**
+	 * @return the availableReducedPrice
+	 */
+	public boolean isAvailableReducedPrice() {
+		return availableReducedPrice;
+	}
+
+	/**
+	 * @param availableReducedPrice the availableReducedPrice to set
+	 */
+	public void setAvailableReducedPrice(boolean availableReducedPrice) {
+		this.availableReducedPrice = availableReducedPrice;
+	}
 }
