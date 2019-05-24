@@ -184,7 +184,7 @@ public class ShowService extends ProductService implements IShowService
         {
             // try
             // {
-            _daoProductImage.saveImage( productEntity.getId( ), filePosterArray [0], filePosterArray [1] );
+            _daoProductImage.saveImage( productEntity.getId( ), filePosterArray [0], filePosterArray [1], filePosterArray [2] );
 
             // }
             // catch ( FileNotFoundException e )
@@ -270,6 +270,11 @@ public class ShowService extends ProductService implements IShowService
     public byte [ ] getTbImage( Integer idProduct )
     {
         return _daoProductImage.getTbImage( idProduct );
+    }
+
+    @Override
+    public byte[] getRealImage(Integer idProduct) {
+        return _daoProductImage.getRealImage( idProduct );
     }
 
     @Override

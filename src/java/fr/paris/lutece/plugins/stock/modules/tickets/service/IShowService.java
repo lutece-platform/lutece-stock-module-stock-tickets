@@ -181,6 +181,15 @@ public interface IShowService
     byte [ ] getTbImage( Integer idProduct );
 
     /**
+     * Gets the real image.
+     *
+     * @param idProduct
+     *            the id product
+     * @return the real image
+     */
+    byte [ ] getRealImage( Integer idProduct );
+
+    /**
      * Check if rules should be apply to the product
      * 
      * @param product
