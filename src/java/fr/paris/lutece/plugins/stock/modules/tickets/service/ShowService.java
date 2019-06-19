@@ -106,6 +106,11 @@ public class ShowService extends ProductService implements IShowService
         return ShowDTO.convertEntity( _daoProduct.findById( nIdProduct ) );
     }
 
+    @Override
+    public Product getProductById(Integer id) {
+        return _daoProduct.findById(id);
+    }
+
     /**
      *
      * {@inheritDoc}

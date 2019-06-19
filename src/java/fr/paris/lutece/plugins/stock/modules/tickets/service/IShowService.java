@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.service;
 
+import fr.paris.lutece.plugins.stock.business.product.Product;
 import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
@@ -72,6 +73,8 @@ public interface IShowService
      * @return the product
      */
     ShowDTO getProduct( int nIdProduct );
+
+    Product getProductById(Integer id);
 
     /**
      * Return a filtered list of product.
