@@ -53,6 +53,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
@@ -72,6 +73,7 @@ public class ShowService extends ProductService implements IShowService
     public static final String ID_SPRING_DEFAULT = "stock-tickets.showService";
     private static final String MESSAGE_ERROR_PRODUCT_NAME_MUST_BE_UNIQUE = "module.stock.billetterie.save_product.error.name.unique";
     private static final String MESSAGE_ERROR_PRODUCT_DATE_CHEVAUCHE = "module.stock.billetterie.save_product.error.date.chevauche";
+    public static final String FORMAT_DATE = "dd/MM/yyyy";
     @Inject
     @Named( "stock-tickets.showDAO" )
     private IShowDAO _daoProduct;
@@ -298,13 +300,26 @@ public class ShowService extends ProductService implements IShowService
     {
         if ( StringUtils.isNotBlank( product.getEndDate( ) ) )
         {
-            Date endDate = DateUtil.formatDate( product.getEndDate( ), Locale.FRENCH );
-            Date currentDate = new Date( );
+            Date endDate = formatDate(DateUtil.formatDate( product.getEndDate( ), Locale.FRENCH ));
+            Date currentDate = formatDate(new Date( ));
 
             if ( currentDate.after( endDate ) )
             {
                 product.setAlaffiche( false );
             }
         }
+    }
+
+    private Date formatDate(Date date)
+    {
+        Date returnDate = new Date();
+        String formattedDate = new SimpleDateFormat(FORMAT_DATE).format(date);
+
+        try {
+            returnDate = new SimpleDateFormat(FORMAT_DATE).parse(formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return returnDate;
     }
 }
