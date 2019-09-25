@@ -156,6 +156,11 @@ public class SeanceService extends OfferService implements ISeanceService
             offer.setInitialQuantity( offer.getQuantity( ) );
         }
 
+        if ( offer.getTotalQuantity() == null )
+        {
+            offer.setTotalQuantity( offer.getQuantity( ) );
+        }
+
         if ( ( offer.getId( ) != null ) && ( offer.getId( ) > 0 ) )
         {
             _daoOffer.update( offer.convert( ) );

@@ -69,6 +69,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
     public static final String ATTR_REDUCT_PRICE = "reductPrice";
     public static final String ATTR_HOUR = "hour";
     public static final String ATTR_INIT_QUANTITY = "initialQuantity";
+    public static final String ATTR_TOTAL_QUANTITY = "totalQuantity";
     public static final String ATTR_ID_CONTACT = "idContact";
     public static final String ATTR_MIN_TICKETS = "minTickets";
     public static final String ATTR_MAX_TICKETS = "maxTickets";
@@ -86,6 +87,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
     @NotNull
     private Integer quantity;
     private Integer initialQuantity;
+    private Integer totalQuantity;
     @DateFormat( format = "dd/MM/yyyy" )
     @NotEmpty
     @AfterCurrentDate
@@ -226,6 +228,15 @@ public class SeanceDTO extends AbstractDTO<Offer>
         return hour;
     }
 
+    public Integer getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(Integer totalQuantity) {
+        this.totalQuantity = totalQuantity;
+    }
+
+
     /**
      * Sets the hour.
      *
@@ -332,6 +343,10 @@ public class SeanceDTO extends AbstractDTO<Offer>
             {
                 seance.setInitialQuantity( attributeNumList.get( ATTR_INIT_QUANTITY ).intValue( ) );
             }
+            if ( attributeNumList.get( ATTR_TOTAL_QUANTITY ) != null )
+            {
+                seance.setTotalQuantity( attributeNumList.get( ATTR_TOTAL_QUANTITY ).intValue( ) );
+            }
 
             int nNbContacts = 0;
             List<Integer> listIdContact = new ArrayList<Integer>( );
@@ -397,6 +412,10 @@ public class SeanceDTO extends AbstractDTO<Offer>
         if ( this.initialQuantity != null )
         {
             offer.getAttributeNumList( ).add( new OfferAttributeNum( ATTR_INIT_QUANTITY, BigDecimal.valueOf( this.getInitialQuantity( ) ), offer ) );
+        }
+        if ( this.totalQuantity != null )
+        {
+            offer.getAttributeNumList( ).add( new OfferAttributeNum( ATTR_TOTAL_QUANTITY, BigDecimal.valueOf( this.getTotalQuantity( ) ), offer ) );
         }
 
         if ( ( this.idContact != null ) && ( this.idContact.length > 0 ) )
