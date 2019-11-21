@@ -44,6 +44,7 @@ import fr.paris.lutece.plugins.stock.service.impl.AbstractService;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.Collator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -100,7 +101,36 @@ public final class ProviderService extends AbstractService implements IProviderS
 
         if ( ( listPartner != null ) && !listPartner.isEmpty( ) )
         {
-            if ( ( ( provider.getId( ) == null ) || ( provider.getId( ) < 0 ) || !listPartner.get( 0 ).getId( ).equals( provider.getId( ) ) ) )
+            Collator c = Collator.getInstance();
+            c.setStrength(Collator.PRIMARY);
+
+            String providerName = provider.getName().replaceAll("\\s","");
+
+            boolean bool = false;
+            boolean boolSameId = false;
+
+            for (Provider providerIter : listPartner) {
+
+                String partnerName = providerIter.getName().replaceAll("\\s","");
+
+                if (providerIter.getId().equals(provider.getId()) && c.compare(partnerName, providerName)==0){
+                    boolSameId = true;
+                    break;
+                }
+                else{
+                    if (c.compare(partnerName, providerName)==0){
+                        bool = true;
+                    }
+                }
+            }
+            boolean bollSameName;
+            if (boolSameId) {
+                bollSameName = false;
+            }
+            else {
+                bollSameName = bool;
+            }
+            if ( ( ( provider.getId( ) == null ) || ( provider.getId( ) < 0 ) || bollSameName) )
             {
                 throw new BusinessException( provider, MESSAGE_ERROR_PARTNER_UNIQUE_BY_NAME );
             }
