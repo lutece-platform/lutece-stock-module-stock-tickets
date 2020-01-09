@@ -113,24 +113,17 @@ public final class ProviderService extends AbstractService implements IProviderS
 
                 String partnerName = providerIter.getName().replaceAll("\\s","");
 
-                if (providerIter.getId().equals(provider.getId()) && c.compare(partnerName, providerName)==0){
+                if (!providerIter.getId().equals(provider.getId()) && c.compare(partnerName, providerName)==0){
                     boolSameId = true;
                     break;
                 }
-                else{
-                    if (c.compare(partnerName, providerName)==0){
-                        bool = true;
-                    }
-                }
             }
-            boolean bollSameName;
+            boolean bollSameName = false;
             if (boolSameId) {
-                bollSameName = false;
+                bollSameName = true;
             }
-            else {
-                bollSameName = bool;
-            }
-            if ( ( ( provider.getId( ) == null ) || ( provider.getId( ) < 0 ) || bollSameName) )
+
+            if ( bollSameName )
             {
                 throw new BusinessException( provider, MESSAGE_ERROR_PARTNER_UNIQUE_BY_NAME );
             }
