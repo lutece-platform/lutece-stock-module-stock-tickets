@@ -41,6 +41,7 @@ import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.AfterCurrentDate;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.DateFormat;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.ValidId;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
@@ -65,45 +66,37 @@ import javax.validation.constraints.NotNull;
  */
 public class SeanceDTO extends AbstractDTO<Offer>
 {
-    public static final String ATTR_DATE = "date";
-    public static final String ATTR_REDUCT_PRICE = "reductPrice";
-    public static final String ATTR_HOUR = "hour";
-    public static final String ATTR_INIT_QUANTITY = "initialQuantity";
-    public static final String ATTR_TOTAL_QUANTITY = "totalQuantity";
-    public static final String ATTR_ID_CONTACT = "idContact";
-    public static final String ATTR_MIN_TICKETS = "minTickets";
-    public static final String ATTR_MAX_TICKETS = "maxTickets";
-    private Integer id;
-    private String description;
-    private String name;
+    private Integer _id;
+    private String _description;
+    private String _name;
     @Min( value = 1 )
-    private Float reductPrice;
+    private Float _reductPrice;
     @ValidId
-    private ShowDTO product = new ShowDTO( );
+    private ShowDTO _product = new ShowDTO( );
     @Min( value = 1, message = "le type est obligatoire" )
-    private Integer idGenre;
-    private String typeName;
+    private Integer _idGenre;
+    private String _typeName;
     @Min( value = 0 )
     @NotNull
-    private Integer quantity;
-    private Integer initialQuantity;
-    private Integer totalQuantity;
+    private Integer _quantity;
+    private Integer _initialQuantity;
+    private Integer _totalQuantity;
     @DateFormat( format = "dd/MM/yyyy" )
     @NotEmpty
     @AfterCurrentDate
-    private String date;
+    private String _date;
     @DateFormat( format = "HH:mm" )
     @NotEmpty
-    private String hour;
-    private String statut;
-    private Date dateHour;
-    private Integer [ ] idContact;
+    private String _hour;
+    private String _statut;
+    private Date _dateHour;
+    private Integer [ ] _idContact;
     @Range( min = 1, max = 99, message = "#i18n{module.stock.tickets.validation.seanceDTO.minTickets.range}" )
     @NotNull
-    private Integer minTickets;
+    private Integer _minTickets;
     @Range( min = 1, max = 99, message = "#i18n{module.stock.tickets.validation.seanceDTO.maxTickets.range}" )
     @NotNull
-    private Integer maxTickets;
+    private Integer _maxTickets;
 
     /**
      * {@inheritDoc}
@@ -111,7 +104,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
     @Override
     public Integer getId( )
     {
-        return id;
+        return _id;
     }
 
     /**
@@ -122,7 +115,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setId( Integer idOffer )
     {
-        this.id = idOffer;
+        this._id = idOffer;
     }
 
     /**
@@ -130,7 +123,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public String getDescription( )
     {
-        return description;
+        return _description;
     }
 
     /**
@@ -141,7 +134,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setDescription( String description )
     {
-        this.description = description;
+        this._description = description;
     }
 
     /**
@@ -149,7 +142,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public String getName( )
     {
-        return name;
+        return _name;
     }
 
     /**
@@ -160,7 +153,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setName( String name )
     {
-        this.name = name;
+        this._name = name;
     }
 
     /**
@@ -168,7 +161,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public Float getReductPrice( )
     {
-        return reductPrice;
+        return _reductPrice;
     }
 
     /**
@@ -179,7 +172,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setReductPrice( Float reductPrice )
     {
-        this.reductPrice = reductPrice;
+        this._reductPrice = reductPrice;
     }
 
     /**
@@ -187,7 +180,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public Integer getQuantity( )
     {
-        return quantity;
+        return _quantity;
     }
 
     /**
@@ -198,7 +191,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setQuantity( Integer quantity )
     {
-        this.quantity = quantity;
+        this._quantity = quantity;
     }
 
     /**
@@ -206,7 +199,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public Integer getInitialQuantity( )
     {
-        return initialQuantity;
+        return _initialQuantity;
     }
 
     /**
@@ -217,7 +210,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setInitialQuantity( Integer initialQuantity )
     {
-        this.initialQuantity = initialQuantity;
+        this._initialQuantity = initialQuantity;
     }
 
     /**
@@ -225,15 +218,17 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public String getHour( )
     {
-        return hour;
+        return _hour;
     }
 
-    public Integer getTotalQuantity() {
-        return totalQuantity;
+    public Integer getTotalQuantity( )
+    {
+        return _totalQuantity;
     }
 
-    public void setTotalQuantity(Integer totalQuantity) {
-        this.totalQuantity = totalQuantity;
+    public void setTotalQuantity( Integer totalQuantity )
+    {
+        this._totalQuantity = totalQuantity;
     }
 
 
@@ -245,7 +240,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setHour( String hour )
     {
-        this.hour = hour;
+        this._hour = hour;
     }
 
     /**
@@ -253,7 +248,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public String getDate( )
     {
-        return date;
+        return _date;
     }
 
     /**
@@ -264,7 +259,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setDate( String date )
     {
-        this.date = date;
+        this._date = date;
     }
 
     /**
@@ -289,8 +284,8 @@ public class SeanceDTO extends AbstractDTO<Offer>
         {
             seanceDTO = convertEntity( source );
             // Add date + hour merged
-            seanceDTO.setDateHour( DateUtils.mergeDateHour( source.getAttributeDateMap( ).get( SeanceDTO.ATTR_DATE ),
-                    source.getAttributeDateMap( ).get( SeanceDTO.ATTR_HOUR ) ) );
+            seanceDTO.setDateHour( DateUtils.mergeDateHour( source.getAttributeDateMap( ).get( Constants.ATTR_DATE ),
+                    source.getAttributeDateMap( ).get( Constants.ATTR_HOUR ) ) );
             listDest.add( seanceDTO );
         }
 
@@ -306,21 +301,21 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public static SeanceDTO convertEntity( Offer source )
     {
-        Mapper mapper = (Mapper) SpringContextService.getBean( "mapper" );
+        Mapper mapper = SpringContextService.getBean( Constants.ATTR_MAPPER );
         SeanceDTO seance = mapper.map( source, SeanceDTO.class );
 
         Map<String, Timestamp> attributeDateList = source.getAttributeDateMap( );
 
         if ( attributeDateList != null )
         {
-            Timestamp date = attributeDateList.get( ATTR_DATE );
+            Timestamp date = attributeDateList.get( Constants.ATTR_DATE );
 
             if ( date != null )
             {
                 seance.setDate( DateUtils.getDateFr( date ) );
             }
 
-            Timestamp hour = attributeDateList.get( ATTR_HOUR );
+            Timestamp hour = attributeDateList.get( Constants.ATTR_HOUR );
 
             if ( hour != null )
             {
@@ -334,29 +329,29 @@ public class SeanceDTO extends AbstractDTO<Offer>
 
         if ( attributeNumList != null )
         {
-            if ( attributeNumList.get( ATTR_REDUCT_PRICE ) != null )
+            if ( attributeNumList.get( Constants.ATTR_REDUCT_PRICE ) != null )
             {
-                seance.setReductPrice( attributeNumList.get( ATTR_REDUCT_PRICE ).floatValue( ) );
+                seance.setReductPrice( attributeNumList.get( Constants.ATTR_REDUCT_PRICE ).floatValue( ) );
             }
 
-            if ( attributeNumList.get( ATTR_INIT_QUANTITY ) != null )
+            if ( attributeNumList.get( Constants.ATTR_INIT_QUANTITY ) != null )
             {
-                seance.setInitialQuantity( attributeNumList.get( ATTR_INIT_QUANTITY ).intValue( ) );
+                seance.setInitialQuantity( attributeNumList.get( Constants.ATTR_INIT_QUANTITY ).intValue( ) );
             }
-            if ( attributeNumList.get( ATTR_TOTAL_QUANTITY ) != null )
+            if ( attributeNumList.get( Constants.ATTR_TOTAL_QUANTITY ) != null )
             {
-                seance.setTotalQuantity( attributeNumList.get( ATTR_TOTAL_QUANTITY ).intValue( ) );
+                seance.setTotalQuantity( attributeNumList.get( Constants.ATTR_TOTAL_QUANTITY ).intValue( ) );
             }
 
             int nNbContacts = 0;
-            List<Integer> listIdContact = new ArrayList<Integer>( );
-            BigDecimal idContact = attributeNumList.get( ATTR_ID_CONTACT );
+            List<Integer> listIdContact = new ArrayList<>( );
+            BigDecimal idContact = attributeNumList.get( Constants.ATTR_ID_CONTACT );
 
             while ( idContact != null )
             {
                 listIdContact.add( idContact.intValue( ) );
                 nNbContacts++;
-                idContact = attributeNumList.get( ATTR_ID_CONTACT + nNbContacts );
+                idContact = attributeNumList.get( Constants.ATTR_ID_CONTACT + nNbContacts );
             }
 
             Integer [ ] arrayIdContact = new Integer [ nNbContacts];
@@ -370,14 +365,14 @@ public class SeanceDTO extends AbstractDTO<Offer>
 
             seance.setIdContact( arrayIdContact );
 
-            if ( attributeNumList.get( ATTR_MIN_TICKETS ) != null )
+            if ( attributeNumList.get( Constants.ATTR_MIN_TICKETS ) != null )
             {
-                seance.setMinTickets( attributeNumList.get( ATTR_MIN_TICKETS ).intValue( ) );
+                seance.setMinTickets( attributeNumList.get( Constants.ATTR_MIN_TICKETS ).intValue( ) );
             }
 
-            if ( attributeNumList.get( ATTR_MAX_TICKETS ) != null )
+            if ( attributeNumList.get( Constants.ATTR_MAX_TICKETS ) != null )
             {
-                seance.setMaxTickets( attributeNumList.get( ATTR_MAX_TICKETS ).intValue( ) );
+                seance.setMaxTickets( attributeNumList.get( Constants.ATTR_MAX_TICKETS ).intValue( ) );
             }
         }
 
@@ -396,49 +391,49 @@ public class SeanceDTO extends AbstractDTO<Offer>
 
         if ( StringUtils.isNotEmpty( this.getDate( ) ) )
         {
-            offer.getAttributeDateList( ).add( new OfferAttributeDate( ATTR_DATE, DateUtils.getDate( this.getDate( ), false ), offer ) );
+            offer.getAttributeDateList( ).add( new OfferAttributeDate( Constants.ATTR_DATE, DateUtils.getDate( this.getDate( ), false ), offer ) );
         }
 
         if ( StringUtils.isNotEmpty( this.getHour( ) ) )
         {
-            offer.getAttributeDateList( ).add( new OfferAttributeDate( ATTR_HOUR, DateUtils.getHour( this.getHour( ) ), offer ) );
+            offer.getAttributeDateList( ).add( new OfferAttributeDate( Constants.ATTR_HOUR, DateUtils.getHour( this.getHour( ) ), offer ) );
         }
 
         if ( this.getReductPrice( ) != null )
         {
-            offer.getAttributeNumList( ).add( new OfferAttributeNum( ATTR_REDUCT_PRICE, BigDecimal.valueOf( this.getReductPrice( ) ), offer ) );
+            offer.getAttributeNumList( ).add( new OfferAttributeNum( Constants.ATTR_REDUCT_PRICE, BigDecimal.valueOf( this.getReductPrice( ) ), offer ) );
         }
 
-        if ( this.initialQuantity != null )
+        if ( this._initialQuantity != null )
         {
-            offer.getAttributeNumList( ).add( new OfferAttributeNum( ATTR_INIT_QUANTITY, BigDecimal.valueOf( this.getInitialQuantity( ) ), offer ) );
+            offer.getAttributeNumList( ).add( new OfferAttributeNum( Constants.ATTR_INIT_QUANTITY, BigDecimal.valueOf( this.getInitialQuantity( ) ), offer ) );
         }
-        if ( this.totalQuantity != null )
+        if ( this._totalQuantity != null )
         {
-            offer.getAttributeNumList( ).add( new OfferAttributeNum( ATTR_TOTAL_QUANTITY, BigDecimal.valueOf( this.getTotalQuantity( ) ), offer ) );
+            offer.getAttributeNumList( ).add( new OfferAttributeNum( Constants.ATTR_TOTAL_QUANTITY, BigDecimal.valueOf( this.getTotalQuantity( ) ), offer ) );
         }
 
-        if ( ( this.idContact != null ) && ( this.idContact.length > 0 ) )
+        if ( ( this._idContact != null ) && ( this._idContact.length > 0 ) )
         {
             int nNbContact = 0;
 
-            for ( Integer nIdContact : idContact )
+            for ( Integer nIdContact : _idContact )
             {
                 offer.getAttributeNumList( ).add(
-                        new OfferAttributeNum( ( nNbContact == 0 ) ? ATTR_ID_CONTACT : ( ATTR_ID_CONTACT + nNbContact ), BigDecimal.valueOf( nIdContact ),
+                        new OfferAttributeNum( ( nNbContact == 0 ) ? Constants.ATTR_ID_CONTACT : ( Constants.ATTR_ID_CONTACT + nNbContact ), BigDecimal.valueOf( nIdContact ),
                                 offer ) );
                 nNbContact++;
             }
         }
 
-        if ( this.minTickets != null )
+        if ( this._minTickets != null )
         {
-            offer.getAttributeNumList( ).add( new OfferAttributeNum( ATTR_MIN_TICKETS, BigDecimal.valueOf( this.getMinTickets( ) ), offer ) );
+            offer.getAttributeNumList( ).add( new OfferAttributeNum( Constants.ATTR_MIN_TICKETS, BigDecimal.valueOf( this.getMinTickets( ) ), offer ) );
         }
 
-        if ( this.maxTickets != null )
+        if ( this._maxTickets != null )
         {
-            offer.getAttributeNumList( ).add( new OfferAttributeNum( ATTR_MAX_TICKETS, BigDecimal.valueOf( this.getMaxTickets( ) ), offer ) );
+            offer.getAttributeNumList( ).add( new OfferAttributeNum( Constants.ATTR_MAX_TICKETS, BigDecimal.valueOf( this.getMaxTickets( ) ), offer ) );
         }
         return offer;
     }
@@ -451,7 +446,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setProduct( ShowDTO theProduct )
     {
-        this.product = theProduct;
+        this._product = theProduct;
     }
 
     /**
@@ -461,7 +456,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public ShowDTO getProduct( )
     {
-        return product;
+        return _product;
     }
 
     /**
@@ -472,7 +467,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setIdGenre( Integer idGenre )
     {
-        this.idGenre = idGenre;
+        this._idGenre = idGenre;
     }
 
     /**
@@ -482,7 +477,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public Integer getIdGenre( )
     {
-        return idGenre;
+        return _idGenre;
     }
 
     /**
@@ -493,7 +488,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setTypeName( String typeName )
     {
-        this.typeName = typeName;
+        this._typeName = typeName;
     }
 
     /**
@@ -503,7 +498,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public String getTypeName( )
     {
-        return typeName;
+        return _typeName;
     }
 
     /**
@@ -514,7 +509,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setStatut( String statut )
     {
-        this.statut = statut;
+        this._statut = statut;
     }
 
     /**
@@ -522,7 +517,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public String getStatut( )
     {
-        return statut;
+        return _statut;
     }
 
     /**
@@ -530,7 +525,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public Date getDateHour( )
     {
-        return dateHour;
+        return _dateHour;
     }
 
     /**
@@ -541,7 +536,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setDateHour( Date theDateHour )
     {
-        this.dateHour = theDateHour;
+        this._dateHour = theDateHour;
     }
 
     /**
@@ -552,7 +547,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setIdContact( Integer [ ] idContact )
     {
-        this.idContact = idContact;
+        this._idContact = idContact;
     }
 
     /**
@@ -561,7 +556,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public Integer [ ] getIdContact( )
     {
-        return idContact;
+        return _idContact;
     }
 
     /**
@@ -569,7 +564,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public Integer getMinTickets( )
     {
-        return minTickets;
+        return _minTickets;
     }
 
     /**
@@ -580,7 +575,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setMinTickets( Integer minTickets )
     {
-        this.minTickets = minTickets;
+        this._minTickets = minTickets;
     }
 
     /**
@@ -588,7 +583,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public Integer getMaxTickets( )
     {
-        return maxTickets;
+        return _maxTickets;
     }
 
     /**
@@ -599,6 +594,6 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public void setMaxTickets( Integer maxTickets )
     {
-        this.maxTickets = maxTickets;
+        this._maxTickets = maxTickets;
     }
 }

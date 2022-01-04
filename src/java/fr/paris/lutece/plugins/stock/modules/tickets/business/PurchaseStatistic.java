@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
 import fr.paris.lutece.plugins.stock.business.purchase.Purchase;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
 import java.sql.Timestamp;
@@ -58,14 +59,7 @@ import javax.persistence.TableGenerator;
 @Table( name = "stock_ticket_purchase_statistic" )
 public class PurchaseStatistic
 {
-    public static final String ATTRIBUTE_CHILDREN_LIST = "childrenList";
-    public static final String ATTRIBUTE_PARENT = "parent";
-
-    // /** Sequence name */
-    private static final String JPA_SEQUENCE_NAME = "billeterie_purchase_statistic_sequence";
-
-    /** Unique value */
-    private static final String JPA_COLUMN_NAME = "billeterie_purchase_statistic_id";
+   
     private Integer _id;
     private Integer _nDayOfYear;
     private Integer _nWeek;
@@ -103,9 +97,9 @@ public class PurchaseStatistic
      * 
      * @return purchase_statistic id
      */
-    @TableGenerator( table = StockJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
+    @TableGenerator( table = StockJPAUtils.SEQUENCE_TABLE_NAME, name = Constants.JPA_PURCHASE_SEQUENCE_NAME, pkColumnValue = Constants.JPA_COLUMN_NAME, allocationSize = 1 )
     @Id
-    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = Constants.JPA_PURCHASE_SEQUENCE_NAME )
     @Column( name = "id_purchase_statistic" )
     public Integer getId( )
     {

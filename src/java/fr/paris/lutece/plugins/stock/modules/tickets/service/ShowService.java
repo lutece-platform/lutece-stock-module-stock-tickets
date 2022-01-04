@@ -42,8 +42,10 @@ import fr.paris.lutece.plugins.stock.commons.exception.BusinessException;
 import fr.paris.lutece.plugins.stock.commons.exception.ValidationException;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.IShowDAO;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.plugins.stock.service.ProductService;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.date.DateUtil;
 
 import org.apache.commons.lang.StringUtils;
@@ -73,7 +75,6 @@ public class ShowService extends ProductService implements IShowService
     public static final String ID_SPRING_DEFAULT = "stock-tickets.showService";
     private static final String MESSAGE_ERROR_PRODUCT_NAME_MUST_BE_UNIQUE = "module.stock.billetterie.save_product.error.name.unique";
     private static final String MESSAGE_ERROR_PRODUCT_DATE_CHEVAUCHE = "module.stock.billetterie.save_product.error.date.chevauche";
-    public static final String FORMAT_DATE = "dd/MM/yyyy";
     @Inject
     @Named( "stock-tickets.showDAO" )
     private IShowDAO _daoProduct;
@@ -109,7 +110,8 @@ public class ShowService extends ProductService implements IShowService
     }
 
     @Override
-    public Product getProductById(Integer id) {
+    public Product getProductById(Integer id)
+    {
         return _daoProduct.findById(id);
     }
 
@@ -152,7 +154,7 @@ public class ShowService extends ProductService implements IShowService
      * @throws ValidationException
      */
     @Transactional( readOnly = false, propagation = Propagation.REQUIRES_NEW )
-    public ShowDTO doSaveProduct( ShowDTO product, File [ ] filePosterArray ) throws ValidationException
+    public ShowDTO doSaveProduct( ShowDTO product, File [ ] filePosterArray )
     {
         // Start date must be before end date
         if ( DateUtils.getDate( product.getStartDate( ), false ).after( DateUtils.getDate( product.getEndDate( ), false ) ) )
@@ -280,7 +282,8 @@ public class ShowService extends ProductService implements IShowService
     }
 
     @Override
-    public byte[] getRealImage(Integer idProduct) {
+    public byte[] getRealImage( Integer idProduct )
+    {
         return _daoProductImage.getRealImage( idProduct );
     }
 
@@ -313,12 +316,15 @@ public class ShowService extends ProductService implements IShowService
     private Date formatDate(Date date)
     {
         Date returnDate = new Date();
-        String formattedDate = new SimpleDateFormat(FORMAT_DATE).format(date);
+        String formattedDate = new SimpleDateFormat( Constants.FORMAT_DATE ).format( date );
 
-        try {
-            returnDate = new SimpleDateFormat(FORMAT_DATE).parse(formattedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        try
+        {
+            returnDate = new SimpleDateFormat( Constants.FORMAT_DATE ).parse( formattedDate );
+        }
+        catch( ParseException e )
+        {
+            AppLogService.error( e.getMessage( ), e );
         }
         return returnDate;
     }

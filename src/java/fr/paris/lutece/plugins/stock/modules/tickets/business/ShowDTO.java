@@ -41,13 +41,13 @@ import fr.paris.lutece.plugins.stock.commons.AbstractDTO;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.AfterCurrentDate;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.DateFormat;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import org.apache.commons.lang.StringUtils;
 import org.dozer.Mapper;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
@@ -58,6 +58,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -67,124 +68,88 @@ import javax.validation.constraints.NotNull;
  */
 public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 {
-    /** The Constant STRING_TRUE. */
-    public static final String STRING_TRUE = "true";
 
-    /** The Constant STRING_FALSE. */
-    public static final String STRING_FALSE = "false";
-
-    /** The Constant PROPERTY_RESOURCE_TYPE. */
-    public static final String PROPERTY_RESOURCE_TYPE = "stock-product";
-
-    /** The Constant ATTR_DATE_START. */
-    public static final String ATTR_DATE_START = "start";
-
-    /** The Constant ATTR_DATE_END. */
-    public static final String ATTR_DATE_END = "end";
-
-    /** The Constant ATTR_DATE_UPDATE. */
-    public static final String ATTR_DATE_UPDATE = "update";
-
-    /** The Constant ATTR_WITH. */
-    public static final String ATTR_WITH = "with";
-
-    /** The Constant ATTR_WEBSITE. */
-    public static final String ATTR_WEBSITE = "website";
-
-    /** The Constant ATTR_POSTER. */
-    public static final String ATTR_POSTER = "posterName";
-
-    /** The Constant ATTR_PUBLIC. */
-    public static final String ATTR_PUBLIC = "public";
-
-    /** The Constant ATTR_A_LAFFICHE. */
-    public static final String ATTR_A_LAFFICHE = "aLaffiche";
-
-    /** The Constant ATTR_SUBSCRIBABLE. */
-    public static final String ATTR_SUBSCRIBABLE = "subscribable";
-
-    public static final String ATTR_ID_CONTACT = "idContact";
 
     /** The id. */
-    private Integer id;
+    private Integer _id;
 
     /** The description. */
-    private String description;
+    private String _description;
 
     /** The name. */
     @NotEmpty
-    private String name;
+    private String _name;
 
     /** The price. */
     @Min( 0 )
-    private Float price;
+    private Float _price;
 
     /** The id category. */
     @NotNull
     @Min( value = 1, message = "la catégorie est obligatoire" )
-    private Integer idCategory;
+    private Integer _idCategory;
 
     /** The id provider. */
     @NotNull
     @Min( value = 1, message = "la salle est obligatoire" )
-    private Integer idProvider;
+    private Integer _idProvider;
 
     /** The with. */
-    private String with;
+    private String _with;
 
     /** The start date. */
     @DateFormat( format = "dd/MM/yyyy" )
     @NotEmpty
-    private String startDate;
+    private String _startDate;
 
     /** The end date. */
     @DateFormat( format = "dd/MM/yyyy" )
     @NotEmpty
     @AfterCurrentDate
-    private String endDate;
+    private String _endDate;
 
     /** The update date. */
     @DateFormat( format = "dd/MM/yyyy" )
-    private String updateDate;
+    private String _updateDate;
 
     /** The website. */
     @URL
-    private String website;
+    private String _website;
 
     /** The poster name. */
-    private String posterName;
+    private String _posterName;
 
     /** The provider name. */
-    private String providerName;
+    private String _providerName;
 
     /** The provider Address. */
-    private String providerAddress;
+    private String _providerAddress;
 
     /** The provider mail. */
-    private String providerMail;
+    private String _providerMail;
 
     /** The category name. */
-    private String categoryName;
+    private String _categoryName;
 
     /** The target public. */
-    private String targetPublic;
+    private String _targetPublic;
 
     /** The alaffiche. */
-    private Boolean alaffiche = Boolean.FALSE;
+    private Boolean _alaffiche = Boolean.FALSE;
 
     /** The categoryColor */
-    private String categoryColor;
+    private String _categoryColor;
 
     /** The subscribable */
-    private boolean subscribable;
+    private boolean _subscribable;
 
-    private Integer [ ] idContact;
+    private Integer [ ] _idContact;
     
-    private boolean availableInvitation = false;
+    private boolean _availableInvitation = false;
     
-    private boolean availableChildInvitation = false;
+    private boolean _availableChildInvitation = false;
     
-    private boolean availableReducedPrice = false;
+    private boolean _availableReducedPrice = false;
 
     /**
      * Gets the id.
@@ -194,7 +159,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     @Override
     public Integer getId( )
     {
-        return id;
+        return _id;
     }
 
     /**
@@ -205,7 +170,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setId( Integer idProduct )
     {
-        id = idProduct;
+        _id = idProduct;
     }
 
     /**
@@ -215,7 +180,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getDescription( )
     {
-        return description;
+        return _description;
     }
 
     /**
@@ -226,7 +191,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setDescription( String description )
     {
-        this.description = description;
+        this._description = description;
     }
 
     /**
@@ -236,7 +201,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getName( )
     {
-        return name;
+        return _name;
     }
 
     /**
@@ -247,7 +212,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setName( String name )
     {
-        this.name = name;
+        this._name = name;
     }
 
     /**
@@ -257,7 +222,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public Float getPrice( )
     {
-        return price;
+        return _price;
     }
 
     /**
@@ -268,7 +233,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setPrice( Float price )
     {
-        this.price = price;
+        this._price = price;
     }
 
     /**
@@ -278,7 +243,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public Integer getIdCategory( )
     {
-        return idCategory;
+        return _idCategory;
     }
 
     /**
@@ -289,7 +254,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setIdCategory( Integer idCategory )
     {
-        this.idCategory = idCategory;
+        this._idCategory = idCategory;
     }
 
     /**
@@ -299,7 +264,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public Integer getIdProvider( )
     {
-        return idProvider;
+        return _idProvider;
     }
 
     /**
@@ -310,7 +275,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setIdProvider( Integer idProvider )
     {
-        this.idProvider = idProvider;
+        this._idProvider = idProvider;
     }
 
     /**
@@ -320,7 +285,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getWith( )
     {
-        return with;
+        return _with;
     }
 
     /**
@@ -331,7 +296,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setWith( String with )
     {
-        this.with = with;
+        this._with = with;
     }
 
     /**
@@ -341,7 +306,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getStartDate( )
     {
-        return startDate;
+        return _startDate;
     }
 
     /**
@@ -352,7 +317,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setStartDate( String startDate )
     {
-        this.startDate = startDate;
+        this._startDate = startDate;
     }
 
     /**
@@ -362,7 +327,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getEndDate( )
     {
-        return endDate;
+        return _endDate;
     }
 
     /**
@@ -373,7 +338,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setEndDate( String endDate )
     {
-        this.endDate = endDate;
+        this._endDate = endDate;
     }
 
     /**
@@ -383,7 +348,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getUpdateDate( )
     {
-        return updateDate;
+        return _updateDate;
     }
 
     /**
@@ -394,7 +359,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setUpdateDate( String updateDate )
     {
-        this.updateDate = updateDate;
+        this._updateDate = updateDate;
     }
 
     /**
@@ -404,7 +369,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getWebsite( )
     {
-        return website;
+        return _website;
     }
 
     /**
@@ -415,7 +380,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setWebsite( String website )
     {
-        this.website = website;
+        this._website = website;
     }
 
     /**
@@ -425,7 +390,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getPosterName( )
     {
-        return posterName;
+        return _posterName;
     }
 
     /**
@@ -436,7 +401,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setPosterName( String posterName )
     {
-        this.posterName = posterName;
+        this._posterName = posterName;
     }
 
     /**
@@ -446,7 +411,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getProviderName( )
     {
-        return providerName;
+        return _providerName;
     }
 
     /**
@@ -457,7 +422,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setProviderName( String providerName )
     {
-        this.providerName = providerName;
+        this._providerName = providerName;
     }
 
     /**
@@ -467,7 +432,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getProviderAddress( )
     {
-        return providerAddress;
+        return _providerAddress;
     }
 
     /**
@@ -478,7 +443,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setProviderAddress( String providerAddress )
     {
-        this.providerAddress = providerAddress;
+        this._providerAddress = providerAddress;
     }
 
     /**
@@ -488,7 +453,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getCategoryName( )
     {
-        return categoryName;
+        return _categoryName;
     }
 
     /**
@@ -499,7 +464,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setCategoryName( String categoryName )
     {
-        this.categoryName = categoryName;
+        this._categoryName = categoryName;
     }
 
     /**
@@ -509,7 +474,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public boolean isSubscribable( )
     {
-        return subscribable;
+        return _subscribable;
     }
 
     /**
@@ -519,7 +484,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setSubscribable( boolean subscribable )
     {
-        this.subscribable = subscribable;
+        this._subscribable = subscribable;
     }
 
     /**
@@ -531,7 +496,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public static ResultList<ShowDTO> convertEntityList( Collection<Product> listSource )
     {
-        ResultList<ShowDTO> listDest = new ResultList<ShowDTO>( );
+        ResultList<ShowDTO> listDest = new ResultList<>( );
 
         if ( listSource instanceof ResultList )
         {
@@ -555,7 +520,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public static ShowDTO convertEntity( Product source )
     {
-        Mapper mapper = (Mapper) SpringContextService.getBean( "mapper" );
+        Mapper mapper = SpringContextService.getBean( Constants.ATTR_MAPPER );
         ShowDTO show = mapper.map( source, ShowDTO.class );
 
         Set<ProductAttributeDate> attributeDateList = source.getAttributeDateList( );
@@ -564,15 +529,15 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
         {
             for ( ProductAttributeDate attribute : attributeDateList )
             {
-                if ( ATTR_DATE_START.equals( attribute.getKey( ) ) )
+                if ( Constants.ATTR_START.equals( attribute.getKey( ) ) )
                 {
                     show.setStartDate( DateUtils.getDateFr( attribute.getValue( ) ) );
                 }
-                if ( ATTR_DATE_END.equals( attribute.getKey( ) ) )
+                if ( Constants.ATTR_END.equals( attribute.getKey( ) ) )
                 {
                     show.setEndDate( DateUtils.getDateFr( attribute.getValue( ) ) );
                 }
-                if ( ATTR_DATE_UPDATE.equals( attribute.getKey( ) ) )
+                if ( Constants.ATTR_DATE_UPDATE.equals( attribute.getKey( ) ) )
                 {
                     show.setUpdateDate( DateUtils.getDateFr( attribute.getValue( ) ) );
                 }
@@ -583,20 +548,20 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
         if ( attributeNumList != null )
         {
-            if ( attributeNumList.get( ATTR_A_LAFFICHE ) != null )
+            if ( attributeNumList.get( Constants.ATTR_A_LAFFICHE ) != null )
             {
-                show.setAlaffiche( attributeNumList.get( ATTR_A_LAFFICHE ).intValue( ) == 1 );
+                show.setAlaffiche( attributeNumList.get( Constants.ATTR_A_LAFFICHE ).intValue( ) == 1 );
             }
 
             int nNbContacts = 0;
-            List<Integer> listIdContact = new ArrayList<Integer>( );
-            BigDecimal idContact = attributeNumList.get( ATTR_ID_CONTACT );
+            List<Integer> listIdContact = new ArrayList<>( );
+            BigDecimal idContact = attributeNumList.get( Constants.ATTR_ID_CONTACT );
 
             while ( idContact != null )
             {
                 listIdContact.add( idContact.intValue( ) );
                 nNbContacts++;
-                idContact = attributeNumList.get( ATTR_ID_CONTACT + nNbContacts );
+                idContact = attributeNumList.get( Constants.ATTR_ID_CONTACT + nNbContacts );
             }
 
             Integer [ ] arrayIdContact = new Integer [ nNbContacts];
@@ -617,37 +582,30 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
         {
             for ( ProductAttribute attribute : attributeList )
             {
-                if ( ATTR_WITH.equals( attribute.getKey( ) ) )
+                if ( Constants.ATTR_WITH.equals( attribute.getKey( ) ) )
                 {
                     show.setWith( attribute.getValue( ) );
                 }
 
-                if ( ATTR_WEBSITE.equals( attribute.getKey( ) ) )
+                if ( Constants.ATTR_WEBSITE.equals( attribute.getKey( ) ) )
                 {
                     show.setWebsite( attribute.getValue( ) );
                 }
 
-                if ( ATTR_POSTER.equals( attribute.getKey( ) ) )
+                if ( Constants.ATTR_POSTER.equals( attribute.getKey( ) ) )
                 {
                     show.setPosterName( attribute.getValue( ) );
                 }
 
-                if ( ATTR_PUBLIC.equals( attribute.getKey( ) ) )
+                if ( Constants.ATTR_PUBLIC.equals( attribute.getKey( ) ) )
                 {
                     show.setTargetPublic( attribute.getValue( ) );
                 }
 
                 // Subscription for users
-                if ( ATTR_SUBSCRIBABLE.equals( attribute.getKey( ) ) )
+                if ( Constants.ATTR_SUBSCRIBABLE.equals( attribute.getKey( ) ) )
                 {
-                    if ( attribute.getValue( ).equals( STRING_TRUE ) )
-                    {
-                        show.setSubscribable( true );
-                    }
-                    else
-                    {
-                        show.setSubscribable( false );
-                    }
+                    show.setSubscribable( attribute.getValue( ).equals( Constants.STRING_TRUE ) );
                 }
             }
         }
@@ -672,62 +630,62 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
 
         if ( StringUtils.isNotEmpty( getEndDate( ) ) )
         {
-            product.getAttributeDateList( ).add( new ProductAttributeDate( ATTR_DATE_END, DateUtils.getDate( getEndDate( ), false ), product ) );
+            product.getAttributeDateList( ).add( new ProductAttributeDate( Constants.ATTR_END, DateUtils.getDate( getEndDate( ), false ), product ) );
         }
 
         if ( StringUtils.isNotEmpty( getStartDate( ) ) )
         {
-            product.getAttributeDateList( ).add( new ProductAttributeDate( ATTR_DATE_START, DateUtils.getDate( getStartDate( ), false ), product ) );
+            product.getAttributeDateList( ).add( new ProductAttributeDate( Constants.ATTR_START, DateUtils.getDate( getStartDate( ), false ), product ) );
         }
 
         if ( StringUtils.isNotEmpty( getUpdateDate( ) ) )
         {
-            product.getAttributeDateList( ).add( new ProductAttributeDate( ATTR_DATE_UPDATE, DateUtils.getDate( getUpdateDate( ), false ), product ) );
+            product.getAttributeDateList( ).add( new ProductAttributeDate( Constants.ATTR_DATE_UPDATE, DateUtils.getDate( getUpdateDate( ), false ), product ) );
         }
 
         if ( StringUtils.isNotEmpty( getWith( ) ) )
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_WITH, getWith( ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( Constants.ATTR_WITH, getWith( ), product ) );
         }
 
         if ( StringUtils.isNotEmpty( getWebsite( ) ) )
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_WEBSITE, getWebsite( ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( Constants.ATTR_WEBSITE, getWebsite( ), product ) );
         }
 
         if ( StringUtils.isNotEmpty( getPosterName( ) ) )
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_POSTER, getPosterName( ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( Constants.ATTR_POSTER, getPosterName( ), product ) );
         }
 
         if ( StringUtils.isNotEmpty( getTargetPublic( ) ) )
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_PUBLIC, getTargetPublic( ), product ) );
+            product.getAttributeList( ).add( new ProductAttribute( Constants.ATTR_PUBLIC, getTargetPublic( ), product ) );
         }
 
         if ( getAlaffiche( ) != null )
         {
-            product.getAttributeNumList( ).add( new ProductAttributeNum( ATTR_A_LAFFICHE, ( getAlaffiche( ) ? BigDecimal.ONE : BigDecimal.ZERO ), product ) );
+            product.getAttributeNumList( ).add( new ProductAttributeNum( Constants.ATTR_A_LAFFICHE, ( getAlaffiche( ) ? BigDecimal.ONE : BigDecimal.ZERO ), product ) );
         }
 
         // Subscription to the show (send an email)
         if ( this.isSubscribable( ) )
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_SUBSCRIBABLE, STRING_TRUE, product ) );
+            product.getAttributeList( ).add( new ProductAttribute( Constants.ATTR_SUBSCRIBABLE, Constants.STRING_TRUE, product ) );
         }
         else
         {
-            product.getAttributeList( ).add( new ProductAttribute( ATTR_SUBSCRIBABLE, STRING_FALSE, product ) );
+            product.getAttributeList( ).add( new ProductAttribute( Constants.ATTR_SUBSCRIBABLE, Constants.STRING_FALSE, product ) );
         }
 
-        if ( ( this.idContact != null ) && ( this.idContact.length > 0 ) )
+        if ( ( this._idContact != null ) && ( this._idContact.length > 0 ) )
         {
             int nNbContact = 0;
 
-            for ( Integer nIdContact : idContact )
+            for ( Integer nIdContact : _idContact )
             {
                 product.getAttributeNumList( ).add(
-                        new ProductAttributeNum( ( nNbContact == 0 ) ? ATTR_ID_CONTACT : ( ATTR_ID_CONTACT + nNbContact ), BigDecimal.valueOf( nIdContact ),
+                        new ProductAttributeNum( ( nNbContact == 0 ) ? Constants.ATTR_ID_CONTACT : ( Constants.ATTR_ID_CONTACT + nNbContact ), BigDecimal.valueOf( nIdContact ),
                                 product ) );
                 nNbContact++;
             }
@@ -744,7 +702,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setProviderMail( String providerMail )
     {
-        this.providerMail = providerMail;
+        this._providerMail = providerMail;
     }
 
     /**
@@ -754,7 +712,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getProviderMail( )
     {
-        return providerMail;
+        return _providerMail;
     }
 
     /**
@@ -764,7 +722,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getTargetPublic( )
     {
-        return targetPublic;
+        return _targetPublic;
     }
 
     /**
@@ -775,7 +733,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setTargetPublic( String targetPublic )
     {
-        this.targetPublic = targetPublic;
+        this._targetPublic = targetPublic;
     }
 
     /**
@@ -785,7 +743,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public Boolean getAlaffiche( )
     {
-        return alaffiche;
+        return _alaffiche;
     }
 
     /**
@@ -796,7 +754,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setAlaffiche( Boolean aLaffiche )
     {
-        alaffiche = aLaffiche;
+        _alaffiche = aLaffiche;
     }
 
     /**
@@ -806,7 +764,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public String getCategoryColor( )
     {
-        return categoryColor;
+        return _categoryColor;
     }
 
     /**
@@ -817,7 +775,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setCategoryColor( String categoryColor )
     {
-        this.categoryColor = categoryColor;
+        this._categoryColor = categoryColor;
     }
 
     /**
@@ -826,7 +784,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     @Override
     public String getIdExtendableResource( )
     {
-        return Integer.toString( id );
+        return Integer.toString( _id );
     }
 
     /**
@@ -835,7 +793,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     @Override
     public String getExtendableResourceType( )
     {
-        return PROPERTY_RESOURCE_TYPE;
+        return Constants.PROPERTY_RESOURCE_TYPE;
     }
 
     /**
@@ -844,7 +802,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     @Override
     public String getExtendableResourceName( )
     {
-        return name;
+        return _name;
     }
 
     /**
@@ -854,7 +812,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
     // @Override
     public String getExtendableResourceDescription( )
     {
-        return description;
+        return _description;
     }
 
     /**
@@ -874,7 +832,7 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public Integer [ ] getIdContact( )
     {
-        return idContact;
+        return _idContact;
     }
 
     /**
@@ -885,48 +843,54 @@ public class ShowDTO extends AbstractDTO<Product> implements IExtendableResource
      */
     public void setIdContact( Integer [ ] idContact )
     {
-        this.idContact = idContact;
+        this._idContact = idContact;
     }
     
     /**
 	 * @return the availableInvitation
 	 */
-	public boolean isAvailableInvitation() {
-		return availableInvitation;
+	public boolean isAvailableInvitation( )
+	{
+		return _availableInvitation;
 	}
 
 	/**
 	 * @param availableInvitation the availableInvitation to set
 	 */
-	public void setAvailableInvitation(boolean availableInvitation) {
-		this.availableInvitation = availableInvitation;
+	public void setAvailableInvitation( boolean availableInvitation )
+	{
+		this._availableInvitation = availableInvitation;
 	}
 
 	/**
 	 * @return the availableChildInvitation
 	 */
-	public boolean isAvailableChildInvitation() {
-		return availableChildInvitation;
+	public boolean isAvailableChildInvitation( )
+	{
+		return _availableChildInvitation;
 	}
 
 	/**
 	 * @param availableChildInvitation the availableChildInvitation to set
 	 */
-	public void setAvailableChildInvitation(boolean availableChildInvitation) {
-		this.availableChildInvitation = availableChildInvitation;
+	public void setAvailableChildInvitation( boolean availableChildInvitation )
+	{
+		this._availableChildInvitation = availableChildInvitation;
 	}
 
 	/**
 	 * @return the availableReducedPrice
 	 */
-	public boolean isAvailableReducedPrice() {
-		return availableReducedPrice;
+	public boolean isAvailableReducedPrice( )
+	{
+		return _availableReducedPrice;
 	}
 
 	/**
 	 * @param availableReducedPrice the availableReducedPrice to set
 	 */
-	public void setAvailableReducedPrice(boolean availableReducedPrice) {
-		this.availableReducedPrice = availableReducedPrice;
+	public void setAvailableReducedPrice( boolean availableReducedPrice )
+	{
+		this._availableReducedPrice = availableReducedPrice;
 	}
 }

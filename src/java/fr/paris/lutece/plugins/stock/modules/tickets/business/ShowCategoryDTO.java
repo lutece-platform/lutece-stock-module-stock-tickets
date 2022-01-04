@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.stock.business.category.Category;
 import fr.paris.lutece.plugins.stock.commons.AbstractDTO;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.HexColorCode;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import org.apache.commons.lang.StringUtils;
@@ -56,28 +57,25 @@ import javax.validation.constraints.NotEmpty;
  */
 public class ShowCategoryDTO extends AbstractDTO<Category>
 {
-    /** The Constant ATTR_COLOR. */
-    public static final String ATTR_COLOR = "color";
-
     /** The id. */
-    private Integer id;
+    private Integer _id;
 
     /** The description. */
-    private String description;
+    private String _description;
 
     /** The name. */
     @NotEmpty
-    private String name;
+    private String _name;
 
     /** The _strColor */
     @HexColorCode
-    private String color;
+    private String _color;
 
     /** {inheritDoc} */
     @Override
     public Integer getId( )
     {
-        return id;
+        return _id;
     }
 
     /**
@@ -88,7 +86,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      */
     public void setId( Integer id )
     {
-        this.id = id;
+        this._id = id;
     }
 
     /**
@@ -98,7 +96,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      */
     public String getDescription( )
     {
-        return description;
+        return _description;
     }
 
     /**
@@ -109,7 +107,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      */
     public void setDescription( String description )
     {
-        this.description = description;
+        this._description = description;
     }
 
     /**
@@ -119,7 +117,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      */
     public String getName( )
     {
-        return name;
+        return _name;
     }
 
     /**
@@ -130,7 +128,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      */
     public void setName( String name )
     {
-        this.name = name;
+        this._name = name;
     }
 
     /**
@@ -140,7 +138,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      */
     public String getColor( )
     {
-        return color;
+        return _color;
     }
 
     /**
@@ -151,7 +149,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      */
     public void setColor( String color )
     {
-        this.color = color;
+        this._color = color;
     }
 
     /**
@@ -187,7 +185,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      */
     public static ShowCategoryDTO convertEntity( Category source )
     {
-        Mapper mapper = (Mapper) SpringContextService.getBean( "mapper" );
+        Mapper mapper = SpringContextService.getBean( Constants.ATTR_MAPPER );
         ShowCategoryDTO showCategory = mapper.map( source, ShowCategoryDTO.class );
 
         Set<CategoryAttribute> attributeList = source.getAttributeList( );
@@ -196,7 +194,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
         {
             for ( CategoryAttribute attribute : attributeList )
             {
-                if ( ATTR_COLOR.equals( attribute.getKey( ) ) )
+                if ( Constants.ATTR_COLOR.equals( attribute.getKey( ) ) )
                 {
                     showCategory.setColor( attribute.getValue( ) );
                 }
@@ -214,7 +212,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
 
         if ( StringUtils.isNotEmpty( this.getColor( ) ) )
         {
-            category.getAttributeList( ).add( new CategoryAttribute( ATTR_COLOR, this.getColor( ), category ) );
+            category.getAttributeList( ).add( new CategoryAttribute( Constants.ATTR_COLOR, this.getColor( ), category ) );
         }
 
         return category;

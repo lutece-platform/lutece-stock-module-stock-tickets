@@ -41,6 +41,7 @@ import fr.paris.lutece.plugins.stock.commons.AbstractDTO;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.DateFormat;
 import fr.paris.lutece.plugins.stock.commons.validator.annotation.ValidId;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
@@ -48,15 +49,14 @@ import org.apache.commons.lang.StringUtils;
 
 import org.dozer.Mapper;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import java.sql.Timestamp;
 
 import java.util.Collection;
 import java.util.Map;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -66,29 +66,25 @@ import javax.validation.constraints.NotNull;
  */
 public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDTO
 {
-    public static final String ATTR_DATE = "date";
-    public static final String ATTR_NAME_AGENT = "nameAgent";
-    public static final String ATTR_FIRSTNAME_AGENT = "firstNameAgent";
-    public static final String ATTR_EMAIL_AGENT = "emailAgent";
-    private Integer id;
+    private Integer _id;
     @NotEmpty
-    private String userName;
+    private String _userName;
     @ValidId
-    private SeanceDTO offer = new SeanceDTO( );
+    private SeanceDTO _offer = new SeanceDTO( );
     @Min( value = 1 )
     @NotNull
-    private Integer quantity;
+    private Integer _quantity;
     @DateFormat( format = "dd/MM/yyyy" )
     @NotEmpty
-    private String date;
-    private String heure;
+    private String _date;
+    private String _heure;
     @NotEmpty
     @Email
-    private String emailAgent;
+    private String _emailAgent;
     @NotEmpty
-    private String nameAgent;
+    private String _nameAgent;
     @NotEmpty
-    private String firstNameAgent;
+    private String _firstNameAgent;
 
     /**
      * If true, the line is to display (pagination)
@@ -100,7 +96,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public Integer getId( )
     {
-        return id;
+        return _id;
     }
 
     /**
@@ -111,7 +107,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public void setId( Integer idPurchase )
     {
-        this.id = idPurchase;
+        this._id = idPurchase;
     }
 
     /**
@@ -119,7 +115,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public String getUserName( )
     {
-        return userName;
+        return _userName;
     }
 
     /**
@@ -130,7 +126,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public void setUserName( String userName )
     {
-        this.userName = userName;
+        this._userName = userName;
     }
 
     /**
@@ -138,7 +134,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public Integer getQuantity( )
     {
-        return quantity;
+        return _quantity;
     }
 
     /**
@@ -147,7 +143,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public void setQuantity( Integer quantity )
     {
-        this.quantity = quantity;
+        this._quantity = quantity;
     }
 
     /**
@@ -155,7 +151,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public String getDate( )
     {
-        return date;
+        return _date;
     }
 
     /**
@@ -164,7 +160,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public void setDate( String date )
     {
-        this.date = date;
+        this._date = date;
     }
 
     /**
@@ -193,11 +189,11 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public static ResultList<ReservationDTO> convertEntityList( Collection<Purchase> listSource )
     {
-        ResultList<ReservationDTO> listDest = new ResultList<ReservationDTO>( );
+        ResultList<ReservationDTO> listDest = new ResultList<>( );
 
         if ( listSource instanceof ResultList )
         {
-            listDest.setTotalResult( ( (ResultList) listSource ).getTotalResult( ) );
+            listDest.setTotalResult( ( (ResultList<Purchase>) listSource ).getTotalResult( ) );
         }
 
         for ( Purchase source : listSource )
@@ -217,38 +213,35 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public static ReservationDTO convertEntity( Purchase source )
     {
-        Mapper mapper = (Mapper) SpringContextService.getBean( "mapper" );
+        Mapper mapper = SpringContextService.getBean( Constants.ATTR_MAPPER );
         ReservationDTO reservation = mapper.map( source, ReservationDTO.class );
         SeanceDTO offer = SeanceDTO.convertEntity( source.getOffer( ) );
         reservation.setOffer( offer );
 
         Map<String, Timestamp> attributeDateList = source.getAttributeDateMap( );
 
-        if ( attributeDateList != null )
+        if ( attributeDateList != null && attributeDateList.get( Constants.ATTR_DATE ) != null )
         {
-            if ( attributeDateList.get( ATTR_DATE ) != null )
-            {
-                reservation.setDate( DateUtils.getDateFr( attributeDateList.get( ATTR_DATE ) ) );
-            }
+            reservation.setDate( DateUtils.getDateFr( attributeDateList.get( Constants.ATTR_DATE ) ) );
         }
 
         Map<String, String> attributeList = source.getAttributeMap( );
 
         if ( attributeList != null )
         {
-            if ( attributeList.get( ATTR_NAME_AGENT ) != null )
+            if ( attributeList.get( Constants.ATTR_NAME_AGENT ) != null )
             {
-                reservation.setNameAgent( attributeList.get( ATTR_NAME_AGENT ) );
+                reservation.setNameAgent( attributeList.get( Constants.ATTR_NAME_AGENT ) );
             }
 
-            if ( attributeList.get( ATTR_FIRSTNAME_AGENT ) != null )
+            if ( attributeList.get( Constants.ATTR_FIRSTNAME_AGENT ) != null )
             {
-                reservation.setFirstNameAgent( attributeList.get( ATTR_FIRSTNAME_AGENT ) );
+                reservation.setFirstNameAgent( attributeList.get( Constants.ATTR_FIRSTNAME_AGENT ) );
             }
 
-            if ( attributeList.get( ATTR_EMAIL_AGENT ) != null )
+            if ( attributeList.get( Constants.ATTR_EMAIL_AGENT ) != null )
             {
-                reservation.setEmailAgent( attributeList.get( ATTR_EMAIL_AGENT ) );
+                reservation.setEmailAgent( attributeList.get( Constants.ATTR_EMAIL_AGENT ) );
             }
         }
 
@@ -268,22 +261,22 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
 
         if ( StringUtils.isNotEmpty( this.getDate( ) ) )
         {
-            purchase.getAttributeDateList( ).add( new PurchaseAttributeDate( ATTR_DATE, DateUtils.getDate( this.getDate( ), false ), purchase ) );
+            purchase.getAttributeDateList( ).add( new PurchaseAttributeDate( Constants.ATTR_DATE, DateUtils.getDate( this.getDate( ), false ), purchase ) );
         }
 
         if ( StringUtils.isNotEmpty( this.getNameAgent( ) ) )
         {
-            purchase.getAttributeList( ).add( new PurchaseAttribute( ATTR_NAME_AGENT, this.getNameAgent( ), purchase ) );
+            purchase.getAttributeList( ).add( new PurchaseAttribute( Constants.ATTR_NAME_AGENT, this.getNameAgent( ), purchase ) );
         }
 
         if ( StringUtils.isNotEmpty( this.getFirstNameAgent( ) ) )
         {
-            purchase.getAttributeList( ).add( new PurchaseAttribute( ATTR_FIRSTNAME_AGENT, this.getFirstNameAgent( ), purchase ) );
+            purchase.getAttributeList( ).add( new PurchaseAttribute( Constants.ATTR_FIRSTNAME_AGENT, this.getFirstNameAgent( ), purchase ) );
         }
 
         if ( StringUtils.isNotEmpty( this.getEmailAgent( ) ) )
         {
-            purchase.getAttributeList( ).add( new PurchaseAttribute( ATTR_EMAIL_AGENT, this.getEmailAgent( ), purchase ) );
+            purchase.getAttributeList( ).add( new PurchaseAttribute( Constants.ATTR_EMAIL_AGENT, this.getEmailAgent( ), purchase ) );
         }
 
         return purchase;
@@ -297,7 +290,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public void setOffer( SeanceDTO offer )
     {
-        this.offer = offer;
+        this._offer = offer;
     }
 
     /**
@@ -307,7 +300,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public SeanceDTO getOffer( )
     {
-        return this.offer;
+        return this._offer;
     }
 
     /**
@@ -316,7 +309,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public void setNameAgent( String nameAgent )
     {
-        this.nameAgent = nameAgent;
+        this._nameAgent = nameAgent;
     }
 
     /**
@@ -324,7 +317,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public String getNameAgent( )
     {
-        return nameAgent;
+        return _nameAgent;
     }
 
     /**
@@ -333,7 +326,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public void setFirstNameAgent( String firstNameAgent )
     {
-        this.firstNameAgent = firstNameAgent;
+        this._firstNameAgent = firstNameAgent;
     }
 
     /**
@@ -341,7 +334,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public String getFirstNameAgent( )
     {
-        return firstNameAgent;
+        return _firstNameAgent;
     }
 
     /**
@@ -349,7 +342,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public String getEmailAgent( )
     {
-        return emailAgent;
+        return _emailAgent;
     }
 
     /**
@@ -358,7 +351,7 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public void setEmailAgent( String emailAgent )
     {
-        this.emailAgent = emailAgent;
+        this._emailAgent = emailAgent;
     }
 
     /*
@@ -379,13 +372,12 @@ public class ReservationDTO extends AbstractDTO<Purchase> implements IPurchaseDT
      */
     public void setHeure( String heure )
     {
-        this.heure = heure;
+        this._heure = heure;
     }
 
     @Override
     public String getHeure( )
     {
-        // TODO Auto-generated method stub
-        return heure;
+        return _heure;
     }
 }

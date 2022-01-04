@@ -44,6 +44,7 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.PurchaseStatistic;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ReservationDTO;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ResultStatistic;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.date.DateUtil;
 
@@ -110,7 +111,6 @@ public class StatisticService implements IStatisticService
     /** The EXPOR t_ heade r_ group e_ month. */
     public static final String EXPORT_HEADER_GROUPE_MONTH = "module.stock.billetterie.manage_statistics.csv.groupMonth";
 
-    // public static Integer MILLSECS_PER_DAY = 3600000;
     /** The EMPT y_ string. */
     public static final String EMPTY_STRING = "";
     private static final Logger LOGGER = Logger.getLogger( StatisticService.class );
@@ -217,13 +217,11 @@ public class StatisticService implements IStatisticService
      */
     public void doManageProductSaving( ShowDTO productDTO )
     {
-        // ProductStatistic productStatistic = _daoProductStatistic.getByIdProduct( productDTO.getId( ) );
-
         // On supprime tous les objets ProductStatistic
         doRemoveProductStatisticByIdProduct( productDTO.getId( ) );
 
         // Le produit vient d'etre insere en base. On insere des produitStatistic
-        SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy" );
+        SimpleDateFormat formatter = new SimpleDateFormat( Constants.FORMAT_DATE );
 
         try
         {
@@ -368,18 +366,18 @@ public class StatisticService implements IStatisticService
     {
         if ( ( dateEntree != null ) && !dateEntree.equals( StringUtils.EMPTY ) )
         {
-            try
-            {
-                SimpleDateFormat dfEntree = new SimpleDateFormat( "dd/MM/yyyy" );
-                SimpleDateFormat dfBdd = new SimpleDateFormat( "yyyy-MM-dd" );
-                Date dateDebut = dfEntree.parse( dateEntree );
-
-                return dfBdd.format( dateDebut );
-            }
-            catch( Exception ex )
-            {
-                return null;
-            }
+            SimpleDateFormat dfEntree = new SimpleDateFormat( Constants.FORMAT_DATE );
+            SimpleDateFormat dfBdd = new SimpleDateFormat( "yyyy-MM-dd" );
+            Date dateDebut;
+                try
+                {
+                    dateDebut = dfEntree.parse( dateEntree );
+                    return dfBdd.format( dateDebut );
+                }
+                catch (ParseException e)
+                {
+                    return null;
+                }
         }
         else
         {
@@ -449,7 +447,7 @@ public class StatisticService implements IStatisticService
         doRemovePurchaseStatisticByIdPurchase( purchaseDTO.getId( ) );
 
         // La reservation vient d'etre insere en base. On insere un purchaseStatistic
-        SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy" );
+        SimpleDateFormat formatter = new SimpleDateFormat( Constants.FORMAT_DATE );
 
         try
         {

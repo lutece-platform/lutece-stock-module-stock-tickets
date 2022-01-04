@@ -45,18 +45,18 @@ public class UnauthentifiedPurchaserDTO
 {
     @NotEmpty
     @Email
-    private String emailAgent;
+    private String _emailAgent;
     @NotEmpty
-    private String nameAgent;
+    private String _nameAgent;
     @NotEmpty
-    private String firstNameAgent;
+    private String _firstNameAgent;
 
     /**
      * @return the emailAgent
      */
     public String getEmailAgent( )
     {
-        return emailAgent;
+        return _emailAgent;
     }
 
     /**
@@ -65,7 +65,7 @@ public class UnauthentifiedPurchaserDTO
      */
     public void setEmailAgent( String emailAgent )
     {
-        this.emailAgent = emailAgent;
+        this._emailAgent = emailAgent;
     }
 
     /**
@@ -73,7 +73,7 @@ public class UnauthentifiedPurchaserDTO
      */
     public String getNameAgent( )
     {
-        return nameAgent;
+        return _nameAgent;
     }
 
     /**
@@ -82,7 +82,7 @@ public class UnauthentifiedPurchaserDTO
      */
     public void setNameAgent( String nameAgent )
     {
-        this.nameAgent = nameAgent;
+        this._nameAgent = nameAgent;
     }
 
     /**
@@ -90,7 +90,7 @@ public class UnauthentifiedPurchaserDTO
      */
     public String getFirstNameAgent( )
     {
-        return firstNameAgent;
+        return _firstNameAgent;
     }
 
     /**
@@ -99,6 +99,6 @@ public class UnauthentifiedPurchaserDTO
      */
     public void setFirstNameAgent( String firstNameAgent )
     {
-        this.firstNameAgent = firstNameAgent;
+        this._firstNameAgent = firstNameAgent;
     }
 }

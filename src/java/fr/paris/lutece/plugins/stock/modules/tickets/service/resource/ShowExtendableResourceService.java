@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.service.resource;
 
-import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
 import fr.paris.lutece.plugins.stock.modules.tickets.service.IShowService;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
@@ -62,7 +62,7 @@ public class ShowExtendableResourceService implements IExtendableResourceService
     @Override
     public boolean isInvoked( String strResourceType )
     {
-        return ShowDTO.PROPERTY_RESOURCE_TYPE.equals( strResourceType );
+        return Constants.PROPERTY_RESOURCE_TYPE.equals( strResourceType );
     }
 
     /**
@@ -88,7 +88,7 @@ public class ShowExtendableResourceService implements IExtendableResourceService
     // @Override
     public String getResourceType( )
     {
-        return ShowDTO.PROPERTY_RESOURCE_TYPE;
+        return Constants.PROPERTY_RESOURCE_TYPE;
     }
 
     /**
@@ -104,7 +104,6 @@ public class ShowExtendableResourceService implements IExtendableResourceService
     @Override
     public String getResourceUrl( String strIdResource, String strResourceType )
     {
-        // TODO Auto-generated method stub
         return null;
     }
 }

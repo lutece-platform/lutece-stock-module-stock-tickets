@@ -40,7 +40,6 @@ import fr.paris.lutece.plugins.stock.business.purchase.exception.PurchaseSession
 import fr.paris.lutece.plugins.stock.commons.exception.BusinessException;
 import fr.paris.lutece.plugins.stock.modules.tickets.service.IPurchaseService;
 import fr.paris.lutece.plugins.stock.service.IOfferService;
-import fr.paris.lutece.plugins.stock.service.IPurchaseRules;
 import fr.paris.lutece.plugins.stock.service.PurchaseRules;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
@@ -73,6 +72,7 @@ public class PurchaseInvitationSpectacleEnfantRules extends PurchaseRules
     /**
      * {@inheritDoc}
      */
+    @Override
     public void checkBeforePurchase( IPurchaseDTO purchase, String sessionId ) throws PurchaseOutOfStock, PurchaseSessionExpired
     {
         super.checkBeforePurchase( purchase, sessionId );

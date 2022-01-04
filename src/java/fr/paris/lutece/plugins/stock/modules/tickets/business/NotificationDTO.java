@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-import fr.paris.lutece.plugins.stock.commons.validator.annotation.ListEmail;
+import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import fr.paris.lutece.plugins.stock.commons.validator.annotation.ListEmail;
 
 /**
  * DTO for Notification
@@ -46,13 +46,13 @@ public class NotificationDTO
 {
     @ListEmail
     @NotEmpty
-    private String recipientsTo;
+    private String _recipientsTo;
     @NotEmpty
-    private String subject;
+    private String _subject;
     @NotEmpty
-    private String message;
-    private String notificationAction;
-    private Integer idOffer;
+    private String _message;
+    private String _notificationAction;
+    private Integer _idOffer;
 
     /**
      * @param strRecipientsTo
@@ -60,7 +60,7 @@ public class NotificationDTO
      */
     public void setRecipientsTo( String strRecipientsTo )
     {
-        this.recipientsTo = strRecipientsTo;
+        this._recipientsTo = strRecipientsTo;
     }
 
     /**
@@ -68,7 +68,7 @@ public class NotificationDTO
      */
     public String getRecipientsTo( )
     {
-        return recipientsTo;
+        return _recipientsTo;
     }
 
     /**
@@ -77,7 +77,7 @@ public class NotificationDTO
      */
     public void setSubject( String strSubject )
     {
-        this.subject = strSubject;
+        this._subject = strSubject;
     }
 
     /**
@@ -85,7 +85,7 @@ public class NotificationDTO
      */
     public String getSubject( )
     {
-        return subject;
+        return _subject;
     }
 
     /**
@@ -94,7 +94,7 @@ public class NotificationDTO
      */
     public void setMessage( String strMessage )
     {
-        this.message = strMessage;
+        this._message = strMessage;
     }
 
     /**
@@ -102,7 +102,7 @@ public class NotificationDTO
      */
     public String getMessage( )
     {
-        return message;
+        return _message;
     }
 
     /**
@@ -111,7 +111,7 @@ public class NotificationDTO
      */
     public void setNotificationAction( String notificationAction )
     {
-        this.notificationAction = notificationAction;
+        this._notificationAction = notificationAction;
     }
 
     /**
@@ -119,7 +119,7 @@ public class NotificationDTO
      */
     public String getNotificationAction( )
     {
-        return notificationAction;
+        return _notificationAction;
     }
 
     /**
@@ -128,7 +128,7 @@ public class NotificationDTO
      */
     public void setIdOffer( Integer idOffer )
     {
-        this.idOffer = idOffer;
+        this._idOffer = idOffer;
     }
 
     /**
@@ -136,6 +136,6 @@ public class NotificationDTO
      */
     public Integer getIdOffer( )
     {
-        return idOffer;
+        return _idOffer;
     }
 }

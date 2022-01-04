@@ -49,6 +49,7 @@ public class ShowFilter extends ProductFilter
     /**
      * @return the dateStart
      */
+    @Override
     public String getDateFrom( )
     {
         return _dateFrom;
@@ -58,6 +59,7 @@ public class ShowFilter extends ProductFilter
      * @param dateStart
      *            the dateStart to set
      */
+    @Override
     public void setDateFrom( String dateStart )
     {
         this._dateFrom = dateStart;
@@ -66,6 +68,7 @@ public class ShowFilter extends ProductFilter
     /**
      * @return the dateEnd
      */
+    @Override
     public String getDateTo( )
     {
         return _dateTo;
@@ -75,6 +78,7 @@ public class ShowFilter extends ProductFilter
      * @param dateEnd
      *            the dateEnd to set
      */
+    @Override
     public void setDateTo( String dateEnd )
     {
         this._dateTo = dateEnd;
@@ -83,6 +87,7 @@ public class ShowFilter extends ProductFilter
     /**
      * @return the dateThe
      */
+    @Override
     public String getDateThe( )
     {
         return _dateThe;
@@ -92,6 +97,7 @@ public class ShowFilter extends ProductFilter
      * @param dateThe
      *            the dateThe to set
      */
+    @Override
     public void setDateThe( String dateThe )
     {
         this._dateThe = dateThe;

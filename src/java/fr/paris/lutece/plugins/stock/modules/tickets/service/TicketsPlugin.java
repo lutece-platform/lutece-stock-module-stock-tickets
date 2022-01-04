@@ -47,6 +47,7 @@ public class TicketsPlugin extends StockPlugin
     /**
      * Initialize the module kiosque
      */
+    @Override
     public void init( )
     {
         super.init( );

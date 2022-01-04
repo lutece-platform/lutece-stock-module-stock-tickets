@@ -72,6 +72,7 @@ public class PurchaseInvitationRules extends PurchaseRules
     /**
      * {@inheritDoc}
      */
+    @Override
     public void checkBeforePurchase( IPurchaseDTO purchase, String sessionId ) throws PurchaseOutOfStock, PurchaseSessionExpired
     {
         super.checkBeforePurchase( purchase, sessionId );

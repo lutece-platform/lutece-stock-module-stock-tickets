@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
 import fr.paris.lutece.plugins.stock.business.product.Product;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
 import java.sql.Timestamp;
@@ -61,13 +62,6 @@ public class ProductStatistic
     /**
      *
      */
-    private static final long serialVersionUID = 5658942621967331856L;
-
-    // /** Sequence name */
-    private static final String JPA_SEQUENCE_NAME = "billeterie_product_statistic_sequence";
-
-    /** Unique value */
-    private static final String JPA_COLUMN_NAME = "billeterie_product_statistic_id";
     private Integer _id;
     private Integer _nDayOfYear;
     private Integer _nWeek;
@@ -105,9 +99,9 @@ public class ProductStatistic
      * 
      * @return product_statistic id
      */
-    @TableGenerator( table = StockJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
+    @TableGenerator( table = StockJPAUtils.SEQUENCE_TABLE_NAME, name = Constants.JPA_SEQUENCE_NAME, pkColumnValue = Constants.JPA_COLUMN_NAME, allocationSize = 1 )
     @Id
-    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = Constants.JPA_SEQUENCE_NAME )
     @Column( name = "id_product_statistic" )
     public Integer getId( )
     {
