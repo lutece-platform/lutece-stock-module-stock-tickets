@@ -40,7 +40,6 @@ import fr.paris.lutece.plugins.stock.business.purchase.exception.PurchaseSession
 import fr.paris.lutece.plugins.stock.commons.exception.BusinessException;
 import fr.paris.lutece.plugins.stock.modules.tickets.service.IPurchaseService;
 import fr.paris.lutece.plugins.stock.service.IOfferService;
-import fr.paris.lutece.plugins.stock.service.IPurchaseRules;
 import fr.paris.lutece.plugins.stock.service.PurchaseRules;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
@@ -54,7 +53,7 @@ import javax.inject.Named;
  *
  * @author abataille
  */
-public class PurchaseInvitationRules extends PurchaseRules implements IPurchaseRules
+public class PurchaseInvitationRules extends PurchaseRules
 {
     public static final String MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER_TYPE = "module.stock.billetterie.message.error.purchase.quantity.offer.type";
     private static final Logger LOGGER = Logger.getLogger( PurchaseInvitationRules.class );

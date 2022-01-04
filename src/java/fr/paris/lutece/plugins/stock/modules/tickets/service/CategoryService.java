@@ -54,8 +54,6 @@ import javax.inject.Inject;
 @Transactional
 public final class CategoryService implements ICategoryService
 {
-    // private static final String CATEGORY_NAME_KEY =
-    // "stock.create_category.type.basic.name";
     /** The Constant MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE. */
     private static final String MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE = "module.stock.billetterie.save_category.error.name.unique";
 
@@ -282,7 +280,7 @@ public final class CategoryService implements ICategoryService
      * 
      * @throws ValidationException
      */
-    public void doSaveCategory( Category category ) throws ValidationException
+    public void doSaveCategory( Category category )
     {
         List<Category> listeCategory = _daoCategory.getAllByName( category.getName( ) );
 

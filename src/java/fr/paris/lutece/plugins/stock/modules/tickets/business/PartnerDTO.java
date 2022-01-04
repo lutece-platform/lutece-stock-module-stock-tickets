@@ -40,11 +40,8 @@ import fr.paris.lutece.plugins.stock.commons.AbstractDTO;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-import org.apache.commons.lang.StringUtils;
-
+import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
 
@@ -54,6 +51,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * DTO for provider
@@ -86,7 +84,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
     /**
      * List of the contact of this partner
      */
-    private List<Contact> contactList = new ArrayList<Contact>( );
+    private List<Contact> _contactList = new ArrayList<>( );
 
     /**
      * Methode use to find a contact with it's id
@@ -494,7 +492,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
      */
     public static ResultList<PartnerDTO> convertEntityList( Collection<Provider> listSource )
     {
-        ResultList<PartnerDTO> listDest = new ResultList<PartnerDTO>( );
+        ResultList<PartnerDTO> listDest = new ResultList<>( );
 
         if ( listSource instanceof ResultList )
         {

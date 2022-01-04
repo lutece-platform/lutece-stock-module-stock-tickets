@@ -54,7 +54,7 @@ import javax.inject.Named;
  *
  * @author abataille
  */
-public class PurchaseTarifReduitRules extends PurchaseRules implements IPurchaseRules
+public class PurchaseTarifReduitRules extends PurchaseRules
 {
     public static final String MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER_TYPE = "module.stock.billetterie.message.error.purchase.quantity.offer.type";
     private static final Logger LOGGER = Logger.getLogger( PurchaseTarifReduitRules.class );

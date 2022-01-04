@@ -68,7 +68,7 @@ import javax.persistence.criteria.Root;
  *
  * @author abataille
  */
-public class SeanceDAO extends OfferDAO<Integer, Offer> implements ISeanceDAO
+public class SeanceDAO extends OfferDAO implements ISeanceDAO
 {
     /**
      * Build the criteria query used when offers are searched by filter
@@ -85,7 +85,7 @@ public class SeanceDAO extends OfferDAO<Integer, Offer> implements ISeanceDAO
     protected void buildCriteriaQuery( OfferFilter filter, Root<Offer> root, CriteriaQuery<Offer> query, CriteriaBuilder builder )
     {
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<>( );
 
         Join<Offer, Product> product = root.join( Offer_.product, JoinType.INNER );
         Join<Offer, OfferGenre> type = root.join( Offer_.type, JoinType.INNER );
@@ -172,7 +172,7 @@ public class SeanceDAO extends OfferDAO<Integer, Offer> implements ISeanceDAO
 
         Root<Offer> root = cq.from( Offer.class );
 
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<>( );
 
         Join<Offer, Product> product = root.join( Offer_.product, JoinType.INNER );
         cq.distinct( true );
@@ -219,7 +219,7 @@ public class SeanceDAO extends OfferDAO<Integer, Offer> implements ISeanceDAO
 
         Root<Offer> root = cq.from( Offer.class );
 
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<>( );
 
         Join<Offer, Product> product = root.join( Offer_.product, JoinType.INNER );
 
@@ -253,7 +253,7 @@ public class SeanceDAO extends OfferDAO<Integer, Offer> implements ISeanceDAO
     {
         if ( ( filter.getOrders( ) != null ) && !filter.getOrders( ).isEmpty( ) )
         {
-            List<Order> orderList = new ArrayList<Order>( );
+            List<Order> orderList = new ArrayList<>( );
             Join<Offer, Product> product = root.join( Offer_.product, JoinType.INNER );
             Join<Offer, OfferGenre> type = root.join( Offer_.type, JoinType.INNER );
 

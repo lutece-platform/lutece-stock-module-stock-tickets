@@ -71,13 +71,6 @@ public interface IProviderService
      */
     void doDeleteProvider( int nIdProvider );
 
-    // /**
-    // * Find all providers with products fetched
-    // * @return the provider list
-    // */
-    //
-    // List<Provider> findAllWithProducts( );
-    //
     /**
      * Find by filter.
      *

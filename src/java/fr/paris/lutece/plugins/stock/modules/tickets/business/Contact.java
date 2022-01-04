@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.plugins.stock.modules.tickets.business;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import java.util.Comparator;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * This object store informations about a partner's contact

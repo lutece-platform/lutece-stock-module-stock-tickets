@@ -47,7 +47,7 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.date.DateUtil;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.apache.log4j.Logger;
 
@@ -402,10 +402,10 @@ public class StatisticService implements IStatisticService
     {
         if ( ( listData == null ) || listData.isEmpty( ) )
         {
-            return null;
+            return new ArrayList<>( );
         }
 
-        List<String [ ]> returnList = new ArrayList<String [ ]>( );
+        List<String [ ]> returnList = new ArrayList<>( );
 
         // Build the header
         String strTimesHeader = EXPORT_HEADER_GROUPE_MONTH;

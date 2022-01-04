@@ -264,7 +264,7 @@ public class SeanceService extends OfferService implements ISeanceService
         List<SeanceDTO> offerList = SeanceDTO.convertEntityList( _daoOffer.findByProduct( showId, filter ) );
         final DateFormat sdfComboSeance = new SimpleDateFormat( TicketsConstants.FORMAT_COMBO_DATE_SEANCE, locale );
 
-        List<String> dateList = new ArrayList<String>( );
+        List<String> dateList = new ArrayList<>( );
         Date today = new Date( );
 
         for ( SeanceDTO seance : offerList )

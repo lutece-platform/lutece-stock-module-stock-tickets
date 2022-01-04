@@ -85,7 +85,7 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
         Root<ProductStatistic> root = cq.from( ProductStatistic.class );
 
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<>( );
 
         Join<ProductStatistic, Product> product = root.join( ProductStatistic_.product, JoinType.INNER );
 

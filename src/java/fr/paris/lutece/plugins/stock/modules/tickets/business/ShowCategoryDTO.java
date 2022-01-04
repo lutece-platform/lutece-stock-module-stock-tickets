@@ -44,10 +44,10 @@ import org.apache.commons.lang.StringUtils;
 
 import org.dozer.Mapper;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import java.util.Collection;
 import java.util.Set;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  *
@@ -163,7 +163,7 @@ public class ShowCategoryDTO extends AbstractDTO<Category>
      */
     public static ResultList<ShowCategoryDTO> convertEntityList( Collection<Category> listSource )
     {
-        ResultList<ShowCategoryDTO> listDest = new ResultList<ShowCategoryDTO>( );
+        ResultList<ShowCategoryDTO> listDest = new ResultList<>( );
 
         if ( listSource instanceof ResultList )
         {

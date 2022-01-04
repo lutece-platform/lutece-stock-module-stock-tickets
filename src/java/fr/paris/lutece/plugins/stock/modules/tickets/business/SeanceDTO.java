@@ -44,9 +44,8 @@ import fr.paris.lutece.plugins.stock.commons.validator.annotation.ValidId;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
@@ -58,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -276,7 +276,7 @@ public class SeanceDTO extends AbstractDTO<Offer>
      */
     public static ResultList<SeanceDTO> convertEntityList( Collection<Offer> listSource )
     {
-        ResultList<SeanceDTO> listDest = new ResultList<SeanceDTO>( );
+        ResultList<SeanceDTO> listDest = new ResultList<>( );
 
         if ( listSource instanceof ResultList )
         {

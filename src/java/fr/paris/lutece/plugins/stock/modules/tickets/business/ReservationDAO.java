@@ -52,7 +52,7 @@ import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.plugins.stock.utils.NumberUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
 
@@ -68,12 +68,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
- * DOCUMENT ME!
  *
  * @author nmoitry
  */
-public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IReservationDAO
-{
+public class ReservationDAO extends PurchaseDAO implements IReservationDAO
+{   
     /**
      * Build the criteria query used when purchases are searched by filter
      * 
@@ -86,10 +85,11 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
      * @param builder
      *            the criteria builder
      */
+    @Override
     protected void buildCriteriaQuery( PurchaseFilter filter, Root<Purchase> root, CriteriaQuery<Purchase> query, CriteriaBuilder builder )
     {
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<>( );
 
         Join<Purchase, Offer> offer = root.join( Purchase_.offer, JoinType.INNER );
         Join<Offer, Product> product = offer.join( Offer_.product, JoinType.INNER );
@@ -196,11 +196,12 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
      * @param builder
      *            the criteria builder
      */
+    @Override
     protected void buildSortQuery( PurchaseFilter filter, Root<Purchase> root, CriteriaQuery<Purchase> query, CriteriaBuilder builder )
     {
         if ( ( filter.getOrders( ) != null ) && !filter.getOrders( ).isEmpty( ) )
         {
-            List<Order> orderList = new ArrayList<Order>( );
+            List<Order> orderList = new ArrayList<>( );
 
             Join<Purchase, Offer> offer = root.join( Purchase_.offer, JoinType.INNER );
             Join<Offer, Product> product = offer.join( Offer_.product, JoinType.INNER );

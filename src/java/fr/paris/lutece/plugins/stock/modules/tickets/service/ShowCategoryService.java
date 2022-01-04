@@ -39,7 +39,6 @@ import fr.paris.lutece.plugins.stock.business.category.ICategoryDAO;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
 import fr.paris.lutece.plugins.stock.commons.exception.BusinessException;
-import fr.paris.lutece.plugins.stock.commons.exception.ValidationException;
 import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowCategoryDTO;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -116,7 +115,7 @@ public final class ShowCategoryService implements IShowCategoryService
     /**
      * {@inheritDoc}
      */
-    public void doSaveCategory( ShowCategoryDTO category ) throws ValidationException
+    public void doSaveCategory( ShowCategoryDTO category )
     {
         List<ShowCategoryDTO> listeCategory = ShowCategoryDTO.convertEntityList( _daoCategory.getAllByName( category.getName( ) ) );
 
