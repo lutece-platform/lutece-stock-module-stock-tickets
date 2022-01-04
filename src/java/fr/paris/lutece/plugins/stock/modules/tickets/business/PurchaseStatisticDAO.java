@@ -58,6 +58,21 @@ import javax.persistence.criteria.Root;
  */
 public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, PurchaseStatistic> implements IPurchaseStatisticDAO
 {
+    private static final String SELECT_COUNT_STATISTICS_PURCHASES = "SELECT count(distinct purchase_statistic.purchase_id_purchase) AS compteur, purchase_statistic.";
+    private static final String END_SELECT_COUNT_STATISTICS_PURCHASES = ",purchase_statistic.year FROM stock_ticket_purchase_statistic AS purchase_statistic";
+    private static final String SELECT_COUNT_STATISTIC_PURCHASES_DEFAULT = "SELECT count( distinct purchase_statistic.purchase_id_purchase) FROM stock_ticket_purchase_statistic AS purchase_statistic";
+    private static final String WHERE_PURCHASE_DATE_GREATER_THAN = " WHERE purchase_statistic.date >= CAST('";
+    private static final String WHERE_PURCHASE_DATE_LESS_THAN = " purchase_statistic.date <= CAST('";
+    private static final String PURCHASE_STATISTIC_YEAR = ", purchase_statistic.year";
+    private static final String START_OF_DAY = " 00:00:00' AS DATETIME)";
+    private static final String END_OF_DAY = " 23:59:59' AS DATETIME)";
+    private static final String GROUP_BY_PURCHASE_STATISTIC = " GROUP BY purchase_statistic.";
+    private static final String WHERE_OPERATOR = " WHERE";
+    private static final String AND_OPERATOR = " AND";
+    private static final String DATE_OF_YEAR_PARAMETER = "dayOfYear";
+    private static final String WEEK_PARAMETER = "week";
+    private static final String MONTH_PARAMETER = "month";
+    
     /**
      *
      * {@inheritDoc}
@@ -81,7 +96,7 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
         Root<PurchaseStatistic> root = cq.from( PurchaseStatistic.class );
 
         // predicates list
-        List<Predicate> listPredicates = new ArrayList<Predicate>( );
+        List<Predicate> listPredicates = new ArrayList<>( );
 
         if ( idPurchase != null )
         {
@@ -94,7 +109,6 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
             cq.where( listPredicates.toArray( new Predicate [ 0] ) );
         }
 
-        // buildSortQuery( filter, root, cq, cb );
         cq.distinct( true );
 
         TypedQuery<PurchaseStatistic> query = em.createQuery( cq );
@@ -107,31 +121,31 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
      */
     public List<ResultStatistic> getAllResultStatisticByParameters( String strTimesUnit, String strDateDebut, String strDateFin )
     {
-        StringBuffer requeteSQL = new StringBuffer( );
+        StringBuilder requeteSQL = new StringBuilder( );
 
-        requeteSQL.append( "SELECT count(distinct purchase_statistic.purchase_id_purchase) AS compteur, purchase_statistic." );
+        requeteSQL.append( SELECT_COUNT_STATISTICS_PURCHASES );
 
         if ( strTimesUnit.equals( "0" ) )
         {
-            requeteSQL.append( "dayOfYear" );
+            requeteSQL.append( DATE_OF_YEAR_PARAMETER );
         }
         else
             if ( strTimesUnit.equals( "1" ) )
             {
-                requeteSQL.append( "week" );
+                requeteSQL.append( WEEK_PARAMETER );
             }
             else
             {
-                requeteSQL.append( "month" );
+                requeteSQL.append( MONTH_PARAMETER );
             }
 
-        requeteSQL.append( ",purchase_statistic.year FROM stock_ticket_purchase_statistic AS purchase_statistic" );
+        requeteSQL.append( END_SELECT_COUNT_STATISTICS_PURCHASES );
 
-        Boolean isFirstCondition = Boolean.TRUE;
+        boolean isFirstCondition = Boolean.TRUE;
 
         if ( ( strDateDebut != null ) && !strDateDebut.equals( "" ) )
         {
-            requeteSQL.append( " WHERE purchase_statistic.date >= CAST('" + strDateDebut + " 00:00:00' AS DATETIME)" );
+            requeteSQL.append( WHERE_PURCHASE_DATE_GREATER_THAN + strDateDebut + START_OF_DAY );
             isFirstCondition = Boolean.FALSE;
         }
 
@@ -139,41 +153,41 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
         {
             if ( isFirstCondition )
             {
-                requeteSQL.append( " WHERE" );
+                requeteSQL.append( WHERE_OPERATOR );
             }
             else
             {
-                requeteSQL.append( " AND" );
+                requeteSQL.append( AND_OPERATOR );
             }
 
-            requeteSQL.append( " purchase_statistic.date <= CAST('" + strDateFin + " 23:59:59' AS DATETIME)" );
+            requeteSQL.append( WHERE_PURCHASE_DATE_LESS_THAN + strDateFin + END_OF_DAY );
         }
 
-        requeteSQL.append( " GROUP BY purchase_statistic." );
+        requeteSQL.append( GROUP_BY_PURCHASE_STATISTIC );
 
         if ( strTimesUnit.equals( "0" ) )
         {
-            requeteSQL.append( "dayOfYear" );
+            requeteSQL.append( DATE_OF_YEAR_PARAMETER );
         }
         else
             if ( strTimesUnit.equals( "1" ) )
             {
-                requeteSQL.append( "week" );
+                requeteSQL.append( WEEK_PARAMETER );
             }
             else
             {
-                requeteSQL.append( "month" );
+                requeteSQL.append( MONTH_PARAMETER );
             }
 
-        requeteSQL.append( ", purchase_statistic.year" );
+        requeteSQL.append( PURCHASE_STATISTIC_YEAR );
 
         Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
 
         List<Object> listeResultat = query.getResultList( );
 
-        List<ResultStatistic> listeResultStatistic = new ArrayList<ResultStatistic>( );
+        List<ResultStatistic> listeResultStatistic = new ArrayList<>( );
 
-        if ( listeResultat.size( ) > 0 )
+        if ( !listeResultat.isEmpty( ) )
         {
             for ( Object ligneResultat : listeResultat )
             {
@@ -220,16 +234,15 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
     public Integer getCountPurchasesByDates( String strDateDebut, String strDateFin )
     {
         Integer result = 0;
-        StringBuffer requeteSQL = new StringBuffer( );
+        StringBuilder requeteSQL = new StringBuilder( );
 
-        requeteSQL.append( "SELECT count( distinct purchase_statistic.purchase_id_purchase)  " );
-        requeteSQL.append( " FROM stock_ticket_purchase_statistic AS purchase_statistic" );
+        requeteSQL.append( SELECT_COUNT_STATISTIC_PURCHASES_DEFAULT );
 
-        Boolean isFirstCondition = Boolean.TRUE;
+        boolean isFirstCondition = Boolean.TRUE;
 
         if ( ( strDateDebut != null ) && !strDateDebut.equals( "" ) )
         {
-            requeteSQL.append( " WHERE purchase_statistic.date >= CAST('" + strDateDebut + " 00:00:00' AS DATETIME)" );
+            requeteSQL.append( WHERE_PURCHASE_DATE_GREATER_THAN + strDateDebut + START_OF_DAY );
             isFirstCondition = Boolean.FALSE;
         }
 
@@ -237,14 +250,14 @@ public final class PurchaseStatisticDAO extends AbstractStockDAO<Integer, Purcha
         {
             if ( isFirstCondition )
             {
-                requeteSQL.append( " WHERE" );
+                requeteSQL.append( WHERE_OPERATOR );
             }
             else
             {
-                requeteSQL.append( " AND" );
+                requeteSQL.append( AND_OPERATOR );
             }
 
-            requeteSQL.append( " purchase_statistic.date <= CAST('" + strDateFin + " 23:59:59' AS DATETIME)" );
+            requeteSQL.append( WHERE_PURCHASE_DATE_LESS_THAN + strDateFin + END_OF_DAY );
         }
 
         Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );

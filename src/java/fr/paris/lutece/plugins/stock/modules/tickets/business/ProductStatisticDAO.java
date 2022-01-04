@@ -37,18 +37,13 @@ import fr.paris.lutece.plugins.stock.business.product.Product;
 import fr.paris.lutece.plugins.stock.business.product.Product_;
 import fr.paris.lutece.plugins.stock.commons.dao.AbstractStockDAO;
 import fr.paris.lutece.plugins.stock.modules.tickets.service.TicketsPlugin;
-
-import java.math.BigInteger;
-
-import java.sql.Timestamp;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -62,6 +57,21 @@ import javax.persistence.criteria.Root;
  */
 public final class ProductStatisticDAO extends AbstractStockDAO<Integer, ProductStatistic> implements IProductStatisticDAO
 {
+    private static final String SELECT_ALL_RESULT_STATISTIC_BY_MARAMETERS = "SELECT count(distinct product_statistic.product_id_product) AS compteur, product_statistic.";
+    private static final String SELECT_ALL_RESULT_STATISTIC_BY_PARAMETERS_END = ",product_statistic.year FROM stock_ticket_product_statistic AS product_statistic";
+    private static final String SELECT_ALL_COUNT_PRODUCTS_BY_DATES = "SELECT count( distinct product_statistic.product_id_product) FROM stock_ticket_product_statistic AS product_statistic";
+    private static final String WHERE_CLAUSE = " WHERE";
+    private static final String AND_OPERATOR = " AND";
+    private static final String WEEK_PARAMETER = "week";
+    private static final String MONTH_PARAMETER = "month";
+    private static final String DAY_OF_YEAR_PARAMETER = "dayOfYear";
+    private static final String GROUP_BY_PRODUCT_STATISTIC = " GROUP BY product_statistic.";
+    private static final String WHERE_PRODUCT_STATISTIC_DATE = " WHERE product_statistic.date >= CAST('";
+    private static final String PRODUCT_STATISTIC_DATE = " product_statistic.date <= CAST('";
+    private static final String END_OF_DAY = " 23:59:59' AS DATETIME)";
+    private static final String START_OF_DAY = " 00:00:00' AS DATETIME)";
+    private static final String PRODUCT_STAITSTIC_YEAR = ", product_statistic.year";
+    
     /**
      *
      * {@inheritDoc}
@@ -100,7 +110,6 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
             cq.where( listPredicates.toArray( new Predicate [ 0] ) );
         }
 
-        // buildSortQuery( filter, root, cq, cb );
         cq.distinct( true );
 
         TypedQuery<ProductStatistic> query = em.createQuery( cq );
@@ -111,33 +120,33 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
     /**
      * {@inheritDoc}
      */
-    public List<ResultStatistic> getAllResultStatisticByParameters( String strTimesUnit, String strDateDebut, String strDateFin )
+    public List<ResultStatistic> getAllResultStatisticByParameters( String strTimesUnit, String strDateDebut, String strDateFin, Plugin plugin )
     {
-        StringBuffer requeteSQL = new StringBuffer( );
+        StringBuilder requeteSQL = new StringBuilder( );
 
-        requeteSQL.append( "SELECT count(distinct product_statistic.product_id_product) AS compteur, product_statistic." );
+        requeteSQL.append( SELECT_ALL_RESULT_STATISTIC_BY_MARAMETERS );
 
         if ( strTimesUnit.equals( "0" ) )
         {
-            requeteSQL.append( "dayOfYear" );
+            requeteSQL.append( DAY_OF_YEAR_PARAMETER );
         }
         else
             if ( strTimesUnit.equals( "1" ) )
             {
-                requeteSQL.append( "week" );
+                requeteSQL.append( WEEK_PARAMETER );
             }
             else
             {
-                requeteSQL.append( "month" );
+                requeteSQL.append( MONTH_PARAMETER );
             }
 
-        requeteSQL.append( ",product_statistic.year FROM stock_ticket_product_statistic AS product_statistic" );
+        requeteSQL.append( SELECT_ALL_RESULT_STATISTIC_BY_PARAMETERS_END );
 
-        Boolean isFirstCondition = Boolean.TRUE;
+        boolean isFirstCondition = Boolean.TRUE;
 
         if ( ( strDateDebut != null ) && !strDateDebut.equals( "" ) )
         {
-            requeteSQL.append( " WHERE product_statistic.date >= CAST('" + strDateDebut + " 00:00:00' AS DATETIME)" );
+            requeteSQL.append( WHERE_PRODUCT_STATISTIC_DATE + strDateDebut + START_OF_DAY );
             isFirstCondition = Boolean.FALSE;
         }
 
@@ -145,97 +154,68 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
         {
             if ( isFirstCondition )
             {
-                requeteSQL.append( " WHERE" );
+                requeteSQL.append( WHERE_CLAUSE );
             }
             else
             {
-                requeteSQL.append( " AND" );
+                requeteSQL.append( AND_OPERATOR );
             }
 
-            requeteSQL.append( " product_statistic.date <= CAST('" + strDateFin + " 23:59:59' AS DATETIME)" );
+            requeteSQL.append( PRODUCT_STATISTIC_DATE + strDateFin + END_OF_DAY );
         }
 
-        requeteSQL.append( " GROUP BY product_statistic." );
+        requeteSQL.append( GROUP_BY_PRODUCT_STATISTIC );
 
         if ( strTimesUnit.equals( "0" ) )
         {
-            requeteSQL.append( "dayOfYear" );
+            requeteSQL.append( DAY_OF_YEAR_PARAMETER );
         }
         else
             if ( strTimesUnit.equals( "1" ) )
             {
-                requeteSQL.append( "week" );
+                requeteSQL.append( WEEK_PARAMETER );
             }
             else
             {
-                requeteSQL.append( "month" );
+                requeteSQL.append( MONTH_PARAMETER );
             }
 
-        requeteSQL.append( ", product_statistic.year" );
-
-        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
-
-        List<Object> listeResultat = query.getResultList( );
-
-        List<ResultStatistic> listeResultStatistic = new ArrayList<ResultStatistic>( );
-
-        if ( listeResultat.size( ) > 0 )
+        requeteSQL.append( PRODUCT_STAITSTIC_YEAR );
+        
+        List<ResultStatistic> resultsStatistics = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( requeteSQL.toString( ), plugin ) )
         {
-            for ( Object ligneResultat : listeResultat )
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
             {
-                Object [ ] listeAttributs = (Object [ ]) ligneResultat;
+                ResultStatistic resultStatistic = new ResultStatistic( );
+                int nIndex = 1;
 
-                if ( ( listeAttributs [0] != null ) && ( listeAttributs [1] != null ) && ( listeAttributs [2] != null ) )
-                {
-                    ResultStatistic resultStatistic = new ResultStatistic( );
-                    resultStatistic.setNumberResponse( Integer.decode( listeAttributs [0].toString( ) ) );
+                resultStatistic.setNumberResponse( daoUtil.getInt( nIndex++ ) );
+                resultStatistic.setStatisticDate( daoUtil.getTimestamp( nIndex++ ) );
 
-                    Calendar calendar = new GregorianCalendar( );
-
-                    int nTimesUnit;
-
-                    if ( strTimesUnit.equals( "0" ) )
-                    {
-                        nTimesUnit = Calendar.DAY_OF_YEAR;
-                    }
-                    else
-                        if ( strTimesUnit.equals( "1" ) )
-                        {
-                            nTimesUnit = Calendar.WEEK_OF_YEAR;
-                        }
-                        else
-                        {
-                            nTimesUnit = Calendar.MONTH;
-                        }
-
-                    calendar.set( nTimesUnit, Integer.decode( listeAttributs [1].toString( ) ) );
-                    calendar.set( Calendar.YEAR, Integer.decode( listeAttributs [2].toString( ) ) );
-                    resultStatistic.setStatisticDate( new Timestamp( calendar.getTimeInMillis( ) ) );
-
-                    listeResultStatistic.add( resultStatistic );
-                }
+                resultsStatistics.add( resultStatistic );
             }
-        }
-
-        return listeResultStatistic;
+        }  
+            return resultsStatistics;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Integer getCountProductsByDates( String strDateDebut, String strDateFin )
+    public Integer getCountProductsByDates( String strDateDebut, String strDateFin, Plugin plugin )
     {
-        Integer result = 0;
-        StringBuffer requeteSQL = new StringBuffer( );
+        Integer countProducts = 0;
+        StringBuilder requeteSQL = new StringBuilder( );
 
-        requeteSQL.append( "SELECT count( distinct product_statistic.product_id_product)  " );
-        requeteSQL.append( " FROM stock_ticket_product_statistic AS product_statistic" );
+        requeteSQL.append( SELECT_ALL_COUNT_PRODUCTS_BY_DATES );
 
-        Boolean isFirstCondition = Boolean.TRUE;
+        boolean isFirstCondition = Boolean.TRUE;
 
         if ( ( strDateDebut != null ) && !strDateDebut.equals( "" ) )
         {
-            requeteSQL.append( " WHERE product_statistic.date >= CAST('" + strDateDebut + " 00:00:00' AS DATETIME)" );
+            requeteSQL.append( WHERE_PRODUCT_STATISTIC_DATE + strDateDebut + START_OF_DAY );
             isFirstCondition = Boolean.FALSE;
         }
 
@@ -243,30 +223,39 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
         {
             if ( isFirstCondition )
             {
-                requeteSQL.append( " WHERE" );
+                requeteSQL.append( WHERE_CLAUSE );
             }
             else
             {
-                requeteSQL.append( " AND" );
+                requeteSQL.append( AND_OPERATOR );
             }
 
-            requeteSQL.append( " product_statistic.date <= CAST('" + strDateFin + " 23:59:59' AS DATETIME)" );
+            requeteSQL.append( PRODUCT_STATISTIC_DATE + strDateFin + END_OF_DAY );
         }
 
-        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
-        List<Object> listeCount = query.getResultList( );
-
-        if ( listeCount.size( ) == 1 )
+        try ( DAOUtil daoUtil = new DAOUtil( requeteSQL.toString( ), plugin ) )
         {
-            Object obj = listeCount.get( 0 );
-
-            if ( obj != null )
+            daoUtil.executeQuery( );
+            int nIndex = 0;
+            
+            while ( daoUtil.next( ) )
             {
-                BigInteger bigInt = (BigInteger) obj;
-                result = bigInt.intValue( );
+                countProducts = daoUtil.getInt( nIndex++);
             }
         }
+        return countProducts;
+    }
 
-        return result;
+    @Override
+    public List<ResultStatistic> getAllResultStatisticByParameters(String strTimesUnit, String strDateDebut,
+            String strDateFin)
+    {
+        return new ArrayList<>( );
+    }
+
+    @Override
+    public Integer getCountProductsByDates(String strDateDebut, String strDateFin)
+    {
+        return null;
     }
 }

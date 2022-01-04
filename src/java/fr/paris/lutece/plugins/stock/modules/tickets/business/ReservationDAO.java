@@ -48,6 +48,9 @@ import fr.paris.lutece.plugins.stock.business.purchase.Purchase;
 import fr.paris.lutece.plugins.stock.business.purchase.PurchaseDAO;
 import fr.paris.lutece.plugins.stock.business.purchase.PurchaseFilter;
 import fr.paris.lutece.plugins.stock.business.purchase.Purchase_;
+import fr.paris.lutece.plugins.stock.commons.ResultList;
+import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.plugins.stock.utils.NumberUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
@@ -103,7 +106,7 @@ public class ReservationDAO extends PurchaseDAO implements IReservationDAO
         if ( StringUtils.isNotBlank( filter.getAgentName( ) ) )
         {
             Join<Purchase, PurchaseAttribute> join = root.join( Purchase_.attributeList );
-            listPredicates.add( AttributeUtils.like( builder, join, ReservationDTO.ATTR_NAME_AGENT,
+            listPredicates.add( AttributeUtils.like( builder, join, Constants.ATTR_NAME_AGENT,
                     StockJPAUtils.buildCriteriaLikeString( filter.getAgentName( ) ) ) );
         }
 
@@ -131,7 +134,7 @@ public class ReservationDAO extends PurchaseDAO implements IReservationDAO
             {
                 Timestamp dateFrom = DateUtils.getDate( reservationFilter.getDateBegin( ), false );
                 Join<Purchase, PurchaseAttributeDate> join = root.join( Purchase_.attributeDateList );
-                listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, ReservationDTO.ATTR_DATE, dateFrom ) );
+                listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, Constants.ATTR_DATE, dateFrom ) );
             }
 
             // Date to (=date of reservation >= date to)
@@ -139,7 +142,7 @@ public class ReservationDAO extends PurchaseDAO implements IReservationDAO
             {
                 Timestamp dateEnd = DateUtils.getDate( reservationFilter.getDateEnd( ), false );
                 Join<Purchase, PurchaseAttributeDate> join = root.join( Purchase_.attributeDateList );
-                listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, ReservationDTO.ATTR_DATE, dateEnd ) );
+                listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, Constants.ATTR_DATE, dateEnd ) );
             }
 
             // Date the (=date reservation == date the)
@@ -147,7 +150,7 @@ public class ReservationDAO extends PurchaseDAO implements IReservationDAO
             {
                 Timestamp dateThe = DateUtils.getDate( reservationFilter.getDateOr( ), false );
                 Join<Purchase, PurchaseAttributeDate> join = root.join( Purchase_.attributeDateList );
-                listPredicates.add( AttributeDateUtils.equal( builder, join, ReservationDTO.ATTR_DATE, dateThe ) );
+                listPredicates.add( AttributeDateUtils.equal( builder, join, Constants.ATTR_DATE, dateThe ) );
             }
         }
 
@@ -156,7 +159,7 @@ public class ReservationDAO extends PurchaseDAO implements IReservationDAO
         {
             Timestamp dateFrom = DateUtils.getDate( filter.getDateBeginOffer( ), false );
             Join<Offer, OfferAttributeDate> join = offer.join( Offer_.attributeDateList );
-            listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, SeanceDTO.ATTR_DATE, dateFrom ) );
+            listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, Constants.ATTR_DATE, dateFrom ) );
         }
 
         // Date to (=date of reservation >= date to)
@@ -164,7 +167,7 @@ public class ReservationDAO extends PurchaseDAO implements IReservationDAO
         {
             Timestamp dateEnd = DateUtils.getDate( filter.getDateEndOffer( ), false );
             Join<Offer, OfferAttributeDate> join = offer.join( Offer_.attributeDateList );
-            listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, SeanceDTO.ATTR_DATE, dateEnd ) );
+            listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, Constants.ATTR_DATE, dateEnd ) );
         }
 
         if ( ( filter.getIdGenre( ) != null ) && ( filter.getIdGenre( ) > 0 ) )
@@ -212,32 +215,32 @@ public class ReservationDAO extends PurchaseDAO implements IReservationDAO
                 // get asc order
                 for ( String order : filter.getOrders( ) )
                 {
-                    if ( order.equals( "offer.product.name" ) )
+                    if ( order.equals( Constants.ATTR_OFFER_PRODUCT_NAME ) )
                     {
-                        orderList.add( builder.asc( product.get( "name" ) ) );
+                        orderList.add( builder.asc( product.get( Constants.ATTR_NAME ) ) );
                     }
                     else
-                        if ( order.equals( "date" ) )
+                        if ( order.equals( Constants.ATTR_DATE ) )
                         {
                             Join<Purchase, PurchaseAttributeDate> joinDate = root.join( Purchase_.attributeDateList );
-                            addRestriction( query, builder.equal( joinDate.get( "key" ), "date" ) );
-                            orderList.add( builder.desc( joinDate.get( "value" ) ) );
+                            addRestriction( query, builder.equal( joinDate.get( Constants.ATTR_KEY ), Constants.ATTR_DATE ) );
+                            orderList.add( builder.desc( joinDate.get( Constants.ATTR_VALUE ) ) );
                         }
                         else
-                            if ( order.equals( "offer.date" ) )
+                            if ( order.equals( Constants.ATTR_OFFER_DATE ) )
                             {
                                 Join<Offer, OfferAttributeDate> joinDate = offer.join( Offer_.attributeDateList );
-                                addRestriction( query, builder.equal( joinDate.get( "key" ), "date" ) );
-                                orderList.add( builder.desc( joinDate.get( "value" ) ) );
+                                addRestriction( query, builder.equal( joinDate.get( Constants.ATTR_KEY ), Constants.ATTR_DATE ) );
+                                orderList.add( builder.desc( joinDate.get( Constants.ATTR_VALUE ) ) );
 
                                 Join<Offer, OfferAttributeDate> joinHour = offer.join( Offer_.attributeDateList );
-                                addRestriction( query, builder.equal( joinHour.get( "key" ), "hour" ) );
-                                orderList.add( builder.asc( joinHour.get( "value" ) ) );
+                                addRestriction( query, builder.equal( joinHour.get( Constants.ATTR_KEY ), Constants.ATTR_HOUR ) );
+                                orderList.add( builder.asc( joinHour.get( Constants.ATTR_VALUE ) ) );
                             }
                             else
-                                if ( order.equals( "offer.typeName" ) )
+                                if ( order.equals( Constants.ATTR_OFFER_TYPE_NAME ) )
                                 {
-                                    orderList.add( builder.asc( type.get( "name" ) ) );
+                                    orderList.add( builder.asc( type.get( Constants.ATTR_NAME ) ) );
                                 }
                                 else
                                 {
@@ -250,32 +253,32 @@ public class ReservationDAO extends PurchaseDAO implements IReservationDAO
                 // get desc order
                 for ( String order : filter.getOrders( ) )
                 {
-                    if ( order.equals( "offer.product.name" ) )
+                    if ( order.equals( Constants.ATTR_OFFER_PRODUCT_NAME ) )
                     {
-                        orderList.add( builder.desc( product.get( "name" ) ) );
+                        orderList.add( builder.desc( product.get( Constants.ATTR_NAME ) ) );
                     }
                     else
-                        if ( order.equals( "date" ) )
+                        if ( order.equals( Constants.ATTR_DATE ) )
                         {
                             Join<Purchase, PurchaseAttributeDate> joinDate = root.join( Purchase_.attributeDateList );
-                            addRestriction( query, builder.equal( joinDate.get( "key" ), "date" ) );
-                            orderList.add( builder.asc( joinDate.get( "value" ) ) );
+                            addRestriction( query, builder.equal( joinDate.get( Constants.ATTR_KEY ), Constants.ATTR_DATE ) );
+                            orderList.add( builder.asc( joinDate.get( Constants.ATTR_VALUE ) ) );
                         }
                         else
-                            if ( order.equals( "offer.date" ) )
+                            if ( order.equals( Constants.ATTR_OFFER_DATE ) )
                             {
                                 Join<Offer, OfferAttributeDate> joinDate = offer.join( Offer_.attributeDateList );
-                                addRestriction( query, builder.equal( joinDate.get( "key" ), "date" ) );
-                                orderList.add( builder.asc( joinDate.get( "value" ) ) );
+                                addRestriction( query, builder.equal( joinDate.get( Constants.ATTR_KEY ), Constants.ATTR_DATE ) );
+                                orderList.add( builder.asc( joinDate.get( Constants.ATTR_VALUE ) ) );
 
                                 Join<Offer, OfferAttributeDate> joinHour = offer.join( Offer_.attributeDateList );
-                                addRestriction( query, builder.equal( joinHour.get( "key" ), "hour" ) );
-                                orderList.add( builder.desc( joinHour.get( "value" ) ) );
+                                addRestriction( query, builder.equal( joinHour.get( Constants.ATTR_KEY ), Constants.ATTR_HOUR ) );
+                                orderList.add( builder.desc( joinHour.get( Constants.ATTR_VALUE ) ) );
                             }
                             else
-                                if ( order.equals( "offer.typeName" ) )
+                                if ( order.equals( Constants.ATTR_OFFER_TYPE_NAME ) )
                                 {
-                                    orderList.add( builder.desc( type.get( "name" ) ) );
+                                    orderList.add( builder.desc( type.get( Constants.ATTR_NAME ) ) );
                                 }
                                 else
                                 {
@@ -286,5 +289,66 @@ public class ReservationDAO extends PurchaseDAO implements IReservationDAO
 
             query.orderBy( orderList );
         }
+    }
+
+    @Override
+    public ResultList<Purchase> findByFilter( PurchaseFilter filter, PaginationProperties paginationProperties )
+    {
+        return null;
+    }
+
+    @Override
+    public Integer getQuantityPurchasedByIdProductAndUserName( Integer id, Integer idOfferGenre, String userName )
+    {
+        return null;
+    }
+
+    @Override
+    public Integer getCountPurchaseByBeginDateAndLastDate( String strDateDebut, String strDateFin )
+    {
+        return null;
+    }
+
+    @Override
+    public void create( Purchase arg0 )
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void detach(Purchase arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public List<Purchase> findAll() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Purchase findById(Integer arg0) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void flush() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void remove(Integer arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void update(Purchase arg0) {
+        // TODO Auto-generated method stub
+        
     }
 }

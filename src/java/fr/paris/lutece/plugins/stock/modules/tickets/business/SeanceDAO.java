@@ -43,6 +43,7 @@ import fr.paris.lutece.plugins.stock.business.offer.OfferGenre_;
 import fr.paris.lutece.plugins.stock.business.offer.Offer_;
 import fr.paris.lutece.plugins.stock.business.product.Product;
 import fr.paris.lutece.plugins.stock.business.product.Product_;
+import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
@@ -109,7 +110,7 @@ public class SeanceDAO extends OfferDAO implements ISeanceDAO
             {
                 Timestamp dateFrom = DateUtils.getDate( seanceFilter.getDateBegin( ), false );
                 Join<Offer, OfferAttributeDate> join = root.join( Offer_.attributeDateList );
-                listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, SeanceDTO.ATTR_DATE, dateFrom ) );
+                listPredicates.add( AttributeDateUtils.greaterThanOrEqualTo( builder, join, Constants.ATTR_DATE, dateFrom ) );
             }
 
             // Date to (=date of seance >= date to)
@@ -117,7 +118,7 @@ public class SeanceDAO extends OfferDAO implements ISeanceDAO
             {
                 Timestamp dateEnd = DateUtils.getDate( seanceFilter.getDateEnd( ), false );
                 Join<Offer, OfferAttributeDate> join = root.join( Offer_.attributeDateList );
-                listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, SeanceDTO.ATTR_DATE, dateEnd ) );
+                listPredicates.add( AttributeDateUtils.lessThanOrEqualTo( builder, join, Constants.ATTR_DATE, dateEnd ) );
             }
 
             // Date the (=date seance == date the)
@@ -125,7 +126,7 @@ public class SeanceDAO extends OfferDAO implements ISeanceDAO
             {
                 Timestamp dateThe = DateUtils.getDate( seanceFilter.getDateOr( ), false );
                 Join<Offer, OfferAttributeDate> join = root.join( Offer_.attributeDateList );
-                listPredicates.add( AttributeDateUtils.equal( builder, join, SeanceDTO.ATTR_DATE, dateThe ) );
+                listPredicates.add( AttributeDateUtils.equal( builder, join, Constants.ATTR_DATE, dateThe ) );
             }
 
             // Hour
@@ -133,7 +134,7 @@ public class SeanceDAO extends OfferDAO implements ISeanceDAO
             {
                 Date hour = DateUtils.getHourWithoutDate( seanceFilter.getHour( ) );
                 Join<Offer, OfferAttributeDate> join = root.join( Offer_.attributeDateList );
-                listPredicates.add( AttributeDateUtils.equal( builder, join, SeanceDTO.ATTR_HOUR, new Timestamp( hour.getTime( ) ) ) );
+                listPredicates.add( AttributeDateUtils.equal( builder, join, Constants.ATTR_HOUR, new Timestamp( hour.getTime( ) ) ) );
             }
         }
 
@@ -181,10 +182,10 @@ public class SeanceDAO extends OfferDAO implements ISeanceDAO
         if ( dateHour != null )
         {
             Timestamp dateThe = DateUtils.getDate( dateHour, false );
-            listPredicates.add( AttributeDateUtils.equal( cb, root.join( Offer_.attributeDateList ), SeanceDTO.ATTR_DATE, dateThe ) );
+            listPredicates.add( AttributeDateUtils.equal( cb, root.join( Offer_.attributeDateList ), Constants.ATTR_DATE, dateThe ) );
 
             Date hour = DateUtils.getHourWithoutDate( dateHour );
-            listPredicates.add( AttributeDateUtils.equal( cb, root.join( Offer_.attributeDateList ), SeanceDTO.ATTR_HOUR, new Timestamp( hour.getTime( ) ) ) );
+            listPredicates.add( AttributeDateUtils.equal( cb, root.join( Offer_.attributeDateList ), Constants.ATTR_HOUR, new Timestamp( hour.getTime( ) ) ) );
         }
 
         // Offer id
@@ -262,25 +263,25 @@ public class SeanceDAO extends OfferDAO implements ISeanceDAO
                 // get asc order
                 for ( String order : filter.getOrders( ) )
                 {
-                    if ( order.equals( "product.name" ) )
+                    if ( order.equals( Constants.ATTR_PRODUCT_NAME ) )
                     {
-                        orderList.add( builder.asc( product.get( "name" ) ) );
+                        orderList.add( builder.asc( product.get( Constants.ATTR_NAME ) ) );
                     }
                     else
-                        if ( order.equals( "typeName" ) )
+                        if ( order.equals( Constants.ATT_TYPE_NAME ) )
                         {
-                            orderList.add( builder.asc( type.get( "name" ) ) );
+                            orderList.add( builder.asc( type.get( Constants.ATTR_NAME ) ) );
                         }
                         else
-                            if ( order.equals( "date" ) )
+                            if ( order.equals( Constants.ATTR_DATE ) )
                             {
                                 Join<Offer, OfferAttributeDate> joinDate = root.join( Offer_.attributeDateList );
-                                addRestriction( query, builder.equal( joinDate.get( "key" ), "date" ) );
-                                orderList.add( builder.desc( joinDate.get( "value" ) ) );
+                                addRestriction( query, builder.equal( joinDate.get( Constants.ATTR_KEY ), Constants.ATTR_DATE ) );
+                                orderList.add( builder.desc( joinDate.get( Constants.ATTR_VALUE ) ) );
 
                                 Join<Offer, OfferAttributeDate> joinHour = root.join( Offer_.attributeDateList );
-                                addRestriction( query, builder.equal( joinHour.get( "key" ), "hour" ) );
-                                orderList.add( builder.asc( joinHour.get( "value" ) ) );
+                                addRestriction( query, builder.equal( joinHour.get( Constants.ATTR_KEY ), Constants.ATTR_HOUR ) );
+                                orderList.add( builder.asc( joinHour.get( Constants.ATTR_VALUE ) ) );
                             }
                             else
                             {
@@ -293,25 +294,25 @@ public class SeanceDAO extends OfferDAO implements ISeanceDAO
                 // get desc order
                 for ( String order : filter.getOrders( ) )
                 {
-                    if ( order.equals( "product.name" ) )
+                    if ( order.equals( Constants.ATTR_PRODUCT_NAME ) )
                     {
-                        orderList.add( builder.desc( product.get( "name" ) ) );
+                        orderList.add( builder.desc( product.get( Constants.ATTR_NAME ) ) );
                     }
                     else
-                        if ( order.equals( "typeName" ) )
+                        if ( order.equals( Constants.ATT_TYPE_NAME ) )
                         {
-                            orderList.add( builder.desc( type.get( "name" ) ) );
+                            orderList.add( builder.desc( type.get( Constants.ATTR_NAME ) ) );
                         }
                         else
-                            if ( order.equals( "date" ) )
+                            if ( order.equals( Constants.ATTR_DATE ) )
                             {
                                 Join<Offer, OfferAttributeDate> joinDate = root.join( Offer_.attributeDateList );
-                                addRestriction( query, builder.equal( joinDate.get( "key" ), "date" ) );
-                                orderList.add( builder.asc( joinDate.get( "value" ) ) );
+                                addRestriction( query, builder.equal( joinDate.get( Constants.ATTR_KEY ), Constants.ATTR_DATE ) );
+                                orderList.add( builder.asc( joinDate.get( Constants.ATTR_VALUE ) ) );
 
                                 Join<Offer, OfferAttributeDate> joinHour = root.join( Offer_.attributeDateList );
-                                addRestriction( query, builder.equal( joinHour.get( "key" ), "hour" ) );
-                                orderList.add( builder.desc( joinHour.get( "value" ) ) );
+                                addRestriction( query, builder.equal( joinHour.get( Constants.ATTR_KEY ), Constants.ATTR_HOUR ) );
+                                orderList.add( builder.desc( joinHour.get( Constants.ATTR_VALUE ) ) );
                             }
                             else
                             {
