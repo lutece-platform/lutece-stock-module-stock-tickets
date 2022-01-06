@@ -37,13 +37,16 @@ import fr.paris.lutece.plugins.stock.business.product.Product;
 import fr.paris.lutece.plugins.stock.business.product.Product_;
 import fr.paris.lutece.plugins.stock.commons.dao.AbstractStockDAO;
 import fr.paris.lutece.plugins.stock.modules.tickets.service.TicketsPlugin;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -120,7 +123,7 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
     /**
      * {@inheritDoc}
      */
-    public List<ResultStatistic> getAllResultStatisticByParameters( String strTimesUnit, String strDateDebut, String strDateFin, Plugin plugin )
+    public List<ResultStatistic> getAllResultStatisticByParameters( String strTimesUnit, String strDateDebut, String strDateFin )
     {
         StringBuilder requeteSQL = new StringBuilder( );
 
@@ -182,31 +185,58 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
 
         requeteSQL.append( PRODUCT_STAITSTIC_YEAR );
         
-        List<ResultStatistic> resultsStatistics = new ArrayList<>( );
-        try ( DAOUtil daoUtil = new DAOUtil( requeteSQL.toString( ), plugin ) )
+        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
+
+        List<Object> resultList = query.getResultList( );
+        List<ResultStatistic> resultStatisticList = new ArrayList<>( );
+
+        if ( !resultList.isEmpty( ) )
         {
-            daoUtil.executeQuery( );
-
-            while ( daoUtil.next( ) )
+            for ( Object ligneResultat : resultList )
             {
-                ResultStatistic resultStatistic = new ResultStatistic( );
-                int nIndex = 1;
+                Object [ ] listeAttributs = (Object [ ]) ligneResultat;
 
-                resultStatistic.setNumberResponse( daoUtil.getInt( nIndex++ ) );
-                resultStatistic.setStatisticDate( daoUtil.getTimestamp( nIndex++ ) );
+                if ( ( listeAttributs [0] != null ) && ( listeAttributs [1] != null ) && ( listeAttributs [2] != null ) )
+                {
+                    ResultStatistic resultStatistic = new ResultStatistic( );
+                    resultStatistic.setNumberResponse( Integer.decode( listeAttributs [0].toString( ) ) );
 
-                resultsStatistics.add( resultStatistic );
+                    Calendar calendar = new GregorianCalendar( );
+
+                    int nTimesUnit;
+
+                    if ( strTimesUnit.equals( "0" ) )
+                    {
+                        nTimesUnit = Calendar.DAY_OF_YEAR;
+                    }
+                    else
+                    if ( strTimesUnit.equals( "1" ) )
+                    {
+                        nTimesUnit = Calendar.WEEK_OF_YEAR;
+                    }
+                    else
+                    {
+                        nTimesUnit = Calendar.MONTH;
+                    }
+
+                    calendar.set( nTimesUnit, Integer.decode( listeAttributs [1].toString( ) ) );
+                    calendar.set( Calendar.YEAR, Integer.decode( listeAttributs [2].toString( ) ) );
+                    resultStatistic.setStatisticDate( new Timestamp( calendar.getTimeInMillis( ) ) );
+
+                    resultStatisticList.add( resultStatistic );
+                }
             }
-        }  
-            return resultsStatistics;
+        }
+
+        return resultStatisticList;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Integer getCountProductsByDates( String strDateDebut, String strDateFin, Plugin plugin )
+    public Integer getCountProductsByDates( String strDateDebut, String strDateFin )
     {
-        Integer countProducts = 0;
+        Integer result = 0;
         StringBuilder requeteSQL = new StringBuilder( );
 
         requeteSQL.append( SELECT_ALL_COUNT_PRODUCTS_BY_DATES );
@@ -233,29 +263,21 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
             requeteSQL.append( PRODUCT_STATISTIC_DATE + strDateFin + END_OF_DAY );
         }
 
-        try ( DAOUtil daoUtil = new DAOUtil( requeteSQL.toString( ), plugin ) )
+        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
+        List<Object> listeCount = query.getResultList( );
+
+        if ( listeCount.size( ) == 1 )
         {
-            daoUtil.executeQuery( );
-            int nIndex = 0;
-            
-            while ( daoUtil.next( ) )
+            Object obj = listeCount.get( 0 );
+
+            if ( obj != null )
             {
-                countProducts = daoUtil.getInt( nIndex++);
+                BigInteger bigInt = (BigInteger) obj;
+                result = bigInt.intValue( );
             }
         }
-        return countProducts;
+
+        return result;
     }
 
-    @Override
-    public List<ResultStatistic> getAllResultStatisticByParameters(String strTimesUnit, String strDateDebut,
-            String strDateFin)
-    {
-        return new ArrayList<>( );
-    }
-
-    @Override
-    public Integer getCountProductsByDates(String strDateDebut, String strDateFin)
-    {
-        return null;
-    }
 }

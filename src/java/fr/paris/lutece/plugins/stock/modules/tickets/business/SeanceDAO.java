@@ -47,7 +47,7 @@ import fr.paris.lutece.plugins.stock.modules.tickets.utils.Constants;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
 

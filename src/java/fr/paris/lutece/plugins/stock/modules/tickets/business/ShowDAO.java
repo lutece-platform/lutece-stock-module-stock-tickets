@@ -198,7 +198,6 @@ public class ShowDAO extends ProductDAO implements IShowDAO
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings( "deprecation" )
     public List<Product> getComeProduct( List<String> orderList, PaginationProperties paginator )
     {
         EntityManager em = getEM( );
