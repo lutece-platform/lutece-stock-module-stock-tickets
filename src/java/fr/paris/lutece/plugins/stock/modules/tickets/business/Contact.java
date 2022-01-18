@@ -205,7 +205,11 @@ public class Contact
     @Override
     public boolean equals( Object c )
     {
-        return ( (Contact) c ).getId( ) == this._id;
+        if ( c != null )
+        {
+            return ( (Contact) c ).getId( ) == this._id;
+        }
+        return false;
     }
 
     /**

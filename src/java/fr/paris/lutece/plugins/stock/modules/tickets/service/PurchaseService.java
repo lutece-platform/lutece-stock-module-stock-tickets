@@ -36,8 +36,6 @@ package fr.paris.lutece.plugins.stock.modules.tickets.service;
 import fr.paris.lutece.plugins.stock.business.purchase.Purchase;
 import fr.paris.lutece.plugins.stock.business.purchase.PurchaseFilter;
 import fr.paris.lutece.plugins.stock.business.purchase.exception.PurchaseException;
-import fr.paris.lutece.plugins.stock.business.purchase.exception.PurchaseOutOfStock;
-import fr.paris.lutece.plugins.stock.business.purchase.exception.PurchaseSessionExpired;
 import fr.paris.lutece.plugins.stock.commons.ResultList;
 import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
 import fr.paris.lutece.plugins.stock.commons.exception.BusinessException;
@@ -128,7 +126,7 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
             purchaseDTO.setOffer( this._serviceOffer.findSeanceById( purchaseDTO.getOffer( ).getId( ) ) );
 
             // Load business rules bean of offer type
-            IPurchaseRules purchaseRules = (IPurchaseRules) SpringContextService
+            IPurchaseRules purchaseRules = SpringContextService
                     .getBean( "stock-tickets.purchaseRules." + purchaseDTO.getOffer( ).getIdGenre( ) );
 
             // Check business rules
@@ -158,7 +156,7 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
                     _daoPurchase.create( purchase );
                     purchaseDTO.setId( purchase.getId( ) );
                     // Statistic management
-                    _serviceStatistic.doManagePurchaseSaving( purchaseDTO );
+                    _serviceStatistic.doManagePurchaseSaving( purchaseDTO, null );
                 }
             }
         }

@@ -298,7 +298,7 @@ public final class CategoryService implements ICategoryService
         else
         {
             // Create
-            if ( ( listeCategory != null ) && ( listeCategory.size( ) > 0 ) )
+            if ( ( listeCategory != null ) && ( !listeCategory.isEmpty( ) ) )
             {
                 throw new BusinessException( category, MESSAGE_ERROR_CATEGORY_NAME_MUST_BE_UNIQUE );
             }

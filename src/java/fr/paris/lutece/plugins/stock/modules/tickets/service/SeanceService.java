@@ -85,6 +85,8 @@ public class SeanceService extends OfferService implements ISeanceService
     /** The Constant MESSAGE_ERROR_OFFER_REDUCT_PRICE. */
     private static final String MESSAGE_ERROR_OFFER_REDUCT_PRICE = "module.stock.billetterie.save_offer.reductPrice.mandatory";
 
+    // Errors
+    private static final String FULL_RANGE_MESSAGE = " - COMPLET";
     /** The _dao offer. */
     @Inject
     @Named( "stock-tickets.seanceDAO" )
@@ -277,14 +279,14 @@ public class SeanceService extends OfferService implements ISeanceService
                 {
                     if ( seance.getQuantity( ) == 0 )
                     {
-                        if ( !dateList.contains( sDateHour + " - COMPLET" ) )
+                        if ( !dateList.contains( sDateHour + FULL_RANGE_MESSAGE ) )
                         {
-                            dateList.add( sDateHour + " - COMPLET" );
+                            dateList.add( sDateHour + FULL_RANGE_MESSAGE );
                         }
                     }
                     else
                     {
-                        dateList.remove( sDateHour + " - COMPLET" );
+                        dateList.remove( sDateHour + FULL_RANGE_MESSAGE );
                         dateList.add( sDateHour );
                     }
                 }
@@ -301,9 +303,7 @@ public class SeanceService extends OfferService implements ISeanceService
     {
         Timestamp dateHourTs = new Timestamp( dateHour.getTime( ) );
 
-        List<SeanceDTO> offerList = SeanceDTO.convertEntityList( _daoOffer.findAvailableSeanceByDate( showId, dateHourTs ) );
-
-        return offerList;
+        return SeanceDTO.convertEntityList( _daoOffer.findAvailableSeanceByDate( showId, dateHourTs ) );
     }
 
     /**

@@ -180,7 +180,7 @@ public class ShowService extends ProductService implements IShowService
         else
         {
             // Create
-            if ( ( listeProduct != null ) && ( listeProduct.size( ) > 0 ) )
+            if ( ( listeProduct != null ) && ( !listeProduct.isEmpty( ) ) )
             {
                 throw new BusinessException( product, MESSAGE_ERROR_PRODUCT_NAME_MUST_BE_UNIQUE );
             }
@@ -191,17 +191,7 @@ public class ShowService extends ProductService implements IShowService
         // Save poster images
         if ( filePosterArray != null )
         {
-            // try
-            // {
             _daoProductImage.saveImage( productEntity.getId( ), filePosterArray [0], filePosterArray [1], filePosterArray [2] );
-
-            // }
-            // catch ( FileNotFoundException e )
-            // {
-            // throw new TechnicalException(
-            // "Erreur lors de l'enregistrement des images du poster : "
-            // + e.getMessage( ), e );
-            // }
         }
 
         return ShowDTO.convertEntity( productEntity );

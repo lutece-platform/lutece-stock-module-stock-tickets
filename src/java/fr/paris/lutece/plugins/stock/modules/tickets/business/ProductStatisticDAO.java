@@ -194,12 +194,12 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
         {
             for ( Object ligneResultat : resultList )
             {
-                Object [ ] listeAttributs = (Object [ ]) ligneResultat;
+                Object [ ] listeAttributs = ( Object [ ] ) ligneResultat;
 
-                if ( ( listeAttributs [0] != null ) && ( listeAttributs [1] != null ) && ( listeAttributs [2] != null ) )
+                if ( ( listeAttributs[0] != null ) && ( listeAttributs[1] != null ) && ( listeAttributs[2] != null ) )
                 {
                     ResultStatistic resultStatistic = new ResultStatistic( );
-                    resultStatistic.setNumberResponse( Integer.decode( listeAttributs [0].toString( ) ) );
+                    resultStatistic.setNumberResponse( Integer.decode( listeAttributs[0].toString( ) ) );
 
                     Calendar calendar = new GregorianCalendar( );
 
@@ -219,8 +219,8 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
                         nTimesUnit = Calendar.MONTH;
                     }
 
-                    calendar.set( nTimesUnit, Integer.decode( listeAttributs [1].toString( ) ) );
-                    calendar.set( Calendar.YEAR, Integer.decode( listeAttributs [2].toString( ) ) );
+                    calendar.set( nTimesUnit, Integer.decode( listeAttributs[1].toString( ) ) );
+                    calendar.set( Calendar.YEAR, Integer.decode( listeAttributs[2].toString( ) ) );
                     resultStatistic.setStatisticDate( new Timestamp( calendar.getTimeInMillis( ) ) );
 
                     resultStatisticList.add( resultStatistic );
@@ -272,7 +272,7 @@ public final class ProductStatisticDAO extends AbstractStockDAO<Integer, Product
 
             if ( obj != null )
             {
-                BigInteger bigInt = (BigInteger) obj;
+                BigInteger bigInt = ( BigInteger ) obj;
                 result = bigInt.intValue( );
             }
         }

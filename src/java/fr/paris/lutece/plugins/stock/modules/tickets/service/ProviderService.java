@@ -101,25 +101,27 @@ public final class ProviderService extends AbstractService implements IProviderS
 
         if ( ( listPartner != null ) && !listPartner.isEmpty( ) )
         {
-            Collator c = Collator.getInstance();
-            c.setStrength(Collator.PRIMARY);
+            Collator c = Collator.getInstance( );
+            c.setStrength( Collator.PRIMARY );
 
-            String providerName = provider.getName().replaceAll("\\s","");
+            String providerName = provider.getName().replaceAll( "\\s","" );
 
-            boolean bool = false;
             boolean boolSameId = false;
 
-            for (Provider providerIter : listPartner) {
+            for (Provider providerIter : listPartner)
+            {
 
-                String partnerName = providerIter.getName().replaceAll("\\s","");
+                String partnerName = providerIter.getName().replaceAll( "\\s","" );
 
-                if (!providerIter.getId().equals(provider.getId()) && c.compare(partnerName, providerName)==0){
+                if ( !providerIter.getId( ).equals( provider.getId( ) ) && c.compare(partnerName, providerName) == 0 )
+                {
                     boolSameId = true;
                     break;
                 }
             }
             boolean bollSameName = false;
-            if (boolSameId) {
+            if ( boolSameId )
+            {
                 bollSameName = true;
             }
 

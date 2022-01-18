@@ -40,6 +40,7 @@ import fr.paris.lutece.plugins.stock.modules.tickets.business.ShowDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * The Interface IStatisticService.
@@ -85,7 +86,7 @@ public interface IStatisticService
      * @param purchaseDTO
      *            The purchase of the purchaseStatistic to modify in database
      */
-    void doManagePurchaseSaving( ReservationDTO purchaseDTO );
+    void doManagePurchaseSaving( ReservationDTO purchaseDTO, Locale locale );
 
     /**
      * get a list of ResultStatistic containing all associations of date and number of purchase by parameters

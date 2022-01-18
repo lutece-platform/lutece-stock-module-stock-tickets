@@ -167,9 +167,7 @@ public class StatisticService implements IStatisticService
         caldate.set( Calendar.MINUTE, caldate.getActualMaximum( Calendar.MINUTE ) );
         caldate.add( nTimesUnit, nDecal );
 
-        Timestamp timeStamp1 = new Timestamp( caldate.getTimeInMillis( ) );
-
-        return timeStamp1;
+        return new Timestamp( caldate.getTimeInMillis( ) );
     }
 
     /**
@@ -191,31 +189,14 @@ public class StatisticService implements IStatisticService
         Calendar caldate2 = new GregorianCalendar( );
         caldate2.setTime( timestamp2 );
 
-        if ( strTimesUnit.equals( CONSTANT_GROUP_BY_DAY ) && ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) )
-                && ( caldate1.get( Calendar.DAY_OF_YEAR ) == caldate2.get( Calendar.DAY_OF_YEAR ) ) )
-        {
-            return true;
-        }
-        else
-            if ( strTimesUnit.equals( CONSTANT_GROUP_BY_WEEK ) && ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) )
-                    && ( caldate1.get( Calendar.WEEK_OF_YEAR ) == caldate2.get( Calendar.WEEK_OF_YEAR ) ) )
-            {
-                return true;
-            }
-            else
-                if ( strTimesUnit.equals( CONSTANT_GROUP_BY_MONTH ) && ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) )
-                        && ( caldate1.get( Calendar.MONTH ) == caldate2.get( Calendar.MONTH ) ) )
-                {
-                    return true;
-                }
-
-        return false;
+        return strTimesUnit.equals( CONSTANT_GROUP_BY_DAY ) && ( caldate1.get( Calendar.YEAR ) == caldate2.get( Calendar.YEAR ) )
+                && ( caldate1.get( Calendar.DAY_OF_YEAR ) == caldate2.get( Calendar.DAY_OF_YEAR ) );
     }
 
     /**
      * {@inheritDoc}
      */
-    public void doManageProductSaving( ShowDTO productDTO )
+    public void doManageProductSaving( ShowDTO productDTO, Locale locale )
     {
         // On supprime tous les objets ProductStatistic
         doRemoveProductStatisticByIdProduct( productDTO.getId( ) );
@@ -251,7 +232,7 @@ public class StatisticService implements IStatisticService
         }
         catch( ParseException e )
         {
-            LOGGER.warn( "Erreur lors du parsing de la date de début ou de fin du produit", e );
+            LOGGER.warn( I18nService.getLocalizedString( "module.stock.ticket.message.error.parsing", locale ), e );
         }
     }
 
@@ -441,7 +422,7 @@ public class StatisticService implements IStatisticService
     /**
      * {@inheritDoc}
      */
-    public void doManagePurchaseSaving( ReservationDTO purchaseDTO )
+    public void doManagePurchaseSaving( ReservationDTO purchaseDTO, Locale locale )
     {
         // On supprime tous les objets ProductStatistic
         doRemovePurchaseStatisticByIdPurchase( purchaseDTO.getId( ) );
@@ -470,7 +451,7 @@ public class StatisticService implements IStatisticService
         }
         catch( ParseException e )
         {
-            LOGGER.warn( "Erreur lors du parsing de la date de début ou de fin du produit", e );
+            LOGGER.warn( I18nService.getLocalizedString( "module.stock.ticket.message.error.parsing", locale ), e );
         }
     }
 
@@ -569,4 +550,10 @@ public class StatisticService implements IStatisticService
             _daoPurchaseStatistic.remove( purchaseStatistic.getId( ) );
         }
     }
+
+    public void doManageProductSaving(ShowDTO product) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

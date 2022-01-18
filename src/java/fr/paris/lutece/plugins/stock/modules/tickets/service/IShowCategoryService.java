@@ -81,7 +81,7 @@ public interface IShowCategoryService
      * @throws ValidationException
      *             if category is inconsistent
      */
-    void doSaveCategory( ShowCategoryDTO category ) throws ValidationException;
+    void doSaveCategory( ShowCategoryDTO category );
 
     /**
      * {@inheritDoc}

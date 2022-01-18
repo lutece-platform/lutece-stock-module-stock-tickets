@@ -77,7 +77,7 @@ public class PartnerDTO extends AbstractDTO<Provider>
     private List<Contact> _contactList = new ArrayList<>( );
 
     /**
-     * Methode use to find a contact with it's id
+     * Method used to find a contact with it's id
      * 
      * @param id
      *            the contact id
