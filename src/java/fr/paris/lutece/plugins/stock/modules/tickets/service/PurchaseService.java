@@ -48,8 +48,7 @@ import fr.paris.lutece.plugins.stock.service.IPurchaseRules;
 import fr.paris.lutece.plugins.stock.service.IPurchaseSessionManager;
 import fr.paris.lutece.plugins.stock.service.impl.AbstractService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
-
-import org.apache.log4j.Logger;
+import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,9 +83,9 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
 
     /** The Constant MESSAGE_ERROR_PURCHASE_SESSION_EXPIRED. */
     public static final String MESSAGE_ERROR_PURCHASE_SESSION_EXPIRED = "module.stock.billetterie.message.error.purchase.session.expired";
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger( PurchaseService.class );
+    
+    // ERROR
+    private static final String IMPOSSIBLE_BOOKING_ERROR = "Réservation impossible pour ";
 
     /** The _dao purchase. */
     @Inject
@@ -163,19 +162,9 @@ public final class PurchaseService extends AbstractService implements IPurchaseS
                 }
             }
         }
-        catch( PurchaseOutOfStock e )
-        {
-            LOGGER.debug( "Réservation impossible pour " + sessionId + " quantité épuisée.", e );
-            throw new BusinessException( null, MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER );
-        }
-        catch( PurchaseSessionExpired e )
-        {
-            LOGGER.debug( "Réservation impossible pour " + sessionId + " session expirée.", e );
-            throw new BusinessException( null, MESSAGE_ERROR_PURCHASE_SESSION_EXPIRED );
-        }
         catch( PurchaseException e )
         {
-            LOGGER.debug( "Réservation impossible pour " + sessionId + ".", e );
+            AppLogService.debug( " {} {} quantité épuisée.", IMPOSSIBLE_BOOKING_ERROR, sessionId, e );
             throw new BusinessException( null, MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER );
         }
         finally

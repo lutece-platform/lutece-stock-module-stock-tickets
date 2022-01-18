@@ -41,9 +41,7 @@ import fr.paris.lutece.plugins.stock.commons.exception.BusinessException;
 import fr.paris.lutece.plugins.stock.modules.tickets.service.IPurchaseService;
 import fr.paris.lutece.plugins.stock.service.IOfferService;
 import fr.paris.lutece.plugins.stock.service.PurchaseRules;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
-import org.apache.log4j.Logger;
+import fr.paris.lutece.portal.service.util.AppLogService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -56,7 +54,6 @@ import javax.inject.Named;
 public class PurchaseTarifReduitRules extends PurchaseRules
 {
     public static final String MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER_TYPE = "module.stock.billetterie.message.error.purchase.quantity.offer.type";
-    private static final Logger LOGGER = Logger.getLogger( PurchaseTarifReduitRules.class );
     @Inject
     private IPurchaseService _purchaseService;
     @Inject
@@ -77,7 +74,7 @@ public class PurchaseTarifReduitRules extends PurchaseRules
     {
         super.checkBeforePurchase( purchase, sessionId );
 
-        LOGGER.debug( "Vérification des règles de gestion pour un tarif réduit, SID = " + sessionId );
+        AppLogService.debug( "Vérification des règles de gestion pour un tarif réduit, SID = {}", sessionId );
 
         Offer offer = _offerService.findById( purchase.getOfferId( ) );
         Integer nbReservation = _purchaseService.getNumberOfReservationByIdProductAndUserName( offer.getProduct( ).getId( ), offer.getType( ).getId( ),
@@ -88,6 +85,6 @@ public class PurchaseTarifReduitRules extends PurchaseRules
             throw new BusinessException( purchase, MESSAGE_ERROR_PURCHASE_QUANTITY_OFFER_TYPE );
         }
 
-        LOGGER.debug( "Vérification ok, SID = " + sessionId );
+        AppLogService.debug( "Vérification ok, SID = {}", sessionId );
     }
 }
