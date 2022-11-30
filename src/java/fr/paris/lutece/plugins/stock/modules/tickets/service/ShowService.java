@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2018, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -109,8 +109,9 @@ public class ShowService extends ProductService implements IShowService
     }
 
     @Override
-    public Product getProductById(Integer id) {
-        return _daoProduct.findById(id);
+    public Product getProductById( Integer id )
+    {
+        return _daoProduct.findById( id );
     }
 
     /**
@@ -280,7 +281,8 @@ public class ShowService extends ProductService implements IShowService
     }
 
     @Override
-    public byte[] getRealImage(Integer idProduct) {
+    public byte [ ] getRealImage( Integer idProduct )
+    {
         return _daoProductImage.getRealImage( idProduct );
     }
 
@@ -300,8 +302,8 @@ public class ShowService extends ProductService implements IShowService
     {
         if ( StringUtils.isNotBlank( product.getEndDate( ) ) )
         {
-            Date endDate = formatDate(DateUtil.formatDate( product.getEndDate( ), Locale.FRENCH ));
-            Date currentDate = formatDate(new Date( ));
+            Date endDate = formatDate( DateUtil.formatDate( product.getEndDate( ), Locale.FRENCH ) );
+            Date currentDate = formatDate( new Date( ) );
 
             if ( currentDate.after( endDate ) )
             {
@@ -310,15 +312,18 @@ public class ShowService extends ProductService implements IShowService
         }
     }
 
-    private Date formatDate(Date date)
+    private Date formatDate( Date date )
     {
-        Date returnDate = new Date();
-        String formattedDate = new SimpleDateFormat(FORMAT_DATE).format(date);
+        Date returnDate = new Date( );
+        String formattedDate = new SimpleDateFormat( FORMAT_DATE ).format( date );
 
-        try {
-            returnDate = new SimpleDateFormat(FORMAT_DATE).parse(formattedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        try
+        {
+            returnDate = new SimpleDateFormat( FORMAT_DATE ).parse( formattedDate );
+        }
+        catch( ParseException e )
+        {
+            e.printStackTrace( );
         }
         return returnDate;
     }
