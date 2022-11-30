@@ -45,20 +45,26 @@ import fr.paris.lutece.plugins.stock.business.offer.Offer_;
 import fr.paris.lutece.plugins.stock.business.product.Product;
 import fr.paris.lutece.plugins.stock.business.product.Product_;
 import fr.paris.lutece.plugins.stock.business.purchase.Purchase;
-import fr.paris.lutece.plugins.stock.business.purchase.PurchaseDAO;
 import fr.paris.lutece.plugins.stock.business.purchase.PurchaseFilter;
 import fr.paris.lutece.plugins.stock.business.purchase.Purchase_;
+import fr.paris.lutece.plugins.stock.commons.ResultList;
+import fr.paris.lutece.plugins.stock.commons.dao.AbstractStockDAO;
+import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
+import fr.paris.lutece.plugins.stock.service.StockPlugin;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.plugins.stock.utils.NumberUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -72,7 +78,7 @@ import javax.persistence.criteria.Root;
  *
  * @author nmoitry
  */
-public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IReservationDAO
+public class ReservationDAO extends AbstractStockDAO<Integer, Purchase> implements IReservationDAO
 {
     /**
      * Build the criteria query used when purchases are searched by filter
@@ -285,5 +291,76 @@ public class ReservationDAO extends PurchaseDAO<Integer, Purchase> implements IR
 
             query.orderBy( orderList );
         }
+    }
+
+    public ResultList<Purchase> findByFilter( PurchaseFilter filter, PaginationProperties paginationProperties )
+    {
+        EntityManager em = getEM( );
+        CriteriaBuilder cb = em.getCriteriaBuilder( );
+
+        CriteriaQuery<Purchase> cq = cb.createQuery( Purchase.class );
+
+        Root<Purchase> root = cq.from( Purchase.class );
+        buildCriteriaQuery( filter, root, cq, cb );
+        buildSortQuery( filter, root, cq, cb );
+        cq.distinct( true );
+
+        return createPagedQuery( cq, paginationProperties ).getResultList( );
+    }
+
+    public Integer getQuantityPurchasedByIdProductAndUserName( Integer id, Integer idOfferGenre, String userName )
+    {
+        EntityManager em = getEM( );
+        CriteriaBuilder cb = em.getCriteriaBuilder( );
+
+        CriteriaQuery<Purchase> cq = cb.createQuery( Purchase.class );
+
+        Root<Purchase> root = cq.from( Purchase.class );
+        PurchaseFilter filter = new PurchaseFilter( );
+        filter.setIdProduct( id );
+        filter.setUserName( userName );
+        filter.setIdGenre( idOfferGenre );
+        buildCriteriaQuery( filter, root, cq, cb );
+        cq.distinct( true );
+
+        ResultList<Purchase> listPurchase = createPagedQuery( cq, null ).getResultList( );
+        Integer numberOfReservation = 0;
+        for ( Purchase purchase : listPurchase )
+        {
+            numberOfReservation += purchase.getQuantity( );
+        }
+
+        return numberOfReservation;
+    }
+
+    public Integer getCountPurchaseByBeginDateAndLastDate( String strDateDebut, String strDateFin )
+    {
+        Integer result = 0;
+        StringBuilder requeteSQL = new StringBuilder( );
+
+        requeteSQL.append( "SELECT count( distinct purchase_date.owner_id)  " );
+        requeteSQL.append( " FROM stock_purchase_attribute_date AS purchase_date" );
+        requeteSQL.append( " WHERE purchase_date.attribute_value >= CAST('" + strDateDebut + " 00:00:00' AS DATETIME)" );
+        requeteSQL.append( " AND purchase_date.attribute_value <= CAST('" + strDateFin + " 23:59:59' AS DATETIME)" );
+        requeteSQL.append( " AND purchase_date.attribute_key = 'date'" );
+
+        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
+        List<Object> listeCount = query.getResultList( );
+
+        if ( listeCount.size( ) == 1 )
+        {
+            Object obj = listeCount.get( 0 );
+            if ( obj != null )
+            {
+                BigInteger bigInt = (BigInteger) obj;
+                result = bigInt.intValue( );
+            }
+        }
+        return result;
+    }
+
+    public String getPluginName( )
+    {
+        return StockPlugin.PLUGIN_NAME;
     }
 }

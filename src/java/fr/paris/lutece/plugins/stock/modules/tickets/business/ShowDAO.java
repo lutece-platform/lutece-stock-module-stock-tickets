@@ -39,18 +39,21 @@ import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils
 import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeNumUtils;
 import fr.paris.lutece.plugins.stock.business.category.Category;
 import fr.paris.lutece.plugins.stock.business.product.Product;
-import fr.paris.lutece.plugins.stock.business.product.ProductDAO;
 import fr.paris.lutece.plugins.stock.business.product.ProductFilter;
 import fr.paris.lutece.plugins.stock.business.product.Product_;
 import fr.paris.lutece.plugins.stock.business.provider.Provider;
+import fr.paris.lutece.plugins.stock.commons.ResultList;
+import fr.paris.lutece.plugins.stock.commons.dao.AbstractStockDAO;
 import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
+import fr.paris.lutece.plugins.stock.service.StockPlugin;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.math.BigDecimal;
-
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -59,6 +62,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -72,8 +77,19 @@ import javax.persistence.criteria.Root;
  *
  * @author abataille
  */
-public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
+public class ShowDAO extends AbstractStockDAO<Integer, Product> implements IShowDAO
 {
+    /** The Constant JPQL_GET_QUANTITY. */
+    private static final String JPQL_IS_TYPE = "SELECT CASE WHEN (COUNT(o.id) > 0) THEN true ELSE false END " + "FROM Product p, Offer o "
+            + "WHERE p.id= o.product.id AND o.type.id = :genreId AND p.id = :productId";
+
+    private static final String JPQL_IS_TYPE_OFFER = "SELECT CASE WHEN (COUNT(o.id) > 0) THEN true ELSE false END "
+            + "FROM Product p, Offer o, OfferAttributeDate d  "
+            + "WHERE p.id= o.product.id AND o.type.id = :genreId AND p.id = :productId AND o.id = d.owner.id AND d.key = :keyDate AND d.value >= :now AND o.statut <> :annuleKey";
+
+    private static final String JPQL_GET_PRODUCTS_TASK = "SELECT p.id " + "FROM Product p, Offer o, OfferAttributeDate d  "
+            + "WHERE p.id= o.product.id AND o.id = d.owner.id AND d.key = :keyDate AND d.value < :timestampStart AND d.value >= :timestampEnd ";
+
     /**
      * Build the criteria query from the filter
      * 
@@ -334,5 +350,179 @@ public class ShowDAO extends ProductDAO<Integer, Product> implements IShowDAO
 
             query.orderBy( orderList );
         }
+    }
+
+    public List<Product> findByFilter( ProductFilter filter )
+    {
+        EntityManager em = getEM( );
+        CriteriaBuilder cb = em.getCriteriaBuilder( );
+
+        CriteriaQuery<Product> cq = cb.createQuery( Product.class );
+
+        Root<Product> root = cq.from( Product.class );
+
+        buildCriteriaQuery( filter, root, cq, cb );
+
+        cq.distinct( true );
+
+        TypedQuery<Product> query = em.createQuery( cq );
+
+        return query.getResultList( );
+    }
+
+    public ResultList<Product> findByFilter( ProductFilter filter, PaginationProperties paginationProperties )
+    {
+        EntityManager em = getEM( );
+        CriteriaBuilder cb = em.getCriteriaBuilder( );
+
+        CriteriaQuery<Product> cq = cb.createQuery( Product.class );
+
+        Root<Product> root = cq.from( Product.class );
+        buildCriteriaQuery( filter, root, cq, cb );
+        buildSortQuery( filter, root, cq, cb );
+        cq.distinct( true );
+
+        return createPagedQuery( cq, paginationProperties ).getResultList( );
+    }
+
+    public List<Product> getAllByName( String name )
+    {
+        EntityManager em = getEM( );
+        CriteriaBuilder cb = em.getCriteriaBuilder( );
+
+        CriteriaQuery<Product> cq = cb.createQuery( Product.class );
+
+        Root<Product> root = cq.from( Product.class );
+        // predicates list
+        List<Predicate> listPredicates = new ArrayList<>( );
+
+        if ( StringUtils.isNotBlank( name ) )
+        {
+            listPredicates.add( cb.equal( root.get( Product_.name ), name ) );
+        }
+
+        if ( !listPredicates.isEmpty( ) )
+        {
+            // add existing predicates to Where clause
+            cq.where( listPredicates.toArray( new Predicate [ listPredicates.size( )] ) );
+        }
+        cq.distinct( true );
+
+        TypedQuery<Product> query = em.createQuery( cq );
+
+        return query.getResultList( );
+    }
+
+    public Integer getCountProductALAfficheByDate( String strDate )
+    {
+        Integer result = 0;
+        StringBuilder requeteSQL = new StringBuilder( );
+
+        requeteSQL.append( "SELECT count( distinct product_date_begin.owner_id)  " );
+        requeteSQL.append( " FROM stock_product_attribute_date AS product_date_begin" );
+        requeteSQL.append( " WHERE product_date_begin.attribute_value <= CAST('" + strDate + " 23:59:59' AS DATETIME)" );
+        requeteSQL.append( " AND product_date_begin.attribute_key = 'start'" );
+        requeteSQL.append( " AND EXISTS (" );
+        requeteSQL.append( " SELECT product_date_end.owner_id" );
+        requeteSQL.append( " FROM stock_product_attribute_date AS product_date_end " );
+        requeteSQL.append( " WHERE product_date_begin.owner_id = product_date_end.owner_id" );
+        requeteSQL.append( " AND product_date_end.attribute_value >= CAST('" + strDate + " 23:59:59' AS DATETIME)" );
+        requeteSQL.append( " AND product_date_end.attribute_key = 'end'" );
+        requeteSQL.append( ");" );
+
+        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
+        List<Object> listeCount = query.getResultList( );
+
+        if ( listeCount.size( ) == 1 )
+        {
+            Object obj = listeCount.get( 0 );
+            if ( obj != null )
+            {
+                BigInteger bigInt = (BigInteger) obj;
+                result = bigInt.intValue( );
+            }
+        }
+        return result;
+    }
+
+    public Integer getCountProductAVenirByDate( String strDate )
+    {
+        Integer nResult = 0;
+        StringBuilder requeteSQL = new StringBuilder( );
+
+        requeteSQL.append( "SELECT count( distinct product_date_begin.owner_id)  " );
+        requeteSQL.append( " FROM stock_product_attribute_date AS product_date_begin" );
+        requeteSQL.append( " WHERE product_date_begin.attribute_value > CAST('" + strDate + " 23:59:59' AS DATETIME)" );
+        requeteSQL.append( " AND product_date_begin.attribute_key = 'start'" );
+
+        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
+        List<Object> listeCount = query.getResultList( );
+
+        if ( listeCount.size( ) == 1 )
+        {
+            Object obj = listeCount.get( 0 );
+            if ( obj != null )
+            {
+                BigInteger bigInt = (BigInteger) obj;
+                nResult = bigInt.intValue( );
+            }
+        }
+        return nResult;
+    }
+
+    public Boolean isFull( Integer productId )
+    {
+        StringBuilder requeteSQL = new StringBuilder( );
+
+        requeteSQL.append( "SELECT sum(o.quantity) FROM stock_offer o,stock_offer_attribute_date d, stock_offer_attribute_date d2" );
+        requeteSQL.append( " WHERE o.product_id= " + productId );
+        requeteSQL.append( " AND o.id_offer=d.owner_id AND o.id_offer=d2.owner_id" );
+        requeteSQL.append( " AND o.statut<>'annule' AND o.statut<>'verrouille'" );
+        requeteSQL.append( " AND d.attribute_key ='date' AND d2.attribute_key ='hour'" );
+        requeteSQL.append( " AND TIMESTAMP(CONCAT( DATE(d.attribute_value),' ', time(d2.attribute_value)))>=CURRENT_TIMESTAMP();" );
+
+        Query query = getEM( ).createNativeQuery( requeteSQL.toString( ) );
+        List<BigDecimal> listeCount = query.getResultList( );
+
+        return CollectionUtils.isNotEmpty( listeCount ) && listeCount.get( 0 ) != null && listeCount.get( 0 ).intValue( ) == 0;
+    }
+
+    public Boolean isType( Integer productId, Integer genreId )
+    {
+        EntityManager em = getEM( );
+        Query query = em.createQuery( JPQL_IS_TYPE );
+        query.setParameter( "productId", productId );
+        query.setParameter( "genreId", genreId );
+
+        return (Boolean) query.getSingleResult( );
+    }
+
+    public Boolean isTypeOffer( Integer productId, Integer genreId, String keyDate, Timestamp now, String annuleKey )
+    {
+        EntityManager em = getEM( );
+        Query query = em.createQuery( JPQL_IS_TYPE_OFFER );
+        query.setParameter( "productId", productId );
+        query.setParameter( "genreId", genreId );
+        query.setParameter( "keyDate", keyDate );
+        query.setParameter( "now", now );
+        query.setParameter( "annuleKey", annuleKey );
+
+        return (Boolean) query.getSingleResult( );
+    }
+
+    public List<Integer> getProductsIdsForTaskTimed( String keyDate, Timestamp timestampStart, Timestamp timestampEnd )
+    {
+        EntityManager em = getEM( );
+        Query query = em.createQuery( JPQL_GET_PRODUCTS_TASK );
+        query.setParameter( "keyDate", keyDate );
+        query.setParameter( "timestampStart", timestampStart );
+        query.setParameter( "timestampEnd", timestampEnd );
+
+        return query.getResultList( );
+    }
+
+    public String getPluginName( )
+    {
+        return StockPlugin.PLUGIN_NAME;
     }
 }
