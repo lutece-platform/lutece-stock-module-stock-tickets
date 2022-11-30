@@ -36,13 +36,16 @@ package fr.paris.lutece.plugins.stock.modules.tickets.business;
 import fr.paris.lutece.plugins.stock.business.attribute.offer.OfferAttributeDate;
 import fr.paris.lutece.plugins.stock.business.attribute.utils.AttributeDateUtils;
 import fr.paris.lutece.plugins.stock.business.offer.Offer;
-import fr.paris.lutece.plugins.stock.business.offer.OfferDAO;
 import fr.paris.lutece.plugins.stock.business.offer.OfferFilter;
 import fr.paris.lutece.plugins.stock.business.offer.OfferGenre;
 import fr.paris.lutece.plugins.stock.business.offer.OfferGenre_;
 import fr.paris.lutece.plugins.stock.business.offer.Offer_;
 import fr.paris.lutece.plugins.stock.business.product.Product;
 import fr.paris.lutece.plugins.stock.business.product.Product_;
+import fr.paris.lutece.plugins.stock.commons.ResultList;
+import fr.paris.lutece.plugins.stock.commons.dao.AbstractStockDAO;
+import fr.paris.lutece.plugins.stock.commons.dao.PaginationProperties;
+import fr.paris.lutece.plugins.stock.service.StockPlugin;
 import fr.paris.lutece.plugins.stock.utils.DateUtils;
 import fr.paris.lutece.plugins.stock.utils.jpa.StockJPAUtils;
 
@@ -55,6 +58,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -68,8 +72,11 @@ import javax.persistence.criteria.Root;
  *
  * @author abataille
  */
-public class SeanceDAO extends OfferDAO<Integer, Offer> implements ISeanceDAO
+public class SeanceDAO extends AbstractStockDAO<Integer, Offer> implements ISeanceDAO
 {
+    /** The Constant JPQL_GET_QUANTITY. */
+    private static final String JPQL_GET_QUANTITY = "SELECT o.quantity FROM Offer o WHERE o.id = :offerId";
+
     /**
      * Build the criteria query used when offers are searched by filter
      * 
@@ -322,5 +329,51 @@ public class SeanceDAO extends OfferDAO<Integer, Offer> implements ISeanceDAO
 
             query.orderBy( orderList );
         }
+    }
+
+    public ResultList<Offer> findByFilter( OfferFilter filter, PaginationProperties paginationProperties )
+    {
+        EntityManager em = getEM( );
+        CriteriaBuilder cb = em.getCriteriaBuilder( );
+
+        CriteriaQuery<Offer> cq = cb.createQuery( Offer.class );
+
+        Root<Offer> root = cq.from( Offer.class );
+        buildCriteriaQuery( filter, root, cq, cb );
+        buildSortQuery( filter, root, cq, cb );
+        cq.distinct( true );
+
+        return createPagedQuery( cq, paginationProperties ).getResultList( );
+    }
+
+    public List<Offer> findByProduct( Integer productId, OfferFilter filter )
+    {
+        EntityManager em = getEM( );
+        CriteriaBuilder cb = em.getCriteriaBuilder( );
+
+        CriteriaQuery<Offer> cq = cb.createQuery( Offer.class );
+
+        Root<Offer> root = cq.from( Offer.class );
+
+        Join<Offer, Product> product = root.join( Offer_.product, JoinType.INNER );
+
+        cq.where( cb.equal( product.get( Product_.id ), productId ) );
+
+        buildSortQuery( filter, root, cq, cb );
+
+        return em.createQuery( cq ).getResultList( );
+    }
+
+    public Integer getQuantity( Integer offerId )
+    {
+        EntityManager em = getEM( );
+        Query query = em.createQuery( JPQL_GET_QUANTITY );
+        query.setParameter( "offerId", offerId );
+        return (Integer) query.getSingleResult( );
+    }
+
+    public String getPluginName( )
+    {
+        return StockPlugin.PLUGIN_NAME;
     }
 }

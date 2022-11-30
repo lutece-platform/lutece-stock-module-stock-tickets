@@ -83,7 +83,7 @@ public interface IShowService
      *            the product filter
      * @return list of product
      */
-    List<ShowDTO> findByFilter( ProductFilter filter );
+    List<Product> findByFilter( ProductFilter filter );
 
     /**
      * Return a filtered list of product.

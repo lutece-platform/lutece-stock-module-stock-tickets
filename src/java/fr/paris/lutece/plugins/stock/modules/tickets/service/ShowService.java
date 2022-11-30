@@ -117,9 +117,9 @@ public class ShowService extends ProductService implements IShowService
      *
      * {@inheritDoc}
      */
-    public List<ShowDTO> findByFilter( ProductFilter filter )
+    public List<Product> findByFilter( ProductFilter filter )
     {
-        return ShowDTO.convertEntityList( _daoProduct.findByFilter( filter ) );
+        return _daoProduct.findByFilter( filter );
     }
 
     /**
